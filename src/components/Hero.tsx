@@ -80,7 +80,7 @@ export default function Hero() {
           </div>
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
-          <div className="absolute top-[55%] sm:top-[50%] md:top-auto inset-x-0 md:static md:inset-auto block perspective-1000 h-[400px] md:h-auto pointer-events-auto z-0 md:z-auto opacity-100">
+          <div className="relative mt-12 lg:mt-0 md:static block perspective-1000 h-[400px] md:h-auto pointer-events-auto z-0 md:z-auto opacity-100">
             <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative mx-auto md:absolute md:right-[20px] xl:right-[40px] md:top-1/2 md:-translate-y-1/2 flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
