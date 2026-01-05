@@ -103,7 +103,7 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
 
     return (
         <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 min-h-[350px]">
-            <div className="w-full max-w-lg bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-white/15 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[380px] xs:h-[420px] sm:h-[480px]">
+            <div className="w-full max-w-lg bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-white/15 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[340px] xs:h-[380px] sm:h-[480px]">
 
                 {/* Terminal Header */}
                 <div className="bg-[#1a1f2e] px-4 py-3 flex items-center justify-between border-b border-white/5 flex-shrink-0">

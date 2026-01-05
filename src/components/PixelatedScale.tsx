@@ -73,7 +73,7 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
         const pts: { x: number, y: number }[] = [];
         const cx = width / 2;
         const cy = height / 2;
-        const scale = Math.min(width, height) / 700;
+        const scale = Math.min(width, height) / (width < 640 ? 500 : 700);
 
         const add = (x: number, y: number) => pts.push({ x: cx + x * scale, y: cy + y * scale });
 

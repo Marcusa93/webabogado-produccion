@@ -58,14 +58,24 @@ export default function Navigation() {
     >
       <nav className="section-container">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Mobile Menu Button - Left on mobile */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`lg:hidden p-2 z-50 transition-all active:scale-90 ${isScrolled || isMobileMenuOpen ? 'text-foreground' : 'text-white'
+              }`}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+          {/* Logo - Right-aligned on mobile */}
           <a
             href="#inicio"
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('#inicio');
             }}
-            className="relative z-50 transition-transform active:scale-95"
+            className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0"
           >
             <img
               src={isScrolled ? logoNavy : logoWhite}
@@ -113,28 +123,18 @@ export default function Navigation() {
               Agendar consulta
             </a>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 z-50 transition-all active:scale-90 ${isScrolled || isMobileMenuOpen ? 'text-foreground' : 'text-white'
-              }`}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 bg-background/99 backdrop-blur-2xl z-40 transition-all duration-500 ${isMobileMenuOpen
+        className={`lg:hidden fixed inset-0 bg-navy-deep/98 backdrop-blur-3xl z-40 transition-all duration-500 ${isMobileMenuOpen
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-full pointer-events-none'
           }`}
       >
-        <nav className="flex flex-col items-center justify-start h-full px-6 pt-24 pb-12 overflow-y-auto">
-          <ul className="flex flex-col items-center gap-6 md:gap-8 w-full max-w-xs">
+        <nav className="flex flex-col items-center justify-start h-full px-6 pt-28 pb-12 overflow-y-auto">
+          <ul className="flex flex-col items-center gap-5 w-full max-w-xs">
             {navLinks.map((link, index) => (
               <li
                 key={link.href}
@@ -150,21 +150,21 @@ export default function Navigation() {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className={`block py-2 text-xl md:text-2xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground/90 hover:text-accent'
+                  className={`block py-1.5 text-xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-white/90 hover:text-accent'
                     }`}
                 >
                   {link.label}
                 </a>
               </li>
             ))}
-            <li className={`w-full pt-4 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
+            <li className={`w-full pt-6 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
               <a
                 href="#contacto"
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToSection('#contacto');
                 }}
-                className="inline-flex items-center justify-center w-full px-8 py-4 bg-primary text-primary-foreground font-black rounded-xl text-lg shadow-glow active:scale-95"
+                className="inline-flex items-center justify-center w-full px-8 py-4 bg-accent text-white font-black rounded-xl text-lg shadow-glow active:scale-95"
               >
                 Agendar consulta
               </a>

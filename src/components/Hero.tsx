@@ -80,8 +80,8 @@ export default function Hero() {
           </div>
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
-          <div className="absolute top-[10%] inset-x-0 md:static md:inset-auto md:block perspective-1000 h-[480px] md:h-auto pointer-events-none md:pointer-events-auto z-0 md:z-auto opacity-100">
-            <div className="w-[320px] h-[480px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative mx-auto md:absolute md:right-[20px] xl:right-[40px] md:top-1/2 md:-translate-y-1/2 flex flex-col items-center justify-center">
+          <div className="absolute top-[55%] sm:top-[50%] md:top-auto inset-x-0 md:static md:inset-auto block perspective-1000 h-[400px] md:h-auto pointer-events-auto z-0 md:z-auto opacity-100">
+            <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative mx-auto md:absolute md:right-[20px] xl:right-[40px] md:top-1/2 md:-translate-y-1/2 flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
               <div
@@ -96,8 +96,8 @@ export default function Hero() {
               {/* Layer 1: Ambient Particles (Background -> Foreground with Explosion) */}
               <div
                 className={`absolute z-10 w-[500px] h-[500px] pointer-events-none flex items-center justify-center transition-all duration-1000 ease-in-out ${terminalDone
-                    ? 'bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 scale-110 opacity-100 blur-0'
-                    : 'bottom-[-60px] md:bottom-[-20px] xl:bottom-[0px] left-1/2 -translate-x-1/2 scale-[0.6] opacity-30 blur-[1px]'
+                  ? 'bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 scale-110 opacity-100 blur-0'
+                  : 'bottom-[-60px] md:bottom-[-20px] xl:bottom-[0px] left-1/2 -translate-x-1/2 scale-[0.6] opacity-30 blur-[1px]'
                   }`}
               >
                 <PixelatedScale triggerExplosion={explodeParticles} />
