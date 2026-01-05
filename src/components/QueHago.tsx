@@ -1,41 +1,72 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Network, Briefcase, Scale, ShieldCheck, Fingerprint } from 'lucide-react';
+import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, ChevronDown, Check } from 'lucide-react';
 
 const specialties = [
   {
     icon: Scale,
     title: "Litigios civiles y comerciales",
     description: "Actuamos en conflictos de daños y perjuicios, responsabilidad contractual y extracontractual, incumplimientos, cobros, controversias empresariales y conflictos entre particulares. Trabajamos con prueba documental clásica y evidencia digital cuando resulta pertinente para acreditar los hechos.",
-    detail: "Estrategias procesales para el cumplimiento y la reparación."
+    bullets: [
+      "Daños y perjuicios",
+      "Responsabilidad contractual",
+      "Incumplimientos comerciales",
+      "Estrategias de reparación"
+    ],
+    tags: ["Prueba Digital", "Litigios", "Civil", "Comercial"]
   },
   {
     icon: Briefcase,
     title: "Conflictos laborales",
-    description: "Intervenimos en despidos, sanciones, acoso laboral, accidentes de trabajo y reclamos de créditos laborales. Muchos de estos casos se apoyan en comunicaciones, registros de asistencia, sistemas internos o cámaras. Integramos esa prueba digital al proceso de manera técnicamente válida.",
-    detail: "Protección integral en el ámbito del trabajo y la empresa."
+    description: "Intervenimos en despidos, sanciones, acoso laboral, accidentes de trabajo y reclamos de crédito. Defensas estratégicas para empresas y representación de trabajadores en situaciones complejas, incorporando prueba digital (chats, correos) como elemento probatorio clave.",
+    bullets: [
+      "Despidos y Sanciones",
+      "Acoso Laboral (Mobbing)",
+      "Accidentes de Trabajo",
+      "Prueba en RRSS/Chats"
+    ],
+    tags: ["Laboral", "Despidos", "Evidencia Digital"]
   },
   {
     icon: ShieldCheck,
     title: "Derecho penal",
-    description: "Asumimos la defensa técnica en procesos penales y el acompañamiento jurídico de víctimas en etapas de investigación y juicio. Analizamos con rigor la prueba digital incorporada a la causa, su obtención, cadena de custodia, licitud y valor probatorio, resguardando garantías y debido proceso.",
-    detail: "Rigor técnico en la defensa de derechos y garantías."
+    description: "Asumimos la defensa técnica en procesos penales y el acompañamiento jurídico de víctimas en etapas de investigación y juicio. Especialistas en ciberdelitos y delitos informáticos, garantizando el debido proceso en la obtención y resguardo de la evidencia digital.",
+    bullets: [
+      "Ciberdelitos",
+      "Defensa Penal",
+      "Querellas",
+      "Evidencia Informática"
+    ],
+    tags: ["Penal", "Ciberseguridad", "Forensia"]
   },
   {
     icon: Network,
     title: "Plataformas y entornos digitales",
     description: "Intervenimos en conflictos vinculados a redes sociales, cuentas bloqueadas, fraudes en línea, comercio electrónico y servicios digitales. Traducimos hechos complejos en planteos jurídicos claros, comprensibles y exigibles en sede judicial o administrativa.",
-    detail: "Defensa jurídica en la arquitectura del ecosistema digital."
+    bullets: [
+      "Recuperación de Cuentas",
+      "Fraudes Online",
+      "Comercio Electrónico",
+      "Términos y Condiciones"
+    ],
+    tags: ["Redes Sociales", "E-Commerce", "Plataformas"]
   },
   {
     icon: Fingerprint,
     title: "Prueba electrónica y estrategia procesal",
     description: "Asesoramos en la identificación, preservación y presentación de evidencia digital: mensajes, correos, metadatos, registros de actividad y pericias informáticas. Diseñamos la estrategia probatoria pensando en su evaluación posterior por jueces y tribunales.",
-    detail: "Aseguramiento y validez de la evidencia en juicio."
+    bullets: [
+      "Preservación de Evidencia",
+      "Pericias Informáticas",
+      "Cadena de Custodia",
+      "Validación Notarial"
+    ],
+    tags: ["E-discovery", "Cloud Forensics", "Peritajes"]
   }
 ];
 
 export default function QueHago() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -53,6 +84,10 @@ export default function QueHago() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const toggleAccordion = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
     <section id="especialidades" ref={sectionRef} className="py-24 md:py-32 bg-ice-blue relative overflow-hidden">
       {/* Background decoration */}
@@ -68,7 +103,7 @@ export default function QueHago() {
             <span className="text-accent underline decoration-accent/30 underline-offset-8">especialidad.</span>
           </h2>
           <p className="text-lg md:text-xl text-slate leading-relaxed font-medium">
-            Intervenimos en conflictos civiles, laborales y penales de alta complejidad. Hoy casi toda controversia deja huella en entornos digitales: comunicaciones, registros de sistemas, plataformas o dispositivos. Nuestro trabajo consiste en ordenar esa evidencia, integrarla al expediente y construir una estrategia procesal sólida, acorde al funcionamiento real de los tribunales.
+            Intervenimos en conflictos civiles, laborales y penales de alta complejidad. Hoy casi toda controversia deja huella en entornos digitales: comunicaciones, registros de sistemas, plataformas o dispositivos.
           </p>
         </div>
 
@@ -76,28 +111,54 @@ export default function QueHago() {
           {specialties.map((item, index) => (
             <div
               key={index}
-              className="tech-card p-8 md:p-10 rounded-3xl bg-white/80 backdrop-blur-sm shadow-soft border border-navy-deep/5 transition-all duration-500 hover:shadow-strong group"
+              className="tech-card p-8 md:p-10 rounded-3xl bg-white/80 backdrop-blur-sm shadow-soft border border-navy-deep/5 transition-all duration-500 hover:shadow-strong group flex flex-col"
               style={{
                 '--mouse-x': `${mousePos.x}px`,
                 '--mouse-y': `${mousePos.y}px`,
               } as React.CSSProperties}
             >
-              <div className="relative z-10">
+              <div className="relative z-10 flex-1 flex flex-col">
                 <div className="w-14 h-14 rounded-2xl bg-navy-deep/5 flex items-center justify-center text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
                   <item.icon size={28} />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-navy-deep mb-4 group-hover:text-accent transition-colors font-montserrat leading-tight">
+
+                <h3 className="text-xl md:text-2xl font-bold text-navy-deep mb-6 group-hover:text-accent transition-colors font-montserrat leading-tight">
                   {item.title}
                 </h3>
-                <p className="text-slate/70 text-base mb-6 leading-relaxed font-medium">
-                  {item.description}
-                </p>
-                <div className="pt-6 border-t border-navy-deep/5">
-                  <span className="text-[10px] font-black text-accent/80 tracking-widest uppercase block mb-1 font-montserrat">Enfoque</span>
-                  <span className="text-sm text-navy-deep/60 italic leading-snug font-medium">
-                    {item.detail}
-                  </span>
+
+                {/* Bullets Section */}
+                <ul className="mb-6 space-y-2">
+                  {item.bullets.map((bullet, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm font-medium text-slate/80">
+                      <Check size={14} className="text-accent mt-1 flex-shrink-0" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Accordion for Full Description */}
+                <div className={`overflow-hidden transition-all duration-500 ${expandedIndex === index ? 'max-h-[300px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'}`}>
+                  <p className="text-slate/70 text-sm leading-relaxed p-4 bg-navy-deep/5 rounded-xl border border-navy-deep/5">
+                    {item.description}
+                  </p>
                 </div>
+
+                <button
+                  onClick={() => toggleAccordion(index)}
+                  className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-accent mb-6 hover:gap-2 transition-all self-start"
+                >
+                  {expandedIndex === index ? 'Menos info' : 'Leer más'}
+                  <ChevronDown size={14} className={`transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''}`} />
+                </button>
+
+                <div className="mt-auto pt-6 border-t border-navy-deep/5 flex flex-wrap gap-2">
+                  {item.tags.map((tag, t) => (
+                    <span key={t} className="inline-block px-3 py-1 bg-[#FF4444]/10 text-[#FF4444] text-[10px] font-bold rounded-full border border-[#FF4444]/20 uppercase tracking-wide">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
               </div>
             </div>
           ))}

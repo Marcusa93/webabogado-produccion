@@ -1,31 +1,52 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight } from 'lucide-react';
+import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User } from 'lucide-react';
 
 const services = [
   {
-    icon: Shield,
+    icon: Star,
+    badges: [
+      { text: "Para Influencers", color: "bg-purple-100 text-purple-600", icon: Star },
+      { text: "Creators", color: "bg-pink-100 text-pink-600", icon: Users }
+    ],
     title: "Abogacía para influencers y creadores digitales",
-    description: "Representamos a influencers, streamers y creadores de contenido. Asistimos en negociaciones con marcas y agencias, contratos, uso de imagen, desmonetizaciones, bloqueos de cuentas, conflictos reputacionales y denuncias vinculadas a su actividad en redes."
+    summary: "Protección legal integral para creadores de contenido digital y streamers.",
+    description: "Representamos a influencers y streamers en negociaciones con marcas, contratos, uso de imagen, desmonetizaciones, bloqueos y conflictos reputacionales."
   },
   {
     icon: Briefcase,
+    badges: [
+      { text: "Para Empresas", color: "bg-blue-100 text-blue-600", icon: Briefcase }
+    ],
     title: "Defensa integral para empresas",
-    description: "Acompañamos a empresas en conflictos civiles y laborales. Intervenimos en reclamos de trabajadores, demandas de consumidores, incumplimientos contractuales, gestión de conflictos internos y crisis reputacionales. Diseñamos estrategias judiciales y preventivas ajustadas a la normativa vigente."
+    summary: "Seguridad jurídica para negocios en conflictos civiles y laborales.",
+    description: "Intervenimos en reclamos laborales, demandas de consumidores, incumplimientos contractuales y gestión de crisis reputacionales con estrategias preventivas."
   },
   {
     icon: ShoppingBag,
+    badges: [
+      { text: "Para Personas", color: "bg-green-100 text-green-600", icon: User }
+    ],
     title: "Protección avanzada del consumidor",
-    description: "Asistimos a personas frente a bancos, aerolíneas, plataformas digitales, con cesionarias, servicios financieros y comercios electrónicos. Actuamos en compras incumplidas, débitos indebidos, fraudes, cancelaciones, retención de dinero y trato indigno."
+    summary: "Defensa contra abusos de bancos, plataformas y aerolíneas.",
+    description: "Actuamos frente a fraudes, compras incumplidas, débitos indebidos y trato indigno por parte de grandes proveedores de servicios y plataformas."
   },
   {
     icon: Users,
+    badges: [
+      { text: "Para Trabajadores", color: "bg-green-100 text-green-600", icon: User }
+    ],
     title: "Defensa en conflictos laborales personales",
-    description: "Acompañamos a quienes atraviesan presiones para renunciar, sanciones, despidos, denuncias internas o situaciones de acoso laboral. Evaluamos la situación completa y definimos la estrategia más adecuada, ya sea negociación, vía administrativa o demanda judicial."
+    summary: "Acompañamiento en despidos, sanciones y acoso laboral.",
+    description: "Evaluamos tu situación para definir la mejor estrategia: negociación, vía administrativa o demanda judicial ante presiones o despidos injustificados."
   },
   {
     icon: Gavel,
-    title: "Denuncias penales, mediaciones y juicios orales",
-    description: "Intervenimos desde el inicio del conflicto penal. Brindamos asistencia en denuncias policiales y fiscales, mediaciones, audiencias y juicios orales. Construimos defensas técnicas serias y también representamos a víctimas que requieren acompañamiento jurídico."
+    badges: [
+      { text: "Penal / Civil", color: "bg-orange-100 text-orange-600", icon: Shield }
+    ],
+    title: "Denuncias penales, mediaciones y juicios",
+    summary: "Representación firme en instancias judiciales críticas.",
+    description: "Asistencia en denuncias policiales, mediaciones y juicios orales. Construimos defensas técnicas serias y representamos a víctimas con compromiso."
   }
 ];
 
@@ -79,16 +100,16 @@ export default function Servicios() {
               <span className="text-accent underline decoration-accent/30 underline-offset-8">profesionales.</span>
             </h2>
             <p className="text-lg md:text-xl text-slate font-medium leading-relaxed">
-              Ofrecemos servicios jurídicos orientados a resolver problemas concretos de personas, empresas y organizaciones. Trabajamos con seriedad, estrategia y experiencia real en tribunales. Cada servicio está pensado para acompañarte desde la consulta inicial hasta la instancia judicial que corresponda.
+              Ofrecemos servicios jurídicos orientados a resolver problemas concretos de personas, empresas y organizaciones. Trabajamos con seriedad, estrategia y experiencia real en tribunales.
             </p>
           </div>
 
           {/* Right Column: Stacking Cards Wrapper */}
-          <div className="lg:w-3/5 relative pt-20">
+          <div className="lg:w-3/5 relative pt-10">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="sticky bg-white tech-card p-10 md:p-14 rounded-[2.5rem] border border-navy-deep/10 shadow-2xl mb-12 last:mb-0 transition-all duration-500 hover:scale-[1.02]"
+                className="sticky bg-white tech-card p-8 md:p-12 rounded-[2.5rem] border border-navy-deep/10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] mb-12 last:mb-0 transition-all duration-500 hover:scale-[1.02] group"
                 style={{
                   top: '120px',
                   zIndex: index + 1,
@@ -97,28 +118,40 @@ export default function Servicios() {
                 } as React.CSSProperties}
               >
                 <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-10">
-                    <div className="w-14 h-14 rounded-2xl bg-accent/5 flex items-center justify-center text-accent">
-                      <service.icon size={28} />
+
+                  {/* Header: Number & Badges */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+                    <div className="flex gap-2">
+                      {service.badges.map((badge, i) => (
+                        <span key={i} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${badge.color}`}>
+                          <badge.icon size={12} />
+                          {badge.text}
+                        </span>
+                      ))}
                     </div>
-                    <div className="text-2xl font-black text-accent/20 font-montserrat">
+                    <div className="text-xl font-black text-accent/20 font-montserrat">
                       {String(index + 1).padStart(2, '0')}
                     </div>
                   </div>
 
-                  <h3 className="text-2xl md:text-3xl font-black text-accent mb-6 font-montserrat leading-tight group-hover:text-accent transition-colors">
+                  {/* Title & Summary */}
+                  <h3 className="text-2xl md:text-3xl font-black text-navy-deep mb-3 font-montserrat leading-tight group-hover:text-accent transition-colors">
                     {service.title}
                   </h3>
 
-                  <p className="text-lg text-navy-deep/70 font-medium leading-relaxed mb-10">
+                  <div className="text-sm font-bold text-slate mb-6 uppercase tracking-wider opacity-80">
+                    {service.summary}
+                  </div>
+
+                  <p className="text-lg text-slate/70 font-medium leading-relaxed mb-10 max-w-[90%]">
                     {service.description}
                   </p>
 
                   <button
                     onClick={scrollToContact}
-                    className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-accent hover:gap-5 transition-all duration-300 group/btn"
+                    className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-accent hover:gap-5 transition-all duration-300 group/btn bg-accent/5 px-6 py-3 rounded-xl w-fit hover:bg-accent hover:text-white"
                   >
-                    Consultar por este servicio <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+                    Consultar servicio <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </div>
               </div>

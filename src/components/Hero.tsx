@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowDown, MessageCircle, ChevronRight } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
@@ -7,6 +7,7 @@ import ThreeBackground from './ThreeBackground';
 export default function Hero() {
   const [terminalDone, setTerminalDone] = useState(false);
   const [explodeParticles, setExplodeParticles] = useState(false);
+  const [showWhatsApp, setShowWhatsApp] = useState(false);
 
   const handleTerminalComplete = () => {
     // Trigger explosion first
@@ -22,6 +23,20 @@ export default function Hero() {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show WhatsApp button after scrolling past 100vh
+      if (window.scrollY > window.innerHeight) {
+        setShowWhatsApp(true);
+      } else {
+        setShowWhatsApp(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <section
       id="inicio"
@@ -29,6 +44,24 @@ export default function Hero() {
     >
       {/* 3D Background Resource */}
       <ThreeBackground />
+
+      {/* Floating WhatsApp Button (Fixed) */}
+      <a
+        href="https://wa.me/5493813007791"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed bottom-8 right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] bg-[#25D366] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 hover:bg-[#20ba5a] group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+          }`}
+        aria-label="Consulta rápida por WhatsApp"
+      >
+        <div className="absolute inset-0 rounded-full animate-[pulse_2s_infinite] bg-[#25D366] opacity-30 z-[-1]" />
+        <MessageCircle size={32} className="text-white fill-white" />
+
+        {/* Tooltip on hover */}
+        <div className="absolute right-full mr-4 px-3 py-1 bg-white text-navy-deep text-xs font-bold rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          Consulta rápida
+        </div>
+      </a>
 
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/40 via-transparent to-navy-deep z-[1]" />
@@ -68,13 +101,6 @@ export default function Hero() {
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
-              </button>
-              <button
-                onClick={() => scrollToSection('#que-esperar')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/5 transition-all duration-500 hover:border-white/30 group"
-              >
-                Ver cómo trabajo
-                <ChevronRight size={18} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </button>
             </div>
           </div>
