@@ -28,7 +28,7 @@ const CONFIG = {
     cycle: {
         holdDuration: 8000,
         explodeDuration: 3000,
-        shapes: ['scale', 'forbidden', 'logo'] as const
+        shapes: ['scale', 'contract', 'hammer', 'forbidden', 'dna', 'fingerprint', 'whatsapp', 'logo'] as const
     },
     labels: {
         scale: '',
