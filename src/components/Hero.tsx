@@ -84,12 +84,12 @@ export default function Hero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-8 opacity-0 animate-fade-in-up animation-delay-200">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
               Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-xl lg:text-2xl text-white/60 max-w-3xl mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-medium">
+            <p className="text-base md:text-xl lg:text-2xl text-white/60 max-w-3xl mb-8 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-medium">
               Los conflictos actuales requieren una visión multidisciplinaria. Nuestra experiencia dentro de la Justicia y el dominio de la tecnología nos permiten construir defensas invulnerables en entornos digitales complejos.
             </p>
 
@@ -97,7 +97,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
               <button
                 onClick={() => scrollToSection('#contacto')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-10 py-5 bg-white text-navy-deep font-black rounded-xl hover:bg-ice transition-all duration-500 shadow-strong hover:scale-[1.02] group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 md:px-10 md:py-5 bg-white text-navy-deep font-black rounded-xl hover:bg-ice transition-all duration-500 shadow-strong hover:scale-[1.02] group text-sm md:text-base"
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
