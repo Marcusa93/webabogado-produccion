@@ -40,26 +40,48 @@ const ThreeBackground: React.FC = () => {
 
         camera.position.z = 3;
 
-        // Mouse movement interaction
-        let mouseX = 0;
-        let mouseY = 0;
+        // Interaction State
+        const mouse = { x: 0, y: 0 }; // Target position
+        const smoothedMouse = { x: 0, y: 0 }; // Interpolated position
+
+        // Lerp factor (0.05 = very smooth/slow, 0.1 = faster)
+        const lerpFactor = 0.05;
 
         const animate = () => {
             requestAnimationFrame(animate);
 
+            // 1. Calculate smoothing (Lerp)
+            smoothedMouse.x += (mouse.x - smoothedMouse.x) * lerpFactor;
+            smoothedMouse.y += (mouse.y - smoothedMouse.y) * lerpFactor;
+
+            // 2. Constants rotation
             particlesMesh.rotation.y += 0.001;
             particlesMesh.rotation.x += 0.0005;
 
-            // Subtle mouse reaction
-            particlesMesh.position.x = mouseX * 0.05;
-            particlesMesh.position.y = -mouseY * 0.05;
+            // 3. Apply smoothed position to mesh (Parallax effect)
+            particlesMesh.rotation.x += -smoothedMouse.y * 0.1;
+            particlesMesh.rotation.y += smoothedMouse.x * 0.1;
+
+            // Optional: Move the mesh slightly for depth
+            particlesMesh.position.x = smoothedMouse.x * 0.2;
+            particlesMesh.position.y = -smoothedMouse.y * 0.2;
 
             renderer.render(scene, camera);
         };
 
+        // Event Handlers
         const handleMouseMove = (event: MouseEvent) => {
-            mouseX = (event.clientX / window.innerWidth) - 0.5;
-            mouseY = (event.clientY / window.innerHeight) - 0.5;
+            // Normalize to -1 to 1
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = (event.clientY / window.innerHeight) * 2 - 1;
+        };
+
+        const handleTouchMove = (event: TouchEvent) => {
+            if (event.touches.length > 0) {
+                const touch = event.touches[0];
+                mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = (touch.clientY / window.innerHeight) * 2 - 1;
+            }
         };
 
         const handleResize = () => {
@@ -69,12 +91,14 @@ const ThreeBackground: React.FC = () => {
         };
 
         window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('touchmove', handleTouchMove);
         window.addEventListener('resize', handleResize);
 
         animate();
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('resize', handleResize);
             if (mountRef.current && renderer.domElement) {
                 mountRef.current.removeChild(renderer.domElement);

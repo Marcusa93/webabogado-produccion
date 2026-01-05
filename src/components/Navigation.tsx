@@ -61,7 +61,7 @@ export default function Navigation() {
           {/* Mobile Menu Button - Left on mobile */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 z-50 transition-all active:scale-90 ${isScrolled || isMobileMenuOpen ? 'text-foreground' : 'text-white'
+            className={`lg:hidden p-2 z-50 transition-all active:scale-90 ${isScrolled || isMobileMenuOpen ? 'text-navy-deep' : 'text-white'
               }`}
             aria-label="Toggle menu"
           >
