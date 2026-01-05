@@ -117,56 +117,80 @@ export default function Contacto() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="space-y-2">
+                  {/* Name Input */}
+                  <div className="space-y-2 group">
                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Identidad</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Nombre o Empresa"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium"
-                    />
+                    <div className="relative">
+                      <input
+                        required
+                        type="text"
+                        placeholder="Nombre completo o razón social"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium invalid:border-red-300"
+                      />
+                      {formData.name.length > 3 && (
+                        <CheckCircle className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in fade-in" size={20} />
+                      )}
+                    </div>
                   </div>
 
+                  {/* Contact Input */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Conexión</label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="email@dominio.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium"
-                    />
+                    <div className="relative">
+                      <input
+                        required
+                        type="email"
+                        placeholder="email@ejemplo.com o teléfono"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className={`w-full px-6 py-5 bg-ice-blue/30 border rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium ${formData.email && !formData.email.includes('@') ? 'border-red-300 focus:border-red-400' : 'border-navy-deep/5'
+                          }`}
+                      />
+                      {formData.email.includes('@') && (
+                        <CheckCircle className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in fade-in" size={20} />
+                      )}
+                    </div>
+                    {formData.email && !formData.email.includes('@') && (
+                      <p className="text-xs text-red-500 ml-2 font-bold animate-in slide-in-from-top-1">Formato de email incorrecto</p>
+                    )}
                   </div>
 
+                  {/* Message Input */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Caso</label>
                     <textarea
                       required
                       rows={4}
-                      placeholder="Describe brevemente el conflicto..."
+                      placeholder="Describe tu conflicto en 2-3 líneas..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium resize-none"
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent transition-all duration-500 shadow-glow disabled:opacity-50 active:scale-[0.98] group/btn"
-                  >
-                    {isSubmitting ? (
-                      <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        <span className="uppercase tracking-[0.2em] text-sm">Ejecutar Envío</span>
-                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent transition-all duration-500 shadow-glow disabled:opacity-50 active:scale-[0.98] group/btn mb-4"
+                    >
+                      {isSubmitting ? (
+                        <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : (
+                        <>
+                          <span className="uppercase tracking-[0.2em] text-sm">Ejecutar Envío</span>
+                          <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </>
+                      )}
+                    </button>
+
+                    {/* Microcopy */}
+                    <p className="text-center text-[10px] md:text-xs text-slate/50 font-medium">
+                      ⚡ Respuesta en menos de 24hs. <span className="mx-1">·</span> 🔒 Confidencialidad garantizada.
+                    </p>
+                  </div>
                 </div>
               </form>
             </div>

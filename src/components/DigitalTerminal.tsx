@@ -6,8 +6,9 @@ interface DigitalTerminalProps {
 }
 
 const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
-    const [lines, setLines] = useState<any[]>([]); // Store objects { text, type, color }
-    const [showStatus, setShowStatus] = useState(false);
+    const [displayedLines, setDisplayedLines] = useState<any[]>([]);
+    const [scriptIndex, setScriptIndex] = useState(0);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     // Icon helper
     const getIcon = (type: string) => {
@@ -20,93 +21,98 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
         }
     };
 
-    const content = [
-        { text: "> MARCO_ROSSI_LEGAL_ENGINE", delay: 50, type: 'command', color: "text-white font-bold" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> init_threat_detection --realtime_monitoring", delay: 200, type: 'command' },
-        { text: "", delay: 50, type: 'spacer' },
-
-        { text: "> scanning_legal_landscape...", delay: 250, type: 'command' },
-        { text: "Monitoreando cambios normativos...", delay: 200, type: 'process', color: "text-blue-300" },
-        { text: "Analizando jurisprudencia reciente...", delay: 200, type: 'process', color: "text-blue-300" },
-        { text: "[INFO] 3 nuevos precedentes relevantes", delay: 150, type: 'success', color: "text-green-400" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> detecting_vulnerabilities...", delay: 250, type: 'command' },
-        { text: "[ALERT] Posible incumplimiento detectado", delay: 200, type: 'alert', color: "text-yellow-400" },
-        { text: "Nivel de riesgo: MEDIO", delay: 100, type: 'process', color: "text-yellow-200" },
-        { text: "Jurisdicción: Federal", delay: 100, type: 'process', color: "text-yellow-200" },
-        { text: "[OK] Protocolo de mitigación: INICIADO", delay: 150, type: 'success', color: "text-green-400" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> verifying_contractual_chains...", delay: 250, type: 'command' },
-        { text: "Proveedor Cloud: Contrato vigente", delay: 150, type: 'success', color: "text-green-300" },
-        { text: "Acuerdos de confidencialidad: ACTIVOS", delay: 150, type: 'success', color: "text-green-300" },
-        { text: "SLA críticos: Vencen en 45 días", delay: 200, type: 'alert', color: "text-yellow-400" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> executing_forensic_analysis...", delay: 300, type: 'command' },
-        { text: "Reconstruyendo timeline de eventos...", delay: 200, type: 'process', color: "text-blue-300" },
-        { text: "Identificando actores involucrados...", delay: 400, type: 'process', color: "text-blue-300" },
-        { text: "[EVIDENCE] Cadena de custodia: VÁLIDA", delay: 150, type: 'success', color: "text-green-400 font-bold" },
-        { text: "[INFO] Prueba digital: ADMISIBLE", delay: 150, type: 'success', color: "text-green-400 font-bold" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> load_module: DEFENSE_PROTOCOL", delay: 250, type: 'command' },
-        { text: "Estrategia defensiva: COMPILED", delay: 100, type: 'success', color: "text-green-300" },
-        { text: "Argumentos preparados: 47", delay: 100, type: 'success', color: "text-green-300" },
-        { text: "Jurisprudencia de respaldo: LINKED", delay: 100, type: 'success', color: "text-green-300" },
-        { text: "", delay: 100, type: 'spacer' },
-
-        { text: "> establishing_legal_shield...", delay: 300, type: 'command' },
-        { text: "[SECURE] Derechos fundamentales: PROTEGIDOS", delay: 150, type: 'success', color: "text-green-400" },
-        { text: "[OK] Plazos judiciales: BAJO CONTROL", delay: 150, type: 'success', color: "text-green-400" },
-        { text: "", delay: 200, type: 'spacer' },
+    const scripts = [
+        [
+            { text: "> init_threat_detection --realtime_monitoring", type: 'command' },
+            { text: "Escaneando entorno digital...", type: 'process', color: 'text-blue-300' },
+            { text: "[INFO] Vulnerabilidades contractuales: 0", type: 'success', color: 'text-green-400' }
+        ],
+        [
+            { text: "> analyzing_digital_assets...", type: 'command' },
+            { text: "Verificando cadena de custodia...", type: 'process', color: 'text-yellow-200' },
+            { text: "[SECURE] Evidencia digital preservada", type: 'success', color: 'text-green-400' }
+        ],
+        [
+            { text: "> deploying_legal_shield --level: MAXIMUM", type: 'command' },
+            { text: "Activando protocolos de defensa...", type: 'process', color: 'text-blue-300' },
+            { text: "[OK] Protección de reputación online: ACTIVA", type: 'success', color: 'text-green-400' }
+        ]
     ];
 
-    const scrollRef = useRef<HTMLDivElement>(null);
-
+    // Typing Effect Logic
     useEffect(() => {
-        let currentIndex = 0;
-        setLines([]);
+        let currentScript = scripts[scriptIndex];
+        let lineIndex = 0;
+        let charIndex = 0;
+        let currentText = "";
+        let isTyping = true;
+        let timeoutId: NodeJS.Timeout;
 
-        const runSequence = async () => {
-            while (currentIndex < content.length) {
-                const item = content[currentIndex];
+        const type = () => {
+            // Check if script finished
+            if (lineIndex >= currentScript.length) {
+                timeoutId = setTimeout(() => {
+                    setDisplayedLines([]);
+                    setScriptIndex(prev => (prev + 1) % scripts.length);
+                }, 4000);
+                return;
+            }
 
-                await new Promise(r => setTimeout(r, item.delay));
+            const targetLine = currentScript[lineIndex];
 
-                setLines(prev => [...prev, item]);
+            if (isTyping) {
+                if (charIndex < targetLine.text.length) {
+                    currentText += targetLine.text[charIndex];
+                    charIndex++;
 
-                // Auto-scroll
-                if (scrollRef.current) {
-                    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+                    setDisplayedLines(prev => {
+                        const newLines = [...prev];
+                        if (newLines[lineIndex]) {
+                            newLines[lineIndex] = { ...targetLine, text: currentText };
+                        } else {
+                            newLines.push({ ...targetLine, text: currentText });
+                        }
+                        return newLines;
+                    });
+
+                    timeoutId = setTimeout(type, 20 + Math.random() * 30); // Faster typing
+                } else {
+                    isTyping = false;
+                    lineIndex++;
+                    charIndex = 0;
+                    currentText = "";
+                    timeoutId = setTimeout(type, 300);
                 }
-
-                currentIndex++;
+            } else {
+                isTyping = true;
+                type();
             }
-            setTimeout(() => setShowStatus(true), 500);
-
-            if (onComplete) {
-                setTimeout(() => onComplete(), 2000); // 2 seconds to read final status
-            }
-
-            // Final scroll check
-            setTimeout(() => {
-                if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }, 600);
         };
 
-        runSequence();
-    }, []);
+        setDisplayedLines([]);
+        type();
+
+        return () => clearTimeout(timeoutId);
+    }, [scriptIndex]);
+
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [displayedLines]);
 
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 min-h-[350px]">
-            <div className="w-full max-w-lg bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-white/15 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[340px] xs:h-[380px] sm:h-[480px]">
+        <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 min-h-[300px]">
+            {/* Dark Overlay / Backdrop Filter Container */}
+            <div className="w-full max-w-lg bg-[#0a0f1c]/80 backdrop-blur-md rounded-lg border border-white/10 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[340px] xs:h-[380px] sm:h-[420px] relative">
+
+                {/* Background Noise/Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.5)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-20" />
+                <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
                 {/* Terminal Header */}
-                <div className="bg-[#1a1f2e] px-4 py-3 flex items-center justify-between border-b border-white/5 flex-shrink-0">
+                <div className="bg-[#1a1f2e]/90 px-4 py-3 flex items-center justify-between border-b border-white/5 flex-shrink-0 relative z-10">
                     <div className="flex gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500/80" />
                         <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
@@ -120,48 +126,23 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
                 </div>
 
                 {/* Terminal Body */}
-                <div ref={scrollRef} className="p-4 sm:p-6 flex-1 overflow-y-auto scrollbar-hide relative flex flex-col">
+                <div ref={scrollRef} className="p-4 sm:p-6 flex-1 overflow-y-auto scrollbar-hide relative flex flex-col z-10">
 
-                    {/* Background Grid */}
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.5)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-20 fixed" />
-
-                    <div className="space-y-1.5 z-10 font-mono pb-20">
-                        {lines.map((item, i) => {
-                            if (item.type === 'spacer') return <div key={i} className="h-2" />;
-
-                            return (
-                                <div key={i} className={`${item.color || 'text-white/80'} flex items-start gap-2 sm:gap-3 animate-in fade-in slide-in-from-left-2 duration-300`}>
-                                    {getIcon(item.type)}
-                                    <span className="leading-relaxed whitespace-normal break-words">{item.text}</span>
-                                </div>
-                            );
-                        })}
-
-                        {!showStatus && (
-                            <div className="animate-pulse text-accent pl-6">_</div>
-                        )}
+                    <div className="space-y-3 font-mono pb-4">
+                        {displayedLines.map((item, i) => (
+                            <div key={i} className={`${item.color || 'text-white/90'} flex items-start gap-2 sm:gap-3`}>
+                                {getIcon(item.type)}
+                                <span className="leading-relaxed whitespace-normal break-words drop-shadow-md">{item.text}</span>
+                            </div>
+                        ))}
+                        <div className="animate-pulse text-accent pl-6">_</div>
                     </div>
 
-                    {/* Final Status Box (Fixed at bottom or scrolls in?) - User requested separate Box */}
-                    <div className={`mt-auto pt-4 transition-all duration-1000 ${showStatus ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-
-                        <div className="mb-4 text-white">
-                            <div className="flex items-center gap-2 font-bold text-accent mb-2">
-                                <div className="w-3 h-3 rounded-full bg-accent animate-pulse" />
-                                DEFENSE STATUS: OPTIMAL
-                            </div>
-                        </div>
-
-                        <div className="border border-white/20 bg-white/5 p-4 rounded text-center relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-accent/5 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-
-                            <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-[0.2em] mb-1">Protección Garantizada</div>
-                            <div className="text-lg sm:text-2xl font-bold text-white tracking-wider leading-tight">
-                                TUS DERECHOS EN LA <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">
-                                    ERA DIGITAL
-                                </span>
-                            </div>
+                    {/* Final Status Box fixed at bottom */}
+                    <div className="mt-auto pt-4 border-t border-white/5">
+                        <div className="flex items-center gap-2 font-bold text-accent mb-2 text-xs">
+                            <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                            SYSTEM STATUS: ONLINE
                         </div>
                     </div>
 
