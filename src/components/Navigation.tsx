@@ -104,7 +104,7 @@ export default function Navigation() {
                     scrollToSection(link.href);
                   }}
                   className={`text-sm font-bold tracking-tight transition-all duration-300 relative py-2 group ${isScrolled
-                    ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground/70 hover:text-foreground')
+                    ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-navy-deep')
                     : (activeSection === link.href.substring(1) ? 'text-white underline-offset-8' : 'text-white/70 hover:text-white')
                     }`}
                 >

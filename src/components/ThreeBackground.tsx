@@ -91,7 +91,7 @@ const ThreeBackground: React.FC = () => {
         };
 
         window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('touchmove', handleTouchMove);
+        window.addEventListener('touchmove', handleTouchMove, { passive: true });
         window.addEventListener('resize', handleResize);
 
         animate();
