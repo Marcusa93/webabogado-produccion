@@ -102,8 +102,8 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
     }, []);
 
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4">
-            <div className="w-full max-w-lg bg-[#0a0f1c]/90 backdrop-blur-md rounded-lg border border-white/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[420px] sm:h-[480px]">
+        <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 min-h-[350px]">
+            <div className="w-full max-w-lg bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-white/15 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[380px] xs:h-[420px] sm:h-[480px]">
 
                 {/* Terminal Header */}
                 <div className="bg-[#1a1f2e] px-4 py-3 flex items-center justify-between border-b border-white/5 flex-shrink-0">
@@ -130,9 +130,9 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
                             if (item.type === 'spacer') return <div key={i} className="h-2" />;
 
                             return (
-                                <div key={i} className={`${item.color || 'text-white/80'} flex items-start gap-3 animate-in fade-in slide-in-from-left-2 duration-300`}>
+                                <div key={i} className={`${item.color || 'text-white/80'} flex items-start gap-2 sm:gap-3 animate-in fade-in slide-in-from-left-2 duration-300`}>
                                     {getIcon(item.type)}
-                                    <span className="leading-relaxed">{item.text}</span>
+                                    <span className="leading-relaxed whitespace-normal break-words">{item.text}</span>
                                 </div>
                             );
                         })}
@@ -155,8 +155,8 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
                         <div className="border border-white/20 bg-white/5 p-4 rounded text-center relative overflow-hidden group">
                             <div className="absolute inset-0 bg-accent/5 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
 
-                            <div className="text-sm text-gray-400 uppercase tracking-[0.2em] mb-1">Protección Garantizada</div>
-                            <div className="text-xl sm:text-2xl font-bold text-white tracking-wider">
+                            <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-[0.2em] mb-1">Protección Garantizada</div>
+                            <div className="text-lg sm:text-2xl font-bold text-white tracking-wider leading-tight">
                                 TUS DERECHOS EN LA <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">
                                     ERA DIGITAL

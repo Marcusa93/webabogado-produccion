@@ -128,17 +128,17 @@ export default function Navigation() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 bg-background/98 backdrop-blur-2xl z-40 transition-all duration-500 ${isMobileMenuOpen
+        className={`lg:hidden fixed inset-0 bg-background/99 backdrop-blur-2xl z-40 transition-all duration-500 ${isMobileMenuOpen
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-full pointer-events-none'
           }`}
       >
-        <nav className="flex flex-col items-center justify-center h-full px-6 text-center">
-          <ul className="flex flex-col gap-8 md:gap-10">
+        <nav className="flex flex-col items-center justify-start h-full px-6 pt-24 pb-12 overflow-y-auto">
+          <ul className="flex flex-col items-center gap-6 md:gap-8 w-full max-w-xs">
             {navLinks.map((link, index) => (
               <li
                 key={link.href}
-                className={`transform transition-all duration-500 ${isMobileMenuOpen
+                className={`w-full transform transition-all duration-500 ${isMobileMenuOpen
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-8 opacity-0'
                   }`}
@@ -150,21 +150,21 @@ export default function Navigation() {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className={`text-2xl md:text-3xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground hover:text-accent'
+                  className={`block py-2 text-xl md:text-2xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground/90 hover:text-accent'
                     }`}
                 >
                   {link.label}
                 </a>
               </li>
             ))}
-            <li className={`pt-6 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
+            <li className={`w-full pt-4 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
               <a
                 href="#contacto"
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToSection('#contacto');
                 }}
-                className="inline-flex items-center px-10 py-5 bg-primary text-primary-foreground font-black rounded-2xl text-xl shadow-glow active:scale-95"
+                className="inline-flex items-center justify-center w-full px-8 py-4 bg-primary text-primary-foreground font-black rounded-xl text-lg shadow-glow active:scale-95"
               >
                 Agendar consulta
               </a>

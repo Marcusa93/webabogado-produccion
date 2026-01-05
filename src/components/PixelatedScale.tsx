@@ -378,7 +378,7 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                     ctx.globalCompositeOperation = 'source-over';
                     // Spacing
 
-                    ctx.fillText(labelText.split('').join('  '), width / 2, height / 2 + 240);
+                    ctx.fillText(labelText.split('').join('  '), width / 2, height - 60);
                 }
             }
         }
