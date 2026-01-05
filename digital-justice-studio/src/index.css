@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Colors - HSL components only */
+    --background: 220 25% 97%;
+    --foreground: 220 40% 13%;
+    --card: 220 25% 99%;
+    --card-foreground: 220 40% 13%;
+    --popover: 220 25% 99%;
+    --popover-foreground: 220 40% 13%;
+    --primary: 220 45% 18%;
+    --primary-foreground: 220 25% 97%;
+    --secondary: 215 20% 65%;
+    --secondary-foreground: 220 40% 13%;
+    --muted: 215 20% 92%;
+    --muted-foreground: 215 15% 45%;
+    --accent: 220 45% 35%;
+    --accent-foreground: 220 25% 97%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 220 45% 35%;
+    --radius: 0.75rem;
+
+    /* Custom Brand Tokens (HSL components) */
+    --navy-deep: 222 47% 11%;
+    --navy-medium: 222 47% 15%;
+    --navy-light: 222 47% 20%;
+    --slate: 215 20% 65%;
+    --slate-light: 215 20% 85%;
+    --ice: 210 30% 96%;
+    --ice-dark: 210 30% 92%;
+  }
+
+  .dark {
+    --background: 220 45% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11.2%;
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 60%;
+    --accent: 217 32% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 224 71% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full transition-colors hover:bg-accent/40;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply container mx-auto px-6 md:px-8 lg:px-12;
+  }
+
+  .glass {
+    @apply backdrop-blur-md bg-white/70;
+  }
+
+  .tech-card {
+    @apply relative overflow-hidden bg-card border border-border/50 transition-all duration-500 hover:shadow-lg;
+    background-image: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(30, 58, 138, 0.08),
+        transparent 40%);
+  }
+
+  .tech-card:hover {
+    @apply -translate-y-1 border-accent/30;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(15, 23, 42, 0.1);
+  }
+
+  .shadow-strong {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  }
+
+  .input-glow {
+    @apply focus:ring-4 focus:ring-accent/10 focus:border-accent/40 transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .tech-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .tech-grid-dark {
+    background-image:
+      linear-gradient(to right, hsl(222 47% 20% / 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(222 47% 20% / 0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
+}

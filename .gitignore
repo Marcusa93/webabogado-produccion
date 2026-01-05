@@ -1,1 +1,25 @@
-Manual de marca/
+# Branding assets
+Manual de marca/*.pdf
+Manual de marca/**/*.pdf
+Manual de marca/.DS_Store
+Manual de marca/**/.DS_Store
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Dependencies
+package-lock.json
+bun.lockb
+yarn.lock
+pnpm-lock.yaml
+
+# Local env files
+*.local
+.env*
