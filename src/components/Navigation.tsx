@@ -188,7 +188,6 @@ export default function Navigation() {
           </ul>
         </nav>
       </div>
-    </header >
-  </>
+    </>
   );
 }
