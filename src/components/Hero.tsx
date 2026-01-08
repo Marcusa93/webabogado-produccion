@@ -84,7 +84,7 @@ export default function Hero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
+            <h1 className="text-[clamp(2rem,10vw,4.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
               Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
             </h1>
 
@@ -97,7 +97,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
               <button
                 onClick={() => scrollToSection('#contacto')}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 md:px-10 md:py-5 bg-white text-navy-deep font-black rounded-xl hover:bg-ice transition-all duration-500 shadow-strong hover:scale-[1.02] group text-sm md:text-base"
+                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-4 md:px-10 md:py-5 bg-white text-navy-deep font-black rounded-xl hover:bg-ice transition-all duration-500 shadow-strong hover:scale-[1.02] group text-sm md:text-base tap-target-enhanced"
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
@@ -106,8 +106,8 @@ export default function Hero() {
           </div>
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
-          <div className="relative mt-12 lg:mt-0 md:static block perspective-1000 h-[400px] md:h-auto pointer-events-auto z-0 md:z-auto opacity-100">
-            <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative mx-auto md:absolute md:right-[20px] xl:right-[40px] md:top-1/2 md:-translate-y-1/2 flex flex-col items-center justify-center">
+          <div className="relative mt-12 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0">
+            <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
               <div

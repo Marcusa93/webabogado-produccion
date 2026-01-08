@@ -149,7 +149,7 @@ export default function Servicios() {
 
                   <button
                     onClick={scrollToContact}
-                    className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-accent hover:gap-5 transition-all duration-300 group/btn bg-accent/5 px-6 py-3 rounded-xl w-fit hover:bg-accent hover:text-white"
+                    className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-accent hover:gap-5 transition-all duration-300 group/btn bg-accent/5 px-6 py-4 min-h-[44px] rounded-xl w-fit hover:bg-accent hover:text-white"
                   >
                     Consultar servicio <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
                   </button>

@@ -68,11 +68,17 @@ export default function Navigation() {
       <nav className="section-container">
         <div className="flex items-center justify-between">
           {/* Mobile Menu Button - Left on mobile */}
+          {/* Mobile Menu Button - Left on mobile */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`lg:hidden p-2 z-50 transition-all active:scale-90 ${isScrolled || isMobileMenuOpen ? 'text-navy-deep' : 'text-white'
+            className={`lg:hidden p-2 z-[60] menu-toggle ${isMobileMenuOpen ? 'is-open' : ''} ${isMobileMenuOpen ? 'text-navy-deep' : (isScrolled ? 'text-navy-deep' : 'text-white')
               }`}
+            style={{
+              transition: isMobileMenuOpen ? 'color 0.3s ease' : 'none',
+              pointerEvents: 'auto'
+            }}
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>

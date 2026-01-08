@@ -52,7 +52,7 @@ export default function Contacto() {
               <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase">Canales Directos</span>
             </div>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy-deep mb-8 leading-[1.1]">
+            <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-navy-deep mb-8 leading-[1.1]">
               Iniciemos una <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">estrategia ganadora.</span>
             </h2>
