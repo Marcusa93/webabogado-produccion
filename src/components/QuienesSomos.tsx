@@ -167,11 +167,12 @@ export default function QuienesSomos() {
                 </div>
 
                 {/* Marco's Multimedia Block */}
+                {/* Marco's Multimedia Block & Presence */}
                 <div className={`mb-32 p-8 md:p-12 rounded-[3rem] bg-navy-deep relative overflow-hidden shadow-strong transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                     <div className="absolute inset-0 tech-grid-dark opacity-5" />
 
-                    <div className="relative z-10">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
+                    <div className="relative z-10 space-y-16">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div>
                                 <h4 className="text-2xl md:text-3xl font-black text-white font-montserrat mb-2">Presencia pública y producción intelectual</h4>
                                 <p className="text-white/40 font-medium">Contenido docente, mediático y académico de Marco Rossi</p>
@@ -181,7 +182,8 @@ export default function QuienesSomos() {
                             </button>
                         </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {/* ROW 1: Interviews & Podcasts */}
+                        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
                             {/* Interviews */}
                             <div>
                                 <div className="flex items-center gap-2 mb-6 text-accent">
@@ -194,7 +196,7 @@ export default function QuienesSomos() {
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-accent/40 backdrop-blur-sm z-10">
                                                 <Play size={20} className="text-white fill-white" />
                                             </div>
-                                            <div className="absolute bottom-2 left-2 text-[8px] font-bold text-white/50">{item.title}</div>
+                                            <div className="absolute bottom-2 left-2 right-2 text-[10px] md:text-[8px] lg:text-[10px] font-bold text-white/90 md:text-white/50 group-hover:text-white leading-tight">{item.title}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -208,25 +210,32 @@ export default function QuienesSomos() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {multimedia.podcasts.map((item, i) => (
-                                        <div key={i} className="aspect-square bg-white/5 rounded-lg border border-white/5 p-4 flex flex-col justify-end hover:scale-105 transition-transform cursor-pointer shadow-lg overflow-hidden">
-                                            <div className="text-[9px] font-black text-white mb-1 leading-tight">{item.title}</div>
-                                            <div className="text-[7px] text-white/40">{item.duration}</div>
+                                        <div key={i} className="aspect-square bg-white/5 rounded-lg border border-white/5 p-4 flex flex-col justify-end hover:scale-105 transition-transform cursor-pointer shadow-lg overflow-hidden group">
+                                            <div className="text-[10px] font-black text-white mb-1 leading-tight group-hover:text-blue-400 transition-colors">{item.title}</div>
+                                            <div className="text-[8px] text-white/40">{item.duration}</div>
+                                            <div className="mt-2 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                                <div className="h-full bg-blue-400 w-1/3" />
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
+                        </div>
+
+                        {/* ROW 2: Publications, Books & Instagram */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
 
                             {/* Publications */}
-                            <div className="lg:col-span-1">
+                            <div>
                                 <div className="flex items-center gap-2 mb-6 text-white/60">
                                     <BookOpen size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Publicaciones destacados</span>
                                 </div>
                                 <div className="space-y-4">
                                     {multimedia.publications.map((item, i) => (
-                                        <div key={i} className="flex flex-col gap-1 group cursor-pointer border-b border-white/5 pb-2">
-                                            <div className="text-[10px] font-bold text-white group-hover:text-accent transition-colors truncate">{item.title}</div>
-                                            <div className="flex justify-between text-[8px] font-medium text-white/30">
+                                        <div key={i} className="flex flex-col gap-1 group cursor-pointer border-b border-white/5 pb-3">
+                                            <div className="text-sm font-bold text-white group-hover:text-accent transition-colors leading-snug">{item.title}</div>
+                                            <div className="flex justify-between text-[10px] font-medium text-white/30">
                                                 <span>{item.media}</span>
                                                 <span>{item.year}</span>
                                             </div>
@@ -243,12 +252,42 @@ export default function QuienesSomos() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {multimedia.books.map((item, i) => (
-                                        <div key={i} className={`aspect-[3/4] ${item.cover} rounded-md border border-white/10 p-3 shadow-xl transform transition-all duration-300 hover:rotate-3 hover:-translate-y-2 cursor-pointer flex items-center justify-center text-center`}>
-                                            <div className="text-[8px] font-black text-white uppercase tracking-tighter">{item.title}</div>
+                                        <div key={i} className={`aspect-[3/4] ${item.cover} rounded-md border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:rotate-3 hover:-translate-y-2 cursor-pointer flex items-center justify-center text-center relative overflow-hidden group`}>
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent" />
+                                            <div className="relative z-10 text-[9px] font-black text-white uppercase tracking-tighter leading-tight group-hover:scale-110 transition-transform">{item.title}</div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
+
+                            {/* Instagram Feed (Column 3) */}
+                            <div className="md:col-span-2 lg:col-span-1 h-full">
+                                <div className="flex items-center gap-2 mb-6 text-[#E1306C]">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                    <span className="font-black text-xs uppercase tracking-widest">Sígueme en Instagram</span>
+                                </div>
+                                <div className="bg-black rounded-xl overflow-hidden border border-white/10 shadow-lg h-[400px] lg:h-full min-h-[400px] relative">
+                                    <iframe
+                                        src="https://www.instagram.com/marquitorossi/embed"
+                                        width="100%"
+                                        height="100%"
+                                        frameBorder="0"
+                                        scrolling="no"
+                                        allowTransparency={true}
+                                        className="absolute inset-0 w-full h-full"
+                                        title="Instagram Feed"
+                                    >
+                                    </iframe>
+                                    {/* Fallback/Loading State behind iframe */}
+                                    <div className="absolute inset-0 flex items-center justify-center text-white/20 -z-10 bg-white/5">
+                                        <div className="text-center">
+                                            <div className="animate-spin w-8 h-8 border-2 border-current border-t-transparent rounded-full mx-auto mb-2" />
+                                            <span className="text-[10px] tracking-widest uppercase">Cargando Feeed...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
