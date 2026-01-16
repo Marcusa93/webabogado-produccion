@@ -15,29 +15,101 @@ const team = [
         role: "Abogado asociado",
         image: "/team/facundo.jpg",
         bio: "Especialista en Derecho Laboral con enfoque en litigación estratégica contra ART. Participa activamente en la gestión de expedientes y defensa de empresas y particulares.",
-        linkedin: "https://linkedin.com"
+        linkedin: "https://ar.linkedin.com/in/facundo-castillo-947b1b222"
     },
     {
         name: "Vancis Roda",
         role: "Asesor auxiliar y perito de parte",
         image: "/team/vancis.jpg",
         bio: "Experto en análisis de evidencia informática y peritajes técnicos. Brinda el soporte científico necesario para la validación de pruebas en entornos digitales complejos.",
-        linkedin: "https://linkedin.com"
+        linkedin: "https://twitter.com/vancishacks" // Twitter as placeholder if linkedin unknown, or just use #
     }
 ];
 
+const getYouTubeVideoId = (url: string) => {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+};
+
+const getYouTubeThumbnail = (url: string) => {
+    const videoId = getYouTubeVideoId(url);
+    return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+};
+
 const multimedia = {
     interviews: [
-        { title: "Análisis Justicia Digital", type: "TV" },
-        { title: "Ciberdelitos en Prime Time", type: "TV" },
-        { title: "El futuro del derecho", type: "Web" },
-        { title: "Entrevista La Nación", type: "Prensa" }
+        {
+            title: "Entrevista caso Chahla c/ Paredes Alan. Mal uso de IA. Datos biométricos y deepfakes",
+            shortTitle: "Caso Chahla: IA y Deepfakes",
+            type: "Video",
+            source: "YouTube",
+            url: "https://youtu.be/38fzZmfny68?si=bpSXPjpzgnR_wPnO",
+            duration: "15:42",
+            badgeColor: "bg-red-600"
+        },
+        {
+            title: "Quién es Marco Rossi: el abogado que pone a Tucumán en el mapa de la mano de la IA",
+            shortTitle: "Nota Show Online",
+            type: "Artículo",
+            source: "Show Online",
+            url: "https://showonline.com.ar/contenido/11110/quien-es-marco-rossi-el-abogado-que-pone-a-tucuman-en-el-mapa-de-la-mano-de-la-i",
+            date: "Nov 2024",
+            badgeColor: "bg-indigo-600"
+        },
+        {
+            title: "Marco Rossi: 'La Justicia también puede innovar y humanizar'",
+            shortTitle: "Nota La Gaceta",
+            type: "Artículo",
+            source: "La Gaceta",
+            url: "https://www.lagaceta.com.ar/nota/amp/1088664/sociedad/marco-rossi-justicia-tambien-puede-innovar-humanizar.html",
+            date: "Nov 2024",
+            badgeColor: "bg-blue-600"
+        },
+        {
+            title: "La Inteligencia Artificial aplicada al beneficio de los tucumanos",
+            shortTitle: "Nota LV12 Radio",
+            type: "Radio",
+            source: "LV12",
+            url: "https://www.lv12.com.ar/inteligencia-artificial/la-inteligencia-artificial-aplicada-beneficio-los-tucumanos-n167419",
+            date: "Oct 2024",
+            badgeColor: "bg-orange-500"
+        },
+        {
+            title: "Entrevista en Vivo - Derecho y Tecnología",
+            shortTitle: "Entrevista Stream",
+            type: "Stream",
+            source: "Live Stream",
+            url: "https://youtu.be/4hdbqTF6WBc?si=UB0iW3I4SP6Vyu2C",
+            badgeColor: "bg-red-500"
+        }
     ],
     podcasts: [
-        { title: "Derecho & Código Ep. 12", duration: "45 min" },
-        { title: "Justicia 4.0", duration: "32 min" },
-        { title: "Legal Tech Talk", duration: "50 min" },
-        { title: "El proceso digital", duration: "28 min" }
+        {
+            title: "Derecho & Código Ep. 12",
+            url: "https://open.spotify.com/episode/2NCJg4x36jJFSZJ5h14JZ0?si=SIlxfJu2QHuYQdwupOGh_w&t=0&pi=-Tt-piIDQ2em7",
+            duration: "45 min",
+            source: "Spotify"
+        },
+        {
+            title: "Justicia 4.0 - Transformación Digital",
+            url: "https://open.spotify.com/episode/36d5ZrqKNRHC7lWcrJfOgq?si=RZPdXz2DRCunNX986xjZHg",
+            duration: "32 min",
+            source: "Spotify"
+        },
+        {
+            title: "Entrevista Radial - Inteligencia Artificial",
+            url: "https://youtu.be/X7niXzmvaEs",
+            type: "YouTube",
+            source: "Radio",
+            duration: "20 min"
+        },
+        {
+            title: "Legal Tech Talk",
+            duration: "50 min",
+            image: "/content/podcasts/legal-tech-talk.jpg",
+            source: "Podcast"
+        }
     ],
     publications: [
         { title: "La prueba electrónica en el CPCyCN", media: "Revista de Derecho Procesal", year: "2024" },
@@ -46,10 +118,16 @@ const multimedia = {
         { title: "Blockchain aplicado a la justicia", media: "Derecho y Tecnología", year: "2022" }
     ],
     books: [
-        { title: "Manual de Derecho Informático", cover: "bg-accent/20" },
-        { title: "Tratado de la Prueba Digital", cover: "bg-blue-600/20" },
-        { title: "Estrategias de Litigación Tech", cover: "bg-navy-light" },
-        { title: "Justicia y Tecnología", cover: "bg-accent/10" }
+        {
+            title: "Justicia Algorítmica",
+            url: "https://ebook.iadpi.com.ar/shop/detalle/16",
+            image: "/content/books/justicia-algoritmica.jpg",
+            available: true,
+            isHighlight: true
+        },
+        { title: "Tratado de la Prueba Digital", cover: "from-blue-600/20 to-blue-900/40" },
+        { title: "Manual de Derecho Informático", cover: "from-navy-light to-navy-deep" },
+        { title: "Estrategias de Litigación Tech", cover: "from-accent/10 to-accent/30" }
     ]
 };
 
@@ -190,15 +268,72 @@ export default function QuienesSomos() {
                                     <Tv size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Entrevistas y TV</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {multimedia.interviews.map((item, i) => (
-                                        <div key={i} className="aspect-video bg-white/5 rounded-lg border border-white/5 relative group cursor-pointer overflow-hidden">
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-accent/40 backdrop-blur-sm z-10">
-                                                <Play size={20} className="text-white fill-white" />
-                                            </div>
-                                            <div className="absolute bottom-2 left-2 right-2 text-[10px] md:text-[8px] lg:text-[10px] font-bold text-white/90 md:text-white/50 group-hover:text-white leading-tight">{item.title}</div>
-                                        </div>
-                                    ))}
+                                <div className="grid grid-cols-2 gap-4">
+                                    {multimedia.interviews.map((item, i) => {
+                                        const isVideo = item.source === "YouTube";
+                                        const thumbnailUrl = isVideo ? getYouTubeThumbnail(item.url!) : null;
+
+                                        return (
+                                            <a
+                                                key={i}
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={`Ver ${item.title}`}
+                                                className="aspect-video bg-navy-light/30 rounded-xl border border-white/10 relative group cursor-pointer overflow-hidden shadow-lg hover:shadow-accent/20 transition-all duration-300 hover:scale-[1.03] block"
+                                            >
+                                                {/* Image / Thumbnail */}
+                                                <div className="absolute inset-0 bg-navy-deep">
+                                                    {isVideo && thumbnailUrl ? (
+                                                        <img
+                                                            src={thumbnailUrl}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+                                                            loading="lazy"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-full h-full bg-gradient-to-br from-blue-900 to-navy-deep p-4 flex flex-col justify-center items-center text-center">
+                                                            <span className="text-2xl font-black text-white/10 mb-2">LA GACETA</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Overlays */}
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                                                    <div className="bg-accent/80 p-3 rounded-full backdrop-blur-sm shadow-xl transform scale-75 group-hover:scale-100 transition-all duration-300">
+                                                        {isVideo ? (
+                                                            <Play size={24} className="text-white fill-white ml-1" />
+                                                        ) : (
+                                                            <ExternalLink size={24} className="text-white" />
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                {/* Badges & Text */}
+                                                <div className="absolute top-2 left-2 z-10">
+                                                    <span className={`text-[9px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${isVideo ? 'bg-red-600' : 'bg-blue-600'}`}>
+                                                        {item.source}
+                                                    </span>
+                                                </div>
+
+                                                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-8 text-white z-10">
+                                                    <div className="text-[11px] md:text-[10px] lg:text-[11px] font-bold leading-tight line-clamp-2 md:line-clamp-3 mb-1 group-hover:text-amber-300 transition-colors">
+                                                        {item.title}
+                                                    </div>
+                                                    {item.duration && (
+                                                        <div className="text-[9px] text-white/60 font-medium flex items-center gap-1">
+                                                            <Play size={8} fill="currentColor" /> {item.duration}
+                                                        </div>
+                                                    )}
+                                                    {item.date && (
+                                                        <div className="text-[9px] text-white/60 font-medium">
+                                                            {item.date}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </a>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
@@ -208,16 +343,49 @@ export default function QuienesSomos() {
                                     <Mic2 size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Podcasts y Audio</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {multimedia.podcasts.map((item, i) => (
-                                        <div key={i} className="aspect-square bg-white/5 rounded-lg border border-white/5 p-4 flex flex-col justify-end hover:scale-105 transition-transform cursor-pointer shadow-lg overflow-hidden group">
-                                            <div className="text-[10px] font-black text-white mb-1 leading-tight group-hover:text-blue-400 transition-colors">{item.title}</div>
-                                            <div className="text-[8px] text-white/40">{item.duration}</div>
-                                            <div className="mt-2 w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                                                <div className="h-full bg-blue-400 w-1/3" />
-                                            </div>
-                                        </div>
-                                    ))}
+                                <div className="grid grid-cols-2 gap-4">
+                                    {multimedia.podcasts.map((item, i) => {
+                                        const isYouTube = item.type === "YouTube";
+                                        const isSpotify = item.source === "Spotify";
+                                        const thumb = isYouTube && item.url ? getYouTubeThumbnail(item.url) : item.image;
+
+                                        return (
+                                            <a
+                                                key={i}
+                                                href={item.url}
+                                                target={item.url ? "_blank" : "_self"}
+                                                rel="noopener noreferrer"
+                                                className="aspect-square bg-navy-light/30 rounded-lg border border-white/5 p-4 flex flex-col justify-end hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg overflow-hidden group relative"
+                                            >
+                                                {/* Background Image / Gradient */}
+                                                <div className="absolute inset-0 z-0">
+                                                    {thumb ? (
+                                                        <img src={thumb} alt={item.title} className="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" />
+                                                    ) : (
+                                                        <div className={`w-full h-full bg-gradient-to-br ${isSpotify ? 'from-green-900/40 to-black' : 'from-purple-900/40 to-black'}`} />
+                                                    )}
+                                                </div>
+
+                                                {/* Icon Overlay */}
+                                                <div className="absolute top-3 right-3 z-10 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                    {isSpotify ? <div className="text-[#1DB954]"><Mic2 size={16} /></div> : null}
+                                                    {isYouTube ? <div className="text-red-500"><Youtube size={16} /></div> : null}
+                                                </div>
+
+                                                <div className="relative z-10">
+                                                    <div className="text-[10px] font-black text-white mb-1 leading-tight group-hover:text-blue-400 transition-colors line-clamp-3">
+                                                        {item.title}
+                                                    </div>
+                                                    <div className="text-[9px] text-white/50">{item.duration}</div>
+
+                                                    {/* Play Progress Bar (Visual only) */}
+                                                    <div className="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                                        <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : (isYouTube ? 'bg-red-500' : 'bg-blue-400')}`} />
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -252,10 +420,42 @@ export default function QuienesSomos() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {multimedia.books.map((item, i) => (
-                                        <div key={i} className={`aspect-[3/4] ${item.cover} rounded-md border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:rotate-3 hover:-translate-y-2 cursor-pointer flex items-center justify-center text-center relative overflow-hidden group`}>
-                                            <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent" />
-                                            <div className="relative z-10 text-[9px] font-black text-white uppercase tracking-tighter leading-tight group-hover:scale-110 transition-transform">{item.title}</div>
-                                        </div>
+                                        item.url ? (
+                                            <a
+                                                key={i}
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`aspect-[3/4] bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} rounded-lg border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group block`}
+                                            >
+                                                {/* Bg effect */}
+                                                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+
+                                                {/* Content */}
+                                                <div className="relative z-10 flex flex-col h-full justify-between py-2">
+                                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Libro</div>
+                                                    <div className="text-xs lg:text-sm font-black text-white uppercase tracking-tight leading-tight group-hover:text-amber-300 transition-colors">
+                                                        {item.title}
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        {item.available && (
+                                                            <div className="inline-block px-2 py-1 rounded-sm bg-green-500/20 border border-green-500/30 text-[8px] font-bold text-green-400 uppercase tracking-wider backdrop-blur-sm">
+                                                                Disponible Online
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                {/* Hover Icon */}
+                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                                    <ExternalLink size={12} className="text-amber-300" />
+                                                </div>
+                                            </a>
+                                        ) : (
+                                            <div key={i} className={`aspect-[3/4] bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} rounded-lg border border-white/10 p-4 shadow-xl flex items-center justify-center text-center relative overflow-hidden opacity-60 hover:opacity-100 transition-opacity`}>
+                                                <div className="relative z-10 text-[9px] font-black text-white uppercase tracking-tighter leading-tight">{item.title}</div>
+                                            </div>
+                                        )
                                     ))}
                                 </div>
                             </div>
