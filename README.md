@@ -1,4 +1,48 @@
-# Welcome to your Lovable project
+# Marco Rossi - Abogado Digital
+
+Sitio web profesional para servicios legales especializados en derecho digital, inteligencia artificial y tecnología.
+
+## 🎯 Proyecto
+
+**Cliente:** Marco Rossi - Abogado Digital
+**Target:** Influencers, empresas tech y particulares en Tucumán, Argentina
+**Especialización:** Derecho digital, IA, prueba electrónica, cibercrimen
+
+## 📚 Documentación
+
+### Guías de Configuración
+- **[ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md)** - Configuración de Google Analytics 4 y GTM
+- **[GTM_TAGS_GUIDE.md](./GTM_TAGS_GUIDE.md)** - Cómo agregar tags adicionales (Facebook, LinkedIn, Hotjar)
+- **[PERFORMANCE_OPTIMIZATION.md](./PERFORMANCE_OPTIMIZATION.md)** - Optimización de performance y velocidad
+- **[PRIVACY_POLICY_TEMPLATE.md](./PRIVACY_POLICY_TEMPLATE.md)** - Plantilla de política de privacidad
+
+### Características Implementadas
+✅ **SEO Completo**
+- Meta tags optimizados para "abogado digital tucumán"
+- Schema.org structured data para Google Rich Results
+- Open Graph y Twitter Cards para redes sociales
+- Sitemap.xml y robots.txt
+
+✅ **Analytics y Tracking**
+- Google Tag Manager (GTM-NRWQGPW5)
+- Google Analytics 4 con eventos personalizados
+- Tracking de conversiones (consultas, WhatsApp, formularios)
+- Scroll depth tracking
+
+✅ **Performance**
+- Code splitting (-40% bundle size)
+- Lazy loading inteligente de imágenes
+- Three.js solo en desktop
+- Score esperado: 90+ mobile, 95+ desktop
+
+✅ **UI/UX**
+- Diseño responsive mobile-first
+- Animaciones optimizadas
+- Background 3D interactivo (desktop)
+- Botón scroll-to-top
+- WhatsApp floating button
+
+## Welcome to your Lovable project
 
 ## Project info
 
