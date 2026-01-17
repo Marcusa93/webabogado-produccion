@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MessageCircle, Send, Mail, Clock, CheckCircle, Shield, Zap } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
+import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 
 export default function Contacto() {
   const { ref, isInView } = useInView({ threshold: 0.1 });
@@ -17,6 +18,10 @@ export default function Contacto() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Track form submission
+    trackContactFormSubmit('email');
+    trackConsultationRequest();
+
     // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
@@ -30,10 +35,14 @@ export default function Contacto() {
   };
 
   const handleWhatsApp = () => {
+    // Track WhatsApp click
+    trackWhatsAppClick('contact_section');
+    trackConsultationRequest();
+
     const message = encodeURIComponent(
       'Hola Marco, me gustaría agendar una consulta inicial estratégica.'
     );
-    window.open(`https://wa.me/5491100000000?text=${message}`, '_blank');
+    window.open(`https://wa.me/5493813007791?text=${message}`, '_blank');
   };
 
   return (
@@ -112,7 +121,7 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-black text-navy-deep">Envío Seguro</h3>
-                    <p className="text-sm text-slate/40 font-bold uppercase tracking-tighter">contacto@marcorossi.com.ar</p>
+                    <p className="text-sm text-slate/40 font-bold uppercase tracking-tighter">dr.marcorossi9@gmail.com</p>
                   </div>
                 </div>
 
