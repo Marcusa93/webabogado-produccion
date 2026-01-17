@@ -1,4 +1,4 @@
-import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, Play, ExternalLink, Lightbulb } from 'lucide-react';
+import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, Play, ExternalLink, Lightbulb, ChevronDown, ChevronUp, Users, Building } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useRef, useState, useEffect } from 'react';
 
@@ -49,6 +49,14 @@ const multimedia = {
             badgeColor: "bg-red-600"
         },
         {
+            title: "Charla en La Gaceta: El futuro de la Justicia Digital",
+            shortTitle: "Charla La Gaceta - Tecnología y Justicia",
+            type: "Video",
+            source: "LA GACETA TV",
+            url: "https://www.youtube.com/watch?v=PbbiO69oV9w&t=5s",
+            badgeColor: "bg-red-600"
+        },
+        {
             title: "Quién es Marco Rossi: el abogado que pone a Tucumán en el mapa de la mano de la IA",
             shortTitle: "Nota Show Online",
             type: "Artículo",
@@ -56,6 +64,14 @@ const multimedia = {
             url: "https://showonline.com.ar/contenido/11110/quien-es-marco-rossi-el-abogado-que-pone-a-tucuman-en-el-mapa-de-la-mano-de-la-i",
             date: "Nov 2024",
             badgeColor: "bg-indigo-600"
+        },
+        {
+            title: "Inteligencia Artificial en el ejercicio legal",
+            shortTitle: "Entrevista sobre IA y Derecho",
+            type: "Video",
+            source: "ENTREVISTA",
+            url: "https://www.youtube.com/watch?v=cBHpaYR9QlE&t=1s",
+            badgeColor: "bg-emerald-600"
         },
         {
             title: "Marco Rossi: 'La Justicia también puede innovar y humanizar'",
@@ -76,11 +92,19 @@ const multimedia = {
             badgeColor: "bg-orange-500"
         },
         {
-            title: "Entrevista en Vivo - Derecho y Tecnología",
-            shortTitle: "Entrevista Stream",
-            type: "Stream",
-            source: "Live Stream",
-            url: "https://youtu.be/4hdbqTF6WBc?si=UB0iW3I4SP6Vyu2C",
+            title: "Marco Rossi: 'Hoy todos somos informáticos'",
+            shortTitle: "Entrevista Enterate Noticias",
+            type: "Artículo",
+            source: "ENTERATE",
+            url: "https://www.enteratenoticias.com.ar/actualidad/marco-rossi-hoy-todos-somos-informaticos/",
+            badgeColor: "bg-amber-500"
+        },
+        {
+            title: "Debate sobre Inteligencia Artificial en el ámbito legal",
+            shortTitle: "Debate Profesional IA",
+            type: "Video",
+            source: "PANEL",
+            url: "https://www.youtube.com/watch?v=l-EeDpqTX-I",
             badgeColor: "bg-red-500"
         }
     ],
@@ -112,6 +136,7 @@ const multimedia = {
         }
     ],
     publications: [
+        { title: "Inteligencia artificial y mediación: Una nueva herramienta para resolver conflictos", media: "elDial.com", year: "2024", badgeColor: "bg-green-600" },
         { title: "La prueba electrónica en el CPCyCN", media: "Revista de Derecho Procesal", year: "2024" },
         { title: "Inteligencia Artificial y Debido Proceso", media: " Thomson Reuters", year: "2023" },
         { title: "Cibercrimen: Nuevos paradigmas", media: "IJ Editores", year: "2023" },
@@ -125,6 +150,15 @@ const multimedia = {
             available: true,
             isHighlight: true
         },
+        {
+            title: "Impacto de la Inteligencia Artificial en el ámbito legal",
+            subTitle: "Obra colectiva - Editorial Hammurabi",
+            url: "https://www.hammurabi.com.ar/productos/leguizamon-lozano-impacto-de-la-inteligencia-artificial-en-el-ambito-legal/",
+            cover: "from-purple-900 to-indigo-900",
+            authors: "Leguizamón, Lozano, Rossi...",
+            pages: "274 páginas",
+            isCoauthor: true
+        },
         { title: "Tratado de la Prueba Digital", cover: "from-blue-600/20 to-blue-900/40" },
         { title: "Manual de Derecho Informático", cover: "from-navy-light to-navy-deep" },
         { title: "Estrategias de Litigación Tech", cover: "from-accent/10 to-accent/30" }
@@ -134,6 +168,7 @@ const multimedia = {
 export default function QuienesSomos() {
     const { ref, isInView } = useInView({ threshold: 0.1 });
     const [activeProfile, setActiveProfile] = useState<string | null>(null);
+    const [showAllInterviews, setShowAllInterviews] = useState(false);
 
     // 3D Tilt effect logic for Marco's photo/card
     const marcoCardRef = useRef<HTMLDivElement>(null);
@@ -268,10 +303,10 @@ export default function QuienesSomos() {
                                     <Tv size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Entrevistas y TV</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {multimedia.interviews.map((item, i) => {
-                                        const isVideo = item.source === "YouTube";
-                                        const thumbnailUrl = isVideo ? getYouTubeThumbnail(item.url!) : null;
+                                <div className={`grid grid-cols-2 gap-4 ${showAllInterviews ? '' : 'max-h-[600px] overflow-hidden'}`}>
+                                    {multimedia.interviews.slice(0, showAllInterviews ? undefined : 4).map((item, i) => {
+                                        const isVideo = item.url?.includes("youtu") || item.type === "Stream" || item.type === "Video";
+                                        const thumbnailUrl = isVideo && item.url ? getYouTubeThumbnail(item.url) : null;
 
                                         return (
                                             <a
@@ -292,8 +327,8 @@ export default function QuienesSomos() {
                                                             loading="lazy"
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full bg-gradient-to-br from-blue-900 to-navy-deep p-4 flex flex-col justify-center items-center text-center">
-                                                            <span className="text-2xl font-black text-white/10 mb-2">LA GACETA</span>
+                                                        <div className={`w-full h-full bg-gradient-to-br from-gray-800 to-navy-deep p-4 flex flex-col justify-center items-center text-center`}>
+                                                            <span className="text-xl font-black text-white/20 uppercase break-words w-full px-2">{item.source}</span>
                                                         </div>
                                                     )}
                                                 </div>
@@ -311,14 +346,14 @@ export default function QuienesSomos() {
 
                                                 {/* Badges & Text */}
                                                 <div className="absolute top-2 left-2 z-10">
-                                                    <span className={`text-[9px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${isVideo ? 'bg-red-600' : 'bg-blue-600'}`}>
+                                                    <span className={`text-[9px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${item.badgeColor || 'bg-blue-600'}`}>
                                                         {item.source}
                                                     </span>
                                                 </div>
 
-                                                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-8 text-white z-10">
-                                                    <div className="text-[11px] md:text-[10px] lg:text-[11px] font-bold leading-tight line-clamp-2 md:line-clamp-3 mb-1 group-hover:text-amber-300 transition-colors">
-                                                        {item.title}
+                                                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-10 text-white z-10">
+                                                    <div className="text-[10px] lg:text-[11px] font-bold leading-tight line-clamp-2 md:line-clamp-3 mb-1 group-hover:text-amber-300 transition-colors">
+                                                        {item.shortTitle || item.title}
                                                     </div>
                                                     {item.duration && (
                                                         <div className="text-[9px] text-white/60 font-medium flex items-center gap-1">
@@ -335,6 +370,21 @@ export default function QuienesSomos() {
                                         );
                                     })}
                                 </div>
+
+                                {multimedia.interviews.length > 4 && (
+                                    <div className="mt-8 flex justify-center">
+                                        <button
+                                            onClick={() => setShowAllInterviews(!showAllInterviews)}
+                                            className="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white text-xs font-bold hover:bg-white/10 transition-all flex items-center gap-2"
+                                        >
+                                            {showAllInterviews ? (
+                                                <>Ver menos <ChevronUp size={14} /></>
+                                            ) : (
+                                                <>Ver más contenido ({multimedia.interviews.length - 4} más) <ChevronDown size={14} /></>
+                                            )}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Podcasts */}
@@ -428,27 +478,50 @@ export default function QuienesSomos() {
                                                 rel="noopener noreferrer"
                                                 className={`aspect-[3/4] bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} rounded-lg border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group block`}
                                             >
-                                                {/* Bg effect */}
-                                                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+                                                {/* Bg effect or Image */}
+                                                {item.image ? (
+                                                    <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                                                ) : (
+                                                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+                                                )}
+
 
                                                 {/* Content */}
-                                                <div className="relative z-10 flex flex-col h-full justify-between py-2">
-                                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Libro</div>
-                                                    <div className="text-xs lg:text-sm font-black text-white uppercase tracking-tight leading-tight group-hover:text-amber-300 transition-colors">
-                                                        {item.title}
-                                                    </div>
-                                                    <div className="mt-2">
-                                                        {item.available && (
-                                                            <div className="inline-block px-2 py-1 rounded-sm bg-green-500/20 border border-green-500/30 text-[8px] font-bold text-green-400 uppercase tracking-wider backdrop-blur-sm">
-                                                                Disponible Online
+                                                {!item.image && (
+                                                    <div className={`relative z-10 flex flex-col h-full justify-between py-2 ${item.isCoauthor ? 'items-start text-left' : 'items-center text-center'}`}>
+                                                        <div className="w-full">
+                                                            <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">
+                                                                {item.isCoauthor ? <span className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-2 py-0.5 rounded text-[8px]">COAUTOR</span> : 'Libro'}
+                                                            </div>
+                                                            <div className="text-xs lg:text-sm font-black text-white uppercase tracking-tight leading-tight group-hover:text-amber-300 transition-colors line-clamp-4">
+                                                                {item.title}
+                                                            </div>
+                                                            {item.subTitle && (
+                                                                <div className="text-[9px] text-white/60 mt-1 leading-tight">{item.subTitle}</div>
+                                                            )}
+                                                        </div>
+
+                                                        {item.isCoauthor && (
+                                                            <div className="mt-2 text-[8px] text-white/50 space-y-1">
+                                                                <div className="flex items-center gap-1"><Users size={10} /> {item.authors}</div>
+                                                                <div className="flex items-center gap-1"><BookOpen size={10} /> {item.pages}</div>
                                                             </div>
                                                         )}
                                                     </div>
-                                                </div>
+                                                )}
+
+                                                {/* Badge for Available */}
+                                                {(item.available && !item.image) && (
+                                                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                                                        <div className="inline-block px-2 py-1 rounded-sm bg-green-500/20 border border-green-500/30 text-[8px] font-bold text-green-400 uppercase tracking-wider backdrop-blur-sm">
+                                                            Disponible
+                                                        </div>
+                                                    </div>
+                                                )}
 
                                                 {/* Hover Icon */}
-                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                                                    <ExternalLink size={12} className="text-amber-300" />
+                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-20">
+                                                    <ExternalLink size={12} className={item.image ? "text-white drop-shadow-md" : "text-amber-300"} />
                                                 </div>
                                             </a>
                                         ) : (
