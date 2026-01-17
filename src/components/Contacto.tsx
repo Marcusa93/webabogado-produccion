@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MessageCircle, Send, Mail, Clock, CheckCircle, Shield, Zap } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
+import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 
 export default function Contacto() {
   const { ref, isInView } = useInView({ threshold: 0.1 });
@@ -17,6 +18,10 @@ export default function Contacto() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Track form submission
+    trackContactFormSubmit('email');
+    trackConsultationRequest();
+
     // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
@@ -30,6 +35,10 @@ export default function Contacto() {
   };
 
   const handleWhatsApp = () => {
+    // Track WhatsApp click
+    trackWhatsAppClick('contact_section');
+    trackConsultationRequest();
+
     const message = encodeURIComponent(
       'Hola Marco, me gustaría agendar una consulta inicial estratégica.'
     );

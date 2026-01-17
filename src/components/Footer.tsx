@@ -1,5 +1,6 @@
 import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp } from 'lucide-react';
 import logo from '@/assets/logo-white.svg';
+import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
 
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
@@ -32,6 +33,16 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSocialClick = (platform: string) => {
+    if (platform === 'WhatsApp') {
+      trackWhatsAppClick('footer');
+    } else if (platform === 'Email') {
+      trackEmailClick('footer');
+    } else {
+      trackSocialClick(platform.toLowerCase(), 'footer');
+    }
+  };
+
   return (
     <footer className="relative bg-primary py-16 md:py-20 overflow-hidden">
       {/* Background */}
@@ -57,6 +68,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => handleSocialClick(social.label)}
                   className="w-12 h-12 flex items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground transition-all duration-300"
                   aria-label={social.label}
                 >
