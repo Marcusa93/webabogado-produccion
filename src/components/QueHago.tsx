@@ -111,7 +111,7 @@ export default function QueHago() {
           {specialties.map((item, index) => (
             <div
               key={index}
-              className="tech-card p-8 md:p-10 rounded-3xl bg-white/80 backdrop-blur-sm shadow-soft border border-navy-deep/5 transition-all duration-500 hover:shadow-strong group flex flex-col"
+              className="tech-card p-8 md:p-10 rounded-3xl bg-white/80 backdrop-blur-sm shadow-soft border border-navy-deep/5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 group flex flex-col"
               style={{
                 '--mouse-x': `${mousePos.x}px`,
                 '--mouse-y': `${mousePos.y}px`,

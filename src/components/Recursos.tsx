@@ -1,35 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { FileCode, BookOpen, Microscope, ArrowUpRight, CheckCircle2, Clock } from 'lucide-react';
-
-const modules = [
-  {
-    icon: BookOpen,
-    title: "Publicaciones",
-    version: "2025 Ed.",
-    status: "disponible",
-    desc: "Manuales y artículos académicos sobre la intersección entre sistemas, datos y derechos fundamentales."
-  },
-  {
-    icon: Microscope,
-    title: "Clases & Cursos",
-    version: "v2.5",
-    status: "inscripciones abiertas",
-    desc: "Material de cátedra universitaria y capacitaciones ejecutivas en derecho tecnológico y ciberseguridad."
-  },
-  {
-    icon: FileCode,
-    title: "Modelos & Protocolos",
-    version: "v1.2.0",
-    status: "disponible",
-    desc: "Herramientas técnicas y marcos legales pre-diseñados para la gobernanza de datos y privacidad."
-  }
-];
-
-const roadmap = [
-  { q: "Q1 2025", task: "Lanzamiento Libro: IA & Proceso Judicial", status: "completed" },
-  { q: "Q2 2025", task: "Seminario: Litigio en Entornos Digitales", status: "in-progress" },
-  { q: "Q3 2025", task: "Publicación: Reporte Anual de Tech Law", status: "planned" }
-];
+import { ArrowRight, ExternalLink, Box } from 'lucide-react';
 
 export default function Recursos() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -51,94 +21,78 @@ export default function Recursos() {
   }, []);
 
   return (
-    <section id="recursos" ref={sectionRef} className="py-24 md:py-32 bg-ice-blue relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
+    <section id="recursos" ref={sectionRef} className="py-32 md:py-40 relative overflow-hidden bg-[#0F0F0F]">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1a0529] to-black opacity-80" />
+      <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_#7B2CBF_0%,_transparent_40%)] opacity-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,_#00E5FF_0%,_transparent_40%)] opacity-10 pointer-events-none" />
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.03]"
+        style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+      />
 
       <div className="section-container relative z-10">
-        <div className="grid lg:grid-cols-3 gap-16 lg:gap-24">
-          {/* Left Column: Lab Info */}
-          <div className="lg:col-span-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-deep/5 border border-navy-deep/10 mb-8">
-              <span className="text-[10px] font-bold tracking-[0.2em] text-navy-deep/60 uppercase font-montserrat">Biblioteca & Publicaciones</span>
-            </div>
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-[#121212] border border-white/10 rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden group hover:border-[#7B2CBF]/30 transition-colors duration-500 shadow-2xl">
 
-            <h2 className="text-4xl md:text-5xl font-black text-navy-deep mb-8 leading-tight font-montserrat">
-              Recursos de <br />
-              <span className="text-accent underline decoration-accent/30 underline-offset-8">Marco Rossi.</span>
-            </h2>
+            {/* Glow Effect following mouse */}
+            <div
+              className="absolute pointer-events-none w-[500px] h-[500px] bg-[#7B2CBF] rounded-full mix-blend-screen filter blur-[100px] opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+              style={{
+                left: mousePos.x - 250,
+                top: mousePos.y - 250,
+              } as React.CSSProperties}
+            />
 
-            <p className="text-lg md:text-xl text-slate font-medium leading-relaxed mb-12 max-w-2xl">
-              Un repositorio de conocimiento donde el derecho se encuentra con la tecnología. Guías, manuales y herramientas para navegar la era digital.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20 relative z-10">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {modules.map((mod, i) => (
-                <div key={i} className="tech-card p-8 rounded-3xl bg-white border border-navy-deep/5 group hover:shadow-strong transition-all duration-500"
-                  style={{
-                    '--mouse-x': `${mousePos.x}px`,
-                    '--mouse-y': `${mousePos.y}px`,
-                  } as React.CSSProperties}>
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all">
-                      <mod.icon size={24} />
-                    </div>
-                    <span className="font-mono text-[10px] font-bold text-navy-deep/40 bg-navy-deep/5 px-2 py-1 rounded tracking-tighter">
-                      {mod.version}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-navy-deep mb-3 font-montserrat">{mod.title}</h3>
-                  <p className="text-slate text-sm leading-relaxed mb-6">
-                    {mod.desc}
-                  </p>
-                  <div className="flex items-center justify-between pt-6 border-t border-navy-deep/5">
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${mod.status === 'disponible' ? 'text-blue-500' : 'text-navy-deep/30'}`}>
-                      {mod.status}
-                    </span>
-                    <button className="text-navy-deep group-hover:text-accent transition-colors">
-                      <ArrowUpRight size={18} />
-                    </button>
-                  </div>
+              {/* Logo Column */}
+              <div className="flex-shrink-0 relative">
+                <div className="w-48 h-48 md:w-56 md:h-56 relative flex items-center justify-center p-4">
+                  {/* Decorative Rings */}
+                  <div className="absolute inset-0 border border-[#7B2CBF]/20 rounded-full animate-[spin_10s_linear_infinite]" />
+                  <div className="absolute inset-4 border border-[#00E5FF]/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+
+                  {/* Logo Image */}
+                  <img
+                    src="/ready-lawyer-one.jpg"
+                    alt="Ready Lawyer One Logo"
+                    className="w-full h-full object-contain drop-shadow-[0_0_25px_rgba(123,44,191,0.6)] rounded-full hover:drop-shadow-[0_0_35px_rgba(0,229,255,0.4)] transition-all duration-500"
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Roadmap */}
-          <div className="lg:col-span-1">
-            <div className="p-10 rounded-[2.5rem] bg-navy-deep text-white shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <BookOpen size={120} />
               </div>
 
-              <h3 className="text-2xl font-black mb-10 font-montserrat">Próximos Pasos</h3>
+              {/* Content Column */}
+              <div className="flex-1 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7B2CBF]/10 border border-[#7B2CBF]/20 mb-6 backdrop-blur-md">
+                  <Box size={14} className="text-[#00E5FF]" />
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[#00E5FF] uppercase shadow-[#00E5FF]/20 drop-shadow-sm">Tech & Law Innovation</span>
+                </div>
 
-              <div className="space-y-10 relative">
-                {/* Timeline line */}
-                <div className="absolute left-3 top-2 bottom-2 w-px bg-white/10" />
+                <h2 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight font-montserrat tracking-tight">
+                  Ready Lawyer One
+                </h2>
+                <h3 className="text-lg md:text-xl text-[#7B2CBF] font-bold mb-6 font-mono tracking-wide">
+                  Fundador y Miembro de la Comunidad
+                </h3>
 
-                {roadmap.map((item, i) => (
-                  <div key={i} className="relative pl-10 group">
-                    <div className={`absolute left-0 top-1.5 w-6 h-6 rounded-full border-4 border-navy-deep z-10 flex items-center justify-center transition-all ${item.status === 'completed' ? 'bg-accent' : item.status === 'in-progress' ? 'bg-blue-500 animate-pulse' : 'bg-white/10'}`}>
-                      {item.status === 'completed' && <CheckCircle2 size={12} className="text-white" />}
-                      {item.status === 'in-progress' && <Clock size={12} className="text-white" />}
-                    </div>
-
-                    <div className="text-[10px] font-black tracking-widest text-accent uppercase mb-1 font-montserrat">
-                      {item.q}
-                    </div>
-                    <div className={`text-sm font-bold leading-snug transition-colors ${item.status === 'planned' ? 'text-white/40' : 'text-white'}`}>
-                      {item.task}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-16 pt-10 border-t border-white/5">
-                <p className="text-xs text-white/30 font-medium leading-relaxed italic">
-                  * Publicaciones y lanzamientos sujetos a la agenda de investigación académica y profesional.
+                <p className="text-[#F0F0F0] text-lg leading-relaxed mb-10 max-w-xl mx-auto md:mx-0 font-medium">
+                  Formación especializada y herramientas tech para la nueva generación de abogados.
                 </p>
+
+                <a
+                  href="https://readylawyer1.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-[#7B2CBF] text-white font-bold rounded-xl hover:bg-[#9D4EDD] hover:brightness-110 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(123,44,191,0.3)] hover:shadow-[0_0_30px_rgba(123,44,191,0.6)] group/btn"
+                >
+                  <span>Conocer Ready Lawyer One</span>
+                  <ExternalLink size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                </a>
               </div>
             </div>
+
           </div>
         </div>
       </div>

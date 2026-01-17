@@ -75,12 +75,12 @@ export default function Navigation() {
       </button>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-          ? 'glass border-b border-border/50 shadow-soft py-2 md:py-3'
-          : 'bg-transparent py-4 md:py-6'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[80px] flex items-center ${isScrolled
+          ? 'glass border-b border-border/50 shadow-soft'
+          : 'bg-transparent'
           }`}
       >
-        <nav className="section-container">
+        <nav className="section-container w-full">
           <div className="flex items-center justify-end lg:justify-between">
 
             {/* Logo */}
@@ -95,7 +95,7 @@ export default function Navigation() {
               <img
                 src={isScrolled ? logoNavy : logoWhite}
                 alt="Marco Rossi Abogado"
-                className="h-8 md:h-10 lg:h-12 w-auto transition-all duration-500"
+                className="h-10 md:h-12 w-auto transition-all duration-500"
               />
             </a>
 

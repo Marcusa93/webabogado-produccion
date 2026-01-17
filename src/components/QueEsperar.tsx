@@ -1,31 +1,26 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { ClipboardCheck, DollarSign, Search, Users, MessageSquare, ShieldCheck } from 'lucide-react';
+import { ClipboardCheck, DollarSign, CheckCircle, Calendar, Heart } from 'lucide-react';
 
 const expectations = [
     {
-        icon: ClipboardCheck,
-        title: "Evaluación responsable del caso",
-        description: "Analizamos cada consulta con criterio jurídico y probatorio. No tomamos todos los casos. Aceptamos aquellos en los que creemos que podemos aportar una estrategia seria y técnicamente sostenible. Si consideramos que no es conveniente litigar, lo decimos con claridad."
+        icon: CheckCircle,
+        title: "Evaluación técnica",
+        description: "Análisis jurídico riguroso. Solo asumimos casos donde podamos aportar valor real. Transparencia total desde el inicio."
     },
     {
         icon: DollarSign,
-        title: "Honorarios y costos",
-        description: "Nuestro trabajo es profesional y tiene costo. Informamos con transparencia los honorarios y los gastos estimados antes de iniciar cualquier intervención. Evitamos prometer resultados y también evitamos sorpresas económicas: todo se acuerda por escrito."
+        title: "Costos claros",
+        description: "Honorarios transparentes desde el primer día. Somos tu estudio de confianza."
     },
     {
-        icon: Search,
-        title: "Cómo saber si podemos asumir tu caso",
-        description: "Podés solicitar una consulta inicial. En esa instancia revisamos la situación, la documentación disponible y la prueba digital vinculada al conflicto. A partir de ese encuentro definimos si corresponde avanzar y en qué modalidad de intervención."
+        icon: Calendar,
+        title: "Consulta inicial",
+        description: "Evaluamos tu caso en la primera reunión. Revisamos documentación y definimos estrategia juntos."
     },
     {
-        icon: Users,
-        title: "Trabajo pro bono",
-        description: "Destinamos un cupo limitado de casos pro bono a situaciones de especial vulnerabilidad o relevancia social. La selección de estos casos es discrecional del estudio y se realiza mediante evaluación fundada. Entendemos que el ejercicio profesional también tiene una dimensión de responsabilidad pública."
-    },
-    {
-        icon: MessageSquare,
-        title: "Cómo contactarnos",
-        description: "Atendemos únicamente con agenda previa. Podés escribirnos a través del formulario de contacto del sitio o por los canales de comunicación indicados. Toda la información que nos envíes es tratada con confidencialidad profesional."
+        icon: Heart,
+        title: "Casos pro bono",
+        description: "Reservamos cupo para casos de alta relevancia social o vulnerabilidad. Selección por evaluación técnica."
     }
 ];
 
@@ -76,35 +71,23 @@ export default function QueEsperar() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-8 gap-6 max-w-5xl mx-auto mb-16">
                     {expectations.map((item, index) => (
                         <div
                             key={index}
-                            className={`tech-card p-8 md:p-10 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white hover:shadow-2xl group ${index === 3 || index === 4 ? 'lg:col-span-1.5 md:col-span-1' : ''
-                                }`}
-                            style={{
-                                '--mouse-x': `${mousePos.x}px`,
-                                '--mouse-y': `${mousePos.y}px`,
-                            } as React.CSSProperties}
+                            className="p-8 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-white/10 group"
                         >
-                            <div className="relative z-10">
-                                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-accent mb-8 group-hover:bg-navy-deep/5 transition-all duration-500 group-hover:scale-110">
-                                    <item.icon size={28} />
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-bold text-accent group-hover:text-navy-deep mb-4 transition-colors font-montserrat leading-snug">
-                                    {item.title}
-                                </h3>
-                                <p className="text-white/40 group-hover:text-navy-deep/70 text-base leading-relaxed font-medium transition-colors">
-                                    {item.description}
-                                </p>
+                            <div className="w-12 h-12 mb-4 text-blue-600">
+                                <item.icon size={48} strokeWidth={1.5} />
                             </div>
+                            <h3 className="text-xl font-bold text-navy-deep mb-3 font-montserrat">
+                                {item.title}
+                            </h3>
+                            <p className="text-slate text-base leading-relaxed font-medium">
+                                {item.description}
+                            </p>
                         </div>
                     ))}
-
-                    {/* Decorative block */}
-                    <div className="hidden lg:flex p-10 rounded-3xl border border-white/5 items-center justify-center opacity-20 grayscale">
-                        <ShieldCheck size={80} className="text-white/20" />
-                    </div>
                 </div>
 
                 <div className="flex justify-center">

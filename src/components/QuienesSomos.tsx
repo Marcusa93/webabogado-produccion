@@ -1,4 +1,4 @@
-import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, Play, ExternalLink, Lightbulb, ChevronDown, ChevronUp, Users, Building } from 'lucide-react';
+import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, Play, ExternalLink, Lightbulb, ChevronDown, ChevronUp, Users, Building, X, Instagram } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useRef, useState, useEffect } from 'react';
 
@@ -35,6 +35,57 @@ const getYouTubeVideoId = (url: string) => {
 const getYouTubeThumbnail = (url: string) => {
     const videoId = getYouTubeVideoId(url);
     return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+};
+
+const VideoModal = ({ video, onClose }: { video: any, onClose: () => void }) => {
+    const videoId = getYouTubeVideoId(video.url);
+
+    // Close on escape key
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        window.addEventListener('keydown', handleEsc);
+        document.body.style.overflow = 'hidden';
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+            document.body.style.overflow = 'unset';
+        };
+    }, [onClose]);
+
+    if (!videoId) return null;
+
+    return (
+        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
+            <div className="absolute inset-0" onClick={onClose} />
+            <div className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 border border-white/10">
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-sm"
+                >
+                    <X size={24} />
+                </button>
+                <div className="aspect-video w-full">
+                    <iframe
+                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                        title={video.title}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    />
+                </div>
+                <div className="p-6 bg-navy-deep border-t border-white/10">
+                    <h3 className="text-xl font-bold text-white mb-2">{video.title}</h3>
+                    <div className="flex items-center gap-3">
+                        <span className={`text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${video.badgeColor || 'bg-blue-600'}`}>
+                            {video.source}
+                        </span>
+                        {video.date && <span className="text-sm text-white/60">{video.date}</span>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 const multimedia = {
@@ -169,6 +220,7 @@ export default function QuienesSomos() {
     const { ref, isInView } = useInView({ threshold: 0.1 });
     const [activeProfile, setActiveProfile] = useState<string | null>(null);
     const [showAllInterviews, setShowAllInterviews] = useState(false);
+    const [selectedVideo, setSelectedVideo] = useState<any>(null);
 
     // 3D Tilt effect logic for Marco's photo/card
     const marcoCardRef = useRef<HTMLDivElement>(null);
@@ -279,8 +331,6 @@ export default function QuienesSomos() {
                     </div>
                 </div>
 
-                {/* Marco's Multimedia Block */}
-                {/* Marco's Multimedia Block & Presence */}
                 <div className={`mb-32 p-8 md:p-12 rounded-[3rem] bg-navy-deep relative overflow-hidden shadow-strong transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
                     <div className="absolute inset-0 tech-grid-dark opacity-5" />
 
@@ -295,10 +345,11 @@ export default function QuienesSomos() {
                             </button>
                         </div>
 
-                        {/* ROW 1: Interviews & Podcasts */}
-                        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-                            {/* Interviews */}
-                            <div>
+                        {/* MAIN GRID: Interviews, Podcasts, Instagram */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+
+                            {/* COLUMN 1: Interviews */}
+                            <div className="flex flex-col h-full">
                                 <div className="flex items-center gap-2 mb-6 text-accent">
                                     <Tv size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Entrevistas y TV</span>
@@ -309,16 +360,19 @@ export default function QuienesSomos() {
                                         const thumbnailUrl = isVideo && item.url ? getYouTubeThumbnail(item.url) : null;
 
                                         return (
-                                            <a
+                                            <div
                                                 key={i}
-                                                href={item.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                aria-label={`Ver ${item.title}`}
-                                                className="aspect-video bg-navy-light/30 rounded-xl border border-white/10 relative group cursor-pointer overflow-hidden shadow-lg hover:shadow-accent/20 transition-all duration-300 hover:scale-[1.03] block"
+                                                onClick={() => {
+                                                    if (isVideo) {
+                                                        setSelectedVideo(item);
+                                                    } else {
+                                                        window.open(item.url, '_blank', 'noopener,noreferrer');
+                                                    }
+                                                }}
+                                                className="aspect-[4/3] bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 relative group cursor-pointer overflow-hidden shadow-lg hover:shadow-[#4A90E2]/20 transition-all duration-300 hover:scale-105 block"
                                             >
                                                 {/* Image / Thumbnail */}
-                                                <div className="absolute inset-0 bg-navy-deep">
+                                                <div className="absolute inset-0 bg-[#161622]">
                                                     {isVideo && thumbnailUrl ? (
                                                         <img
                                                             src={thumbnailUrl}
@@ -327,7 +381,7 @@ export default function QuienesSomos() {
                                                             loading="lazy"
                                                         />
                                                     ) : (
-                                                        <div className={`w-full h-full bg-gradient-to-br from-gray-800 to-navy-deep p-4 flex flex-col justify-center items-center text-center`}>
+                                                        <div className={`w-full h-full bg-gradient-to-br from-[#1E1E2E] to-black p-4 flex flex-col justify-center items-center text-center`}>
                                                             <span className="text-xl font-black text-white/20 uppercase break-words w-full px-2">{item.source}</span>
                                                         </div>
                                                     )}
@@ -335,7 +389,7 @@ export default function QuienesSomos() {
 
                                                 {/* Overlays */}
                                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                                                    <div className="bg-accent/80 p-3 rounded-full backdrop-blur-sm shadow-xl transform scale-75 group-hover:scale-100 transition-all duration-300">
+                                                    <div className="bg-[#4A90E2]/80 p-3 rounded-full backdrop-blur-sm shadow-xl transform scale-75 group-hover:scale-100 transition-all duration-300">
                                                         {isVideo ? (
                                                             <Play size={24} className="text-white fill-white ml-1" />
                                                         ) : (
@@ -346,49 +400,38 @@ export default function QuienesSomos() {
 
                                                 {/* Badges & Text */}
                                                 <div className="absolute top-2 left-2 z-10">
-                                                    <span className={`text-[9px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${item.badgeColor || 'bg-blue-600'}`}>
+                                                    <span className={`text-[8px] font-black uppercase tracking-wider py-1 px-2 rounded-md text-white ${item.badgeColor || 'bg-blue-600'}`}>
                                                         {item.source}
                                                     </span>
                                                 </div>
 
-                                                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-10 text-white z-10">
-                                                    <div className="text-[10px] lg:text-[11px] font-bold leading-tight line-clamp-2 md:line-clamp-3 mb-1 group-hover:text-amber-300 transition-colors">
+                                                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-10 text-white z-10">
+                                                    <div className="text-[10px] font-bold leading-tight line-clamp-2 mb-1 group-hover:text-[#4A90E2] transition-colors shadow-black drop-shadow-md">
                                                         {item.shortTitle || item.title}
                                                     </div>
-                                                    {item.duration && (
-                                                        <div className="text-[9px] text-white/60 font-medium flex items-center gap-1">
-                                                            <Play size={8} fill="currentColor" /> {item.duration}
-                                                        </div>
-                                                    )}
-                                                    {item.date && (
-                                                        <div className="text-[9px] text-white/60 font-medium">
-                                                            {item.date}
-                                                        </div>
-                                                    )}
                                                 </div>
-                                            </a>
+                                            </div>
                                         );
                                     })}
                                 </div>
-
                                 {multimedia.interviews.length > 4 && (
-                                    <div className="mt-8 flex justify-center">
+                                    <div className="mt-6 flex justify-center">
                                         <button
                                             onClick={() => setShowAllInterviews(!showAllInterviews)}
-                                            className="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white text-xs font-bold hover:bg-white/10 transition-all flex items-center gap-2"
+                                            className="px-4 py-2 rounded-lg bg-[#1E1E2E] border border-[#4A90E2]/20 text-white text-[10px] font-bold hover:bg-[#4A90E2]/10 transition-all flex items-center gap-2 uppercase tracking-widest"
                                         >
                                             {showAllInterviews ? (
-                                                <>Ver menos <ChevronUp size={14} /></>
+                                                <>Ver menos <ChevronUp size={12} /></>
                                             ) : (
-                                                <>Ver más contenido ({multimedia.interviews.length - 4} más) <ChevronDown size={14} /></>
+                                                <>Ver más <ChevronDown size={12} /></>
                                             )}
                                         </button>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Podcasts */}
-                            <div>
+                            {/* COLUMN 2: Podcasts */}
+                            <div className="flex flex-col h-full">
                                 <div className="flex items-center gap-2 mb-6 text-blue-400">
                                     <Mic2 size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Podcasts y Audio</span>
@@ -397,40 +440,33 @@ export default function QuienesSomos() {
                                     {multimedia.podcasts.map((item, i) => {
                                         const isYouTube = item.type === "YouTube";
                                         const isSpotify = item.source === "Spotify";
-                                        const thumb = isYouTube && item.url ? getYouTubeThumbnail(item.url) : item.image;
-
                                         return (
                                             <a
                                                 key={i}
                                                 href={item.url}
                                                 target={item.url ? "_blank" : "_self"}
                                                 rel="noopener noreferrer"
-                                                className="aspect-square bg-navy-light/30 rounded-lg border border-white/5 p-4 flex flex-col justify-end hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg overflow-hidden group relative"
+                                                className="aspect-square bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 p-4 flex flex-col justify-end hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-[#4A90E2]/20 overflow-hidden group relative"
                                             >
-                                                {/* Background Image / Gradient */}
-                                                <div className="absolute inset-0 z-0">
-                                                    {thumb ? (
-                                                        <img src={thumb} alt={item.title} className="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" />
-                                                    ) : (
-                                                        <div className={`w-full h-full bg-gradient-to-br ${isSpotify ? 'from-green-900/40 to-black' : 'from-purple-900/40 to-black'}`} />
-                                                    )}
-                                                </div>
+                                                {/* Background Gradient */}
+                                                <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#252535] to-[#151520] group-hover:from-[#2a2a3e] group-hover:to-[#1a1a25] transition-colors" />
 
                                                 {/* Icon Overlay */}
-                                                <div className="absolute top-3 right-3 z-10 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                <div className="absolute top-3 right-3 z-10 opacity-50 group-hover:opacity-100 transition-opacity">
                                                     {isSpotify ? <div className="text-[#1DB954]"><Mic2 size={16} /></div> : null}
                                                     {isYouTube ? <div className="text-red-500"><Youtube size={16} /></div> : null}
+                                                    {!isSpotify && !isYouTube ? <div className="text-blue-400"><Radio size={16} /></div> : null}
                                                 </div>
 
                                                 <div className="relative z-10">
-                                                    <div className="text-[10px] font-black text-white mb-1 leading-tight group-hover:text-blue-400 transition-colors line-clamp-3">
+                                                    <div className="text-[10px] font-black text-white mb-2 leading-tight group-hover:text-[#4A90E2] transition-colors line-clamp-3">
                                                         {item.title}
                                                     </div>
                                                     <div className="text-[9px] text-white/50">{item.duration}</div>
 
-                                                    {/* Play Progress Bar (Visual only) */}
-                                                    <div className="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                                                        <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : (isYouTube ? 'bg-red-500' : 'bg-blue-400')}`} />
+                                                    {/* Visual Progress Bar */}
+                                                    <div className="mt-3 w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                                                        <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : 'bg-[#4A90E2]'}`} />
                                                     </div>
                                                 </div>
                                             </a>
@@ -438,24 +474,75 @@ export default function QuienesSomos() {
                                     })}
                                 </div>
                             </div>
+
+                            {/* COLUMN 3: Instagram Grid */}
+                            <div className="flex flex-col h-full">
+                                <div className="flex items-center gap-2 mb-6 text-[#E1306C]">
+                                    <Instagram size={20} />
+                                    <span className="font-black text-xs uppercase tracking-widest">Sígueme en Instagram</span>
+                                </div>
+
+                                {/* 2x3 Grid */}
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    {[
+                                        { caption: "Conferencia LegalTech 2024", type: "Event" },
+                                        { caption: "Justicia Digital en Córdoba", type: "Talk" },
+                                        { caption: "Nuevas oficinas Digital Justice", type: "Update" },
+                                        { caption: "Panel sobre IA Generativa", type: "Panel" },
+                                        { caption: "Columna en La Nación", type: "Press" },
+                                        { caption: "Workshop Ready Lawyer One", type: "Workshop" }
+                                    ].map((post, i) => (
+                                        <a
+                                            key={i}
+                                            href="https://www.instagram.com/marquitorossi/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="aspect-square bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 relative group overflow-hidden hover:scale-105 transition-all duration-300 hover:shadow-[#E1306C]/20 shadow-lg"
+                                        >
+                                            {/* Placeholder Gradient Content */}
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-[#1E1E2E] to-[#2D2D44] flex items-center justify-center p-2">
+                                                <Instagram size={24} className="text-white/5 group-hover:text-[#E1306C]/20 transition-colors" />
+                                            </div>
+
+                                            {/* Hover Overlay */}
+                                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <p className="text-[9px] text-white font-bold text-center leading-tight">
+                                                    {post.caption}
+                                                </p>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+
+                                <a
+                                    href="https://www.instagram.com/marquitorossi/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full py-3 rounded-xl bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCA777] text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all shadow-lg flex items-center justify-center gap-2 group"
+                                >
+                                    <Instagram size={16} />
+                                    <span>Ver perfil completo</span>
+                                    <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </a>
+                            </div>
+
                         </div>
 
-                        {/* ROW 2: Publications, Books & Instagram */}
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
-
+                        {/* ROW 2: Publications & Books */}
+                        <div className="grid md:grid-cols-2 gap-8 lg:gap-10 border-t border-white/5 pt-12">
                             {/* Publications */}
                             <div>
                                 <div className="flex items-center gap-2 mb-6 text-white/60">
                                     <BookOpen size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Publicaciones destacados</span>
                                 </div>
-                                <div className="space-y-4">
+                                <div className="grid grid-cols-1 gap-2">
                                     {multimedia.publications.map((item, i) => (
-                                        <div key={i} className="flex flex-col gap-1 group cursor-pointer border-b border-white/5 pb-3">
-                                            <div className="text-sm font-bold text-white group-hover:text-accent transition-colors leading-snug">{item.title}</div>
-                                            <div className="flex justify-between text-[10px] font-medium text-white/30">
-                                                <span>{item.media}</span>
-                                                <span>{item.year}</span>
+                                        <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-[#1E1E2E] border border-white/5 hover:border-[#4A90E2]/30 hover:bg-[#252535] transition-all group cursor-pointer">
+                                            <div className="text-xs font-bold text-white group-hover:text-[#4A90E2] transition-colors leading-snug pr-4">{item.title}</div>
+                                            <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                                                <span className="text-[9px] font-black uppercase text-white/30 tracking-wider text-right">{item.media}</span>
+                                                <span className="text-[9px] font-mono text-white/20">{item.year}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -468,7 +555,7 @@ export default function QuienesSomos() {
                                     <BookOpen size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Libros</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-3 gap-4">
                                     {multimedia.books.map((item, i) => (
                                         item.url ? (
                                             <a
@@ -476,92 +563,43 @@ export default function QuienesSomos() {
                                                 href={item.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className={`aspect-[3/4] bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} rounded-lg border border-white/10 p-4 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group block`}
+                                                className={`aspect-[3/4] bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 p-2 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group`}
                                             >
-                                                {/* Bg effect or Image */}
+                                                {/* Coauthor badge */}
+                                                {item.isCoauthor && (
+                                                    <div className="absolute top-2 right-2 z-20">
+                                                        <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_#a855f7]" />
+                                                    </div>
+                                                )}
+
                                                 {item.image ? (
-                                                    <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                                                    <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                                 ) : (
-                                                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+                                                    <div className={`absolute inset-0 bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} opacity-60 group-hover:opacity-80 transition-opacity`} />
                                                 )}
 
-
-                                                {/* Content */}
                                                 {!item.image && (
-                                                    <div className={`relative z-10 flex flex-col h-full justify-between py-2 ${item.isCoauthor ? 'items-start text-left' : 'items-center text-center'}`}>
-                                                        <div className="w-full">
-                                                            <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">
-                                                                {item.isCoauthor ? <span className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-2 py-0.5 rounded text-[8px]">COAUTOR</span> : 'Libro'}
-                                                            </div>
-                                                            <div className="text-xs lg:text-sm font-black text-white uppercase tracking-tight leading-tight group-hover:text-amber-300 transition-colors line-clamp-4">
-                                                                {item.title}
-                                                            </div>
-                                                            {item.subTitle && (
-                                                                <div className="text-[9px] text-white/60 mt-1 leading-tight">{item.subTitle}</div>
-                                                            )}
-                                                        </div>
-
-                                                        {item.isCoauthor && (
-                                                            <div className="mt-2 text-[8px] text-white/50 space-y-1">
-                                                                <div className="flex items-center gap-1"><Users size={10} /> {item.authors}</div>
-                                                                <div className="flex items-center gap-1"><BookOpen size={10} /> {item.pages}</div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
-
-                                                {/* Badge for Available */}
-                                                {(item.available && !item.image) && (
-                                                    <div className="absolute bottom-4 left-0 right-0 text-center">
-                                                        <div className="inline-block px-2 py-1 rounded-sm bg-green-500/20 border border-green-500/30 text-[8px] font-bold text-green-400 uppercase tracking-wider backdrop-blur-sm">
-                                                            Disponible
+                                                    <div className="relative z-10 p-2">
+                                                        <div className="text-[9px] font-black text-white uppercase leading-tight group-hover:text-amber-300 transition-colors line-clamp-3">
+                                                            {item.title}
                                                         </div>
                                                     </div>
                                                 )}
 
-                                                {/* Hover Icon */}
-                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-20">
-                                                    <ExternalLink size={12} className={item.image ? "text-white drop-shadow-md" : "text-amber-300"} />
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                                                    <ExternalLink size={16} className="text-white" />
                                                 </div>
                                             </a>
                                         ) : (
-                                            <div key={i} className={`aspect-[3/4] bg-gradient-to-br ${item.cover || 'from-neutral-800 to-neutral-900'} rounded-lg border border-white/10 p-4 shadow-xl flex items-center justify-center text-center relative overflow-hidden opacity-60 hover:opacity-100 transition-opacity`}>
-                                                <div className="relative z-10 text-[9px] font-black text-white uppercase tracking-tighter leading-tight">{item.title}</div>
+                                            <div key={i} className="aspect-[3/4] bg-[#1E1E2E] rounded-xl border border-white/5 p-2 flex items-center justify-center text-center opacity-40">
+                                                <div className="text-[8px] font-black text-white/50 uppercase">{item.title}</div>
                                             </div>
                                         )
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Instagram Feed (Column 3) */}
-                            <div className="md:col-span-2 lg:col-span-1 h-full">
-                                <div className="flex items-center gap-2 mb-6 text-[#E1306C]">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                                    <span className="font-black text-xs uppercase tracking-widest">Sígueme en Instagram</span>
-                                </div>
-                                <div className="bg-black rounded-xl overflow-hidden border border-white/10 shadow-lg h-[400px] lg:h-full min-h-[400px] relative">
-                                    <iframe
-                                        src="https://www.instagram.com/marquitorossi/embed"
-                                        width="100%"
-                                        height="100%"
-                                        frameBorder="0"
-                                        scrolling="no"
-                                        allowTransparency={true}
-                                        className="absolute inset-0 w-full h-full"
-                                        title="Instagram Feed"
-                                    >
-                                    </iframe>
-                                    {/* Fallback/Loading State behind iframe */}
-                                    <div className="absolute inset-0 flex items-center justify-center text-white/20 -z-10 bg-white/5">
-                                        <div className="text-center">
-                                            <div className="animate-spin w-8 h-8 border-2 border-current border-t-transparent rounded-full mx-auto mb-2" />
-                                            <span className="text-[10px] tracking-widest uppercase">Cargando Feeed...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
                     </div>
                 </div>
 
@@ -598,6 +636,10 @@ export default function QuienesSomos() {
                     ))}
                 </div>
             </div>
+            {/* Video Modal */}
+            {selectedVideo && (
+                <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />
+            )}
         </section>
     );
 }
