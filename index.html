@@ -23,8 +23,18 @@
     <meta name="theme-color" content="#1a2744" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/team/marco.jpg" as="image" type="image/jpeg" />
+
+    <!-- Resource hints for performance -->
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
