@@ -1,8 +1,41 @@
-# Google Analytics 4 - Configuración
+# Google Analytics 4 y Google Tag Manager - Configuración
 
-Este sitio web está configurado con Google Analytics 4 (GA4) para trackear el comportamiento de usuarios y conversiones.
+Este sitio web está configurado con:
+- **Google Tag Manager (GTM)** - ID: `GTM-NRWQGPW5` ✅ ACTIVO
+- **Google Analytics 4 (GA4)** - Para trackear comportamiento de usuarios y conversiones
 
-## 🔧 Configuración Inicial
+GTM actúa como contenedor que gestiona todos los tags de analytics, permitiendo agregar/modificar tracking sin cambiar código.
+
+## 🎯 Google Tag Manager (GTM) - YA CONFIGURADO
+
+### ✅ Estado Actual
+
+Google Tag Manager ya está instalado en el sitio con el ID: **GTM-NRWQGPW5**
+
+**Ubicación del código:**
+- Script principal: `index.html` línea 40-45 (en `<head>`)
+- Fallback noscript: `index.html` línea 208-210 (después de `<body>`)
+
+### ¿Qué es GTM y por qué es mejor?
+
+**Google Tag Manager** es un contenedor de tags que te permite:
+- ✅ Gestionar GA4, Facebook Pixel, LinkedIn Insight Tag desde una interfaz
+- ✅ Agregar/modificar tracking sin cambiar código del sitio
+- ✅ Publicar cambios instantáneamente sin re-deployar
+- ✅ Crear triggers y variables personalizadas
+- ✅ Versionar cambios y hacer rollback fácilmente
+
+**Ventaja:** Ya no necesitas editar código para agregar tracking. Todo se hace desde [tagmanager.google.com](https://tagmanager.google.com).
+
+### Acceder a GTM
+
+1. Ve a [https://tagmanager.google.com/](https://tagmanager.google.com/)
+2. Busca el contenedor **GTM-NRWQGPW5**
+3. Desde ahí puedes agregar tags de GA4, Facebook, LinkedIn, etc.
+
+---
+
+## 🔧 Configuración de Google Analytics 4 (a través de GTM)
 
 ### Paso 1: Crear cuenta de Google Analytics
 
@@ -25,7 +58,24 @@ Este sitio web está configurado con Google Analytics 4 (GA4) para trackear el c
    - **Stream name:** Marco Rossi Website
 5. Copia el **Measurement ID** (formato: `G-XXXXXXXXXX`)
 
-### Paso 3: Configurar el Measurement ID en el código
+### Paso 3: Agregar GA4 a Google Tag Manager (RECOMENDADO)
+
+**Opción A: A través de GTM (Recomendado - Sin código)**
+
+1. Ve a [https://tagmanager.google.com/](https://tagmanager.google.com/)
+2. Abre el contenedor **GTM-NRWQGPW5**
+3. Click en **Tags** → **New**
+4. Configurar tag:
+   - **Tag Configuration:** Google Analytics: GA4 Configuration
+   - **Measurement ID:** Pega tu `G-XXXXXXXXXX`
+   - **Trigger:** All Pages
+5. Click **Save** y luego **Submit** → **Publish**
+
+**Listo!** GA4 ya está funcionando sin tocar código.
+
+### Paso 3B: Configurar en código (Alternativa)
+
+Si prefieres hacerlo en código en lugar de GTM:
 
 Abre el archivo `/src/components/Analytics.tsx` y reemplaza:
 
@@ -50,6 +100,8 @@ export const trackPageView = (url: string) => {
   }
 };
 ```
+
+**Nota:** Si usas GTM (Opción A), estos archivos son opcionales pero siguen funcionando para eventos personalizados.
 
 ## 📊 Eventos Trackeados
 
