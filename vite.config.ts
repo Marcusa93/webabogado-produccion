@@ -17,13 +17,14 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     // Performance optimizations
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: mode === 'production', // Remove console.log in production
-        drop_debugger: true,
+    minify: 'esbuild', // Using esbuild (faster and included with Vite)
+    target: 'esnext',
+    // Remove console.log and debugger in production
+    ...(mode === 'production' && {
+      esbuild: {
+        drop: ['console', 'debugger'],
       },
-    },
+    }),
     // Code splitting for better caching
     rollupOptions: {
       output: {
