@@ -22,16 +22,41 @@ export default function Contacto() {
     trackContactFormSubmit('email');
     trackConsultationRequest();
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/dr.marcorossi9@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Nueva consulta de ${formData.name}`,
+          _template: 'table',
+          _captcha: 'false'
+        })
+      });
 
-    toast({
-      title: 'Mensaje enviado',
-      description: 'Te responderé a la brevedad. Gracias por contactarte.',
-    });
-
-    setFormData({ name: '', email: '', message: '' });
-    setIsSubmitting(false);
+      if (response.ok) {
+        toast({
+          title: 'Mensaje enviado con éxito',
+          description: 'Gracias por contactarte. Te responderé a la brevedad.',
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Error al enviar el mensaje');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error en el envío',
+        description: 'Hubo un problema. Por favor intenta por WhatsApp.',
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleWhatsApp = () => {
@@ -132,6 +157,7 @@ export default function Contacto() {
                     <div className="relative">
                       <input
                         required
+                        name="name"
                         type="text"
                         placeholder="Nombre completo o razón social"
                         value={formData.name}
@@ -150,6 +176,7 @@ export default function Contacto() {
                     <div className="relative">
                       <input
                         required
+                        name="email"
                         type="email"
                         placeholder="email@ejemplo.com o teléfono"
                         value={formData.email}
@@ -171,6 +198,7 @@ export default function Contacto() {
                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Caso</label>
                     <textarea
                       required
+                      name="message"
                       rows={4}
                       placeholder="Describe tu conflicto en 2-3 líneas..."
                       value={formData.message}
