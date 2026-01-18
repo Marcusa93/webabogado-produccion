@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FileCode, BookOpen, Microscope, ArrowUpRight, CheckCircle2, Clock } from 'lucide-react';
 import AnimatedUnderline from './AnimatedUnderline';
+import UnifiedCard from './UnifiedCard';
 
 const modules = [
   {
@@ -74,32 +75,30 @@ export default function Recursos() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {modules.map((mod, i) => (
-                <div key={i} className="tech-card p-8 rounded-3xl bg-white border border-navy-deep/5 group hover:shadow-strong transition-all duration-500"
-                  style={{
-                    '--mouse-x': `${mousePos.x}px`,
-                    '--mouse-y': `${mousePos.y}px`,
-                  } as React.CSSProperties}>
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all icon-hover">
-                      <mod.icon size={24} />
-                    </div>
+                <UnifiedCard
+                  key={i}
+                  icon={mod.icon}
+                  title={mod.title}
+                  description={mod.desc}
+                  variant="light"
+                  delay={i * 100}
+                  mouseGlow={true}
+                  className="flex flex-col"
+                >
+                  <div className="absolute top-8 right-8">
                     <span className="font-mono text-[10px] font-bold text-navy-deep/40 bg-navy-deep/5 px-2 py-1 rounded tracking-tighter">
                       {mod.version}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-navy-deep mb-3 font-montserrat">{mod.title}</h3>
-                  <p className="text-slate text-sm leading-relaxed mb-6">
-                    {mod.desc}
-                  </p>
-                  <div className="flex items-center justify-between pt-6 border-t border-navy-deep/5">
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${mod.status === 'disponible' ? 'text-blue-500' : 'text-navy-deep/30'}`}>
+                  <div className="flex items-center justify-between pt-6 border-t border-navy-deep/5 mt-auto">
+                    <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${mod.status === 'disponible' ? 'text-accent' : 'text-navy-deep/30'}`}>
                       {mod.status}
                     </span>
                     <button className="text-navy-deep group-hover:text-accent transition-colors">
                       <ArrowUpRight size={18} />
                     </button>
                   </div>
-                </div>
+                </UnifiedCard>
               ))}
             </div>
           </div>

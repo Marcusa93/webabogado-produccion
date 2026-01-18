@@ -36,6 +36,13 @@
     --slate-light: 215 20% 85%;
     --ice: 210 30% 96%;
     --ice-dark: 210 30% 92%;
+
+    /* Social Media & Tag Colors (full hex values) */
+    --whatsapp-green: #25D366;
+    --whatsapp-green-hover: #20BA5A;
+    --tags-red: #FF4444;
+    --spotify-green: #1DB954;
+    --instagram-pink: #E1306C;
   }
 
   .dark {
@@ -120,6 +127,14 @@
 }
 
 @layer utilities {
+  /*
+   * TRANSITION DURATION STANDARDS:
+   * - duration-300: Hover effects, simple interactions (buttons, icons)
+   * - duration-500: Card/element entrance, medium transitions
+   * - duration-700: Section entrance, title animations
+   * - duration-1000: Major transitions, complex animations
+   */
+
   .tech-grid {
     background-image:
       linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
@@ -216,5 +231,59 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Fade In Animation */
+  .animate-fade-in {
+    opacity: 0;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Fade In Up Animation */
+  .animate-fade-in-up {
+    opacity: 0;
+    animation: fade-in-up 0.7s ease-out forwards;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Enhanced Tap Target for Mobile */
+  .tap-target-enhanced {
+    @apply relative;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .tap-target-enhanced::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Shadow Soft Utility */
+  .shadow-soft {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 }

@@ -78,7 +78,7 @@ export default function Contacto() {
                 { icon: Zap, title: "Visión Técnica", desc: "No solo abogados, entendemos tu tecnología." }
               ].map((benefit, i) => (
                 <div key={i} className="flex items-start gap-4 group">
-                  <div className="w-12 h-12 shrink-0 rounded-2xl bg-white shadow-soft border border-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:scale-110">
+                  <div className="w-12 h-12 shrink-0 rounded-2xl bg-white shadow-soft border border-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all duration-500 icon-hover">
                     <benefit.icon size={24} />
                   </div>
                   <div>
@@ -92,7 +92,12 @@ export default function Contacto() {
             {/* Direct WhatsApp CTA */}
             <button
               onClick={handleWhatsApp}
-              className="group relative flex items-center gap-4 px-10 py-6 bg-[#25D366] text-white font-black rounded-[2rem] transition-all duration-500 hover:bg-[#20BD5A] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:-translate-y-1 active:scale-95 w-full sm:w-auto overflow-hidden"
+              className="group relative flex items-center gap-4 px-10 py-6 text-white font-black rounded-[2rem] transition-all duration-500 hover:-translate-y-1 active:scale-95 w-full sm:w-auto overflow-hidden"
+              style={{
+                backgroundColor: 'var(--whatsapp-green)',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green)'}
             >
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               <MessageCircle size={28} className="relative z-10" />

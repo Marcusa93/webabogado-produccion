@@ -154,7 +154,14 @@ export default function QueHago() {
 
                 <div className="mt-auto pt-6 border-t border-navy-deep/5 flex flex-wrap gap-2">
                   {item.tags.map((tag, t) => (
-                    <span key={t} className="inline-block px-3 py-1 bg-[#FF4444]/10 text-[#FF4444] text-[10px] font-bold rounded-full border border-[#FF4444]/20 uppercase tracking-wide">
+                    <span key={t} className="inline-block px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-wide"
+                          style={{
+                            backgroundColor: 'color-mix(in srgb, var(--tags-red) 10%, transparent)',
+                            color: 'var(--tags-red)',
+                            borderColor: 'color-mix(in srgb, var(--tags-red) 20%, transparent)',
+                            borderWidth: '1px',
+                            borderStyle: 'solid'
+                          }}>
                       {tag}
                     </span>
                   ))}
