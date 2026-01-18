@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, ChevronDown, Check } from 'lucide-react';
+import AnimatedUnderline from './AnimatedUnderline';
 
 const specialties = [
   {
@@ -100,7 +101,7 @@ export default function QueHago() {
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-navy-deep mb-8 leading-tight font-montserrat">
             Áreas de <br />
-            <span className="text-accent underline decoration-accent/30 underline-offset-8">especialidad.</span>
+            <AnimatedUnderline delay={200}>especialidad.</AnimatedUnderline>
           </h2>
           <p className="text-lg md:text-xl text-slate leading-relaxed font-medium">
             Intervenimos en conflictos civiles, laborales y penales de alta complejidad. Hoy casi toda controversia deja huella en entornos digitales: comunicaciones, registros de sistemas, plataformas o dispositivos.
@@ -118,7 +119,7 @@ export default function QueHago() {
               } as React.CSSProperties}
             >
               <div className="relative z-10 flex-1 flex flex-col">
-                <div className="w-14 h-14 rounded-2xl bg-navy-deep/5 flex items-center justify-center text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                <div className="w-14 h-14 rounded-2xl bg-navy-deep/5 flex items-center justify-center text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 icon-hover">
                   <item.icon size={28} />
                 </div>
 

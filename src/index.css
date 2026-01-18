@@ -181,4 +181,40 @@
   .animation-delay-700 {
     animation-delay: 700ms;
   }
+
+  /* Animated Underline */
+  .animate-underline-grow {
+    animation: underline-grow 0.7s ease-out forwards;
+  }
+
+  @keyframes underline-grow {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Icon Hover Animation (Unified) */
+  .icon-hover {
+    @apply transition-all duration-500;
+  }
+
+  .icon-hover:hover {
+    @apply scale-110 rotate-3;
+  }
+
+  /* Card Entrance Animation */
+  .card-entrance {
+    @apply opacity-0 translate-y-8;
+    animation: card-entrance 0.6s ease-out forwards;
+  }
+
+  @keyframes card-entrance {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

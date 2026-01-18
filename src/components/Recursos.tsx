@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FileCode, BookOpen, Microscope, ArrowUpRight, CheckCircle2, Clock } from 'lucide-react';
+import AnimatedUnderline from './AnimatedUnderline';
 
 const modules = [
   {
@@ -64,7 +65,7 @@ export default function Recursos() {
 
             <h2 className="text-4xl md:text-5xl font-black text-navy-deep mb-8 leading-tight font-montserrat">
               Recursos de <br />
-              <span className="text-accent underline decoration-accent/30 underline-offset-8">Marco Rossi.</span>
+              <AnimatedUnderline delay={200}>Marco Rossi.</AnimatedUnderline>
             </h2>
 
             <p className="text-lg md:text-xl text-slate font-medium leading-relaxed mb-12 max-w-2xl">
@@ -79,7 +80,7 @@ export default function Recursos() {
                     '--mouse-y': `${mousePos.y}px`,
                   } as React.CSSProperties}>
                   <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all">
+                    <div className="w-12 h-12 rounded-xl bg-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all icon-hover">
                       <mod.icon size={24} />
                     </div>
                     <span className="font-mono text-[10px] font-bold text-navy-deep/40 bg-navy-deep/5 px-2 py-1 rounded tracking-tighter">

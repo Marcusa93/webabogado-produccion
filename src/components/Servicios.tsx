@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User } from 'lucide-react';
+import AnimatedUnderline from './AnimatedUnderline';
 
 const services = [
   {
@@ -97,7 +98,7 @@ export default function Servicios() {
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-navy-deep mb-8 leading-tight font-montserrat">
               Servicios <br />
-              <span className="text-accent underline decoration-accent/30 underline-offset-8">profesionales.</span>
+              <AnimatedUnderline delay={200}>profesionales.</AnimatedUnderline>
             </h2>
             <p className="text-lg md:text-xl text-slate font-medium leading-relaxed">
               Ofrecemos servicios jurídicos orientados a resolver problemas concretos de personas, empresas y organizaciones. Trabajamos con seriedad, estrategia y experiencia real en tribunales.

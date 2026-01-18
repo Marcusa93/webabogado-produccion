@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { ClipboardCheck, DollarSign, Search, Users, MessageSquare, ShieldCheck } from 'lucide-react';
+import UnifiedCard from './UnifiedCard';
 
 const expectations = [
     {
@@ -30,24 +31,6 @@ const expectations = [
 ];
 
 export default function QueEsperar() {
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (sectionRef.current) {
-                const rect = sectionRef.current.getBoundingClientRect();
-                setMousePos({
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top,
-                });
-            }
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
-
     const scrollToContact = () => {
         const element = document.querySelector('#contacto');
         if (element) {
@@ -57,7 +40,7 @@ export default function QueEsperar() {
     };
 
     return (
-        <section id="que-esperar" ref={sectionRef} className="py-24 md:py-32 bg-navy-deep relative overflow-hidden">
+        <section id="que-esperar" className="py-24 md:py-32 bg-navy-deep relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 tech-grid-dark opacity-10 pointer-events-none" />
             <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-accent/5 to-transparent blur-[120px]" />
@@ -78,27 +61,15 @@ export default function QueEsperar() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
                     {expectations.map((item, index) => (
-                        <div
+                        <UnifiedCard
                             key={index}
-                            className={`tech-card p-8 md:p-10 rounded-3xl bg-white/5 border border-white/10 transition-all duration-500 hover:bg-white hover:shadow-2xl group ${index === 3 || index === 4 ? 'lg:col-span-1.5 md:col-span-1' : ''
-                                }`}
-                            style={{
-                                '--mouse-x': `${mousePos.x}px`,
-                                '--mouse-y': `${mousePos.y}px`,
-                            } as React.CSSProperties}
-                        >
-                            <div className="relative z-10">
-                                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-accent mb-8 group-hover:bg-navy-deep/5 transition-all duration-500 group-hover:scale-110">
-                                    <item.icon size={28} />
-                                </div>
-                                <h3 className="text-xl md:text-2xl font-bold text-accent group-hover:text-navy-deep mb-4 transition-colors font-montserrat leading-snug">
-                                    {item.title}
-                                </h3>
-                                <p className="text-white/40 group-hover:text-navy-deep/70 text-base leading-relaxed font-medium transition-colors">
-                                    {item.description}
-                                </p>
-                            </div>
-                        </div>
+                            icon={item.icon}
+                            title={item.title}
+                            description={item.description}
+                            variant="dark"
+                            delay={index * 100}
+                            mouseGlow={true}
+                        />
                     ))}
 
                     {/* Decorative block */}
