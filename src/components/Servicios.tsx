@@ -110,7 +110,7 @@ export default function Servicios() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="sticky bg-white tech-card p-8 md:p-12 rounded-[2.5rem] border border-navy-deep/10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] mb-12 last:mb-0 transition-all duration-500 hover:scale-[1.02] group"
+                className="sticky bg-white tech-card p-8 md:p-12 rounded-[2.5rem] border border-navy-deep/10 shadow-soft hover:shadow-strong mb-12 last:mb-0 transition-all duration-500 hover:scale-[1.02] group"
                 style={{
                   top: '120px',
                   zIndex: index + 1,

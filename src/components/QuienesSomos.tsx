@@ -418,7 +418,7 @@ export default function QuienesSomos() {
 
                                                 {/* Icon Overlay */}
                                                 <div className="absolute top-3 right-3 z-10 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                    {isSpotify ? <div className="text-[#1DB954]"><Mic2 size={16} /></div> : null}
+                                                    {isSpotify ? <div style={{ color: 'var(--spotify-green)' }}><Mic2 size={16} /></div> : null}
                                                     {isYouTube ? <div className="text-red-500"><Youtube size={16} /></div> : null}
                                                 </div>
 
@@ -430,7 +430,8 @@ export default function QuienesSomos() {
 
                                                     {/* Play Progress Bar (Visual only) */}
                                                     <div className="mt-3 w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                                                        <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : (isYouTube ? 'bg-red-500' : 'bg-blue-400')}`} />
+                                                        <div className={`h-full w-1/3 ${isYouTube ? 'bg-red-500' : 'bg-blue-400'}`}
+                                                             style={isSpotify ? { backgroundColor: 'var(--spotify-green)' } : {}} />
                                                     </div>
                                                 </div>
                                             </a>
@@ -535,7 +536,7 @@ export default function QuienesSomos() {
 
                             {/* Instagram Feed (Column 3) */}
                             <div className="md:col-span-2 lg:col-span-1 h-full">
-                                <div className="flex items-center gap-2 mb-6 text-[#E1306C]">
+                                <div className="flex items-center gap-2 mb-6" style={{ color: 'var(--instagram-pink)' }}>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                     <span className="font-black text-xs uppercase tracking-widest">Sígueme en Instagram</span>
                                 </div>
