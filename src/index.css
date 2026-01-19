@@ -134,12 +134,12 @@
   }
 
   .glass {
-    @apply backdrop-blur-md bg-white/70;
+    @apply backdrop-blur-md bg-background/70;
   }
 
   /* Unified Card Base */
   .card-base {
-    @apply rounded-xl border-2 border-white/10 shadow-lg transition-all duration-300;
+    @apply rounded-xl border-2 border-foreground/10 shadow-lg transition-all duration-300;
     @apply hover:shadow-xl hover:-translate-y-1;
   }
 
@@ -154,9 +154,8 @@
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl;
-    @apply bg-transparent text-white font-bold border-2 border-accent;
-    @apply hover:bg-accent hover:border-accent-light;
-    @apply transition-all duration-300 hover:scale-[1.02];
+    @apply bg-transparent text-foreground font-bold border-2 border-accent;
+    @apply hover:bg-accent hover:border-accent-light hover:text-white transition-all duration-300 hover:scale-[1.02];
     @apply focus-visible:outline-accent;
   }
 
@@ -287,8 +286,8 @@
 
 @layer utilities {
   .tech-grid {
-    background-image: linear-gradient(hsl(var(--border)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
+    background-image: linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 

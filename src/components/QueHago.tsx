@@ -88,9 +88,9 @@ export default function QueHago() {
   };
 
   return (
-    <section id="especialidades" ref={sectionRef} className="py-24 md:py-32 bg-navy-deep relative overflow-hidden">
+    <section id="especialidades" ref={sectionRef} className="py-24 md:py-32 bg-background relative overflow-hidden transition-colors duration-500">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-full tech-grid-dark opacity-10 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="section-container relative z-10">
@@ -99,12 +99,12 @@ export default function QueHago() {
             <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">Expertise Jurídico</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] font-montserrat">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] font-montserrat">
             Soluciones legales <br />
-            <span className="text-white/90">para problemas complejos.</span>
+            <span className="text-foreground/90">para problemas complejos.</span>
           </h2>
 
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground/70 max-w-2xl leading-relaxed font-medium">
             Nuestra práctica se especializa en la intersección entre el derecho tradicional y las nuevas tecnologías.
           </p>
         </div>
@@ -116,8 +116,8 @@ export default function QueHago() {
               <div
                 key={index}
                 className={`group relative rounded-3xl transition-all duration-500 overflow-hidden shadow-lg ${expandedIndex === index
-                  ? 'bg-[#1E1E2E] border-accent/40 shadow-[0_8px_32px_rgba(123,44,191,0.2)]'
-                  : 'bg-[#1E1E2E]/50 border-white/10 hover:bg-[#1E1E2E] hover:border-white/20 hover:shadow-xl'
+                  ? 'bg-card border-accent/40 shadow-[0_8px_32px_rgba(87,124,142,0.2)]'
+                  : 'bg-card/50 border-foreground/10 hover:bg-card hover:border-foreground/20 hover:shadow-xl'
                   } border-2`}
               >
                 {/* Header (Clickable) */}
@@ -128,11 +128,11 @@ export default function QueHago() {
                   <div className="flex items-center gap-6">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${expandedIndex === index
                       ? 'bg-accent text-white shadow-glow'
-                      : 'bg-white/5 text-white/40 group-hover:text-white group-hover:bg-white/10'
+                      : 'bg-foreground/5 text-foreground/40 group-hover:text-accent group-hover:bg-accent/10'
                       }`}>
                       <item.icon size={24} />
                     </div>
-                    <h3 className={`text-xl md:text-2xl font-bold font-montserrat transition-colors duration-300 ${expandedIndex === index ? 'text-white' : 'text-white/80 group-hover:text-white'
+                    <h3 className={`text-xl md:text-2xl font-bold font-montserrat transition-colors duration-300 ${expandedIndex === index ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'
                       }`}>
                       {item.title}
                     </h3>
@@ -140,7 +140,7 @@ export default function QueHago() {
 
                   <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${expandedIndex === index
                     ? 'border-accent bg-accent text-white rotate-180'
-                    : 'border-white/20 text-white/30 group-hover:border-white/40 group-hover:text-white'
+                    : 'border-foreground/20 text-foreground/30 group-hover:border-accent group-hover:text-accent'
                     }`}>
                     <ChevronDown size={20} />
                   </div>
@@ -148,13 +148,13 @@ export default function QueHago() {
 
                 {/* Expanded Content */}
                 <div
-                  className={`relative z-10 transition-all duration-500 ease-in-out border-t border-white/10 ${expandedIndex === index ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                  className={`relative z-10 transition-all duration-500 ease-in-out border-t border-foreground/10 ${expandedIndex === index ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
                     }`}
                 >
                   <div className="p-6 md:p-8 pt-6 space-y-8">
                     {/* Description */}
                     <div>
-                      <p className="text-white/70 leading-relaxed mb-6 font-medium text-base">
+                      <p className="text-foreground/70 leading-relaxed mb-6 font-medium text-base">
                         {item.description}
                       </p>
 
@@ -172,14 +172,14 @@ export default function QueHago() {
                     </div>
 
                     {/* Areas de Practica */}
-                    <div className="bg-black/30 rounded-2xl p-6 border border-white/5">
-                      <h4 className="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <div className="bg-foreground/5 rounded-2xl p-6 border border-foreground/5">
+                      <h4 className="text-sm font-bold text-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
                         <span className="w-1 h-4 bg-accent rounded-full"></span>
                         Áreas de Práctica
                       </h4>
                       <ul className="space-y-3">
                         {item.bullets.map((bullet, b) => (
-                          <li key={b} className="flex items-start gap-3 text-white/60 text-sm">
+                          <li key={b} className="flex items-start gap-3 text-foreground/60 text-sm font-medium">
                             <Check size={16} className="text-accent mt-0.5 shrink-0" />
                             <span>{bullet}</span>
                           </li>
@@ -194,15 +194,15 @@ export default function QueHago() {
 
           {/* Sticky Visual/Summary */}
           <div className="hidden lg:block lg:col-span-4 relative">
-            <div className="sticky top-40 p-8 rounded-[2.5rem] bg-gradient-to-br from-[#1E1E2E] to-black border border-white/10 text-center">
+            <div className="sticky top-40 p-8 rounded-[2.5rem] bg-card border border-foreground/10 text-center shadow-strong">
               <div className="w-20 h-20 mx-auto bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6 animate-pulse">
                 <Fingerprint size={40} />
               </div>
-              <h3 className="text-2xl font-black text-white mb-4">Estrategia Personalizada</h3>
-              <p className="text-white/50 text-sm mb-8">
+              <h3 className="text-2xl font-black text-foreground mb-4">Estrategia Personalizada</h3>
+              <p className="text-foreground/60 text-sm mb-8 font-medium">
                 Cada caso es único. Analizamos la viabilidad técnica y jurídica para construir el mejor escenario posible.
               </p>
-              <a href="#contacto" className="inline-flex w-full items-center justify-center gap-2 py-4 bg-white text-navy-deep font-bold rounded-xl hover:bg-gray-200 transition-colors">
+              <a href="#contacto" className="inline-flex w-full items-center justify-center gap-2 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
                 Iniciar Consulta
               </a>
             </div>

@@ -30,22 +30,22 @@ export default function QueEsperar() {
     const { ref: inViewRef, isInView } = useInView({ threshold: 0.1 });
 
     return (
-        <section id="que-esperar" ref={sectionRef} className="py-24 md:py-32 bg-navy-deep relative overflow-hidden">
+        <section id="que-esperar" ref={sectionRef} className="py-24 md:py-32 bg-background relative overflow-hidden transition-colors duration-500">
             {/* Background Elements */}
-            <div className="absolute inset-0 tech-grid-dark opacity-20" />
+            <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10" />
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
 
             <div className="section-container relative z-10">
                 {/* Header - Centered */}
                 <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase">Nuestro Compromiso</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 font-montserrat">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat">
                         Qué podés esperar de{' '}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">nuestro estudio</span>
                     </h2>
-                    <p className="text-xl text-white/70 leading-relaxed font-medium">
+                    <p className="text-xl text-foreground/70 leading-relaxed font-medium">
                         Transparencia, profesionalismo y compromiso en cada caso.
                     </p>
                 </div>
@@ -64,10 +64,10 @@ export default function QueEsperar() {
                             </div>
 
                             {/* Content */}
-                            <h3 className="text-xl font-bold text-white mb-3 font-montserrat">
+                            <h3 className="text-xl font-bold text-foreground mb-3 font-montserrat">
                                 {item.title}
                             </h3>
-                            <p className="text-white/70 leading-relaxed">
+                            <p className="text-foreground/70 leading-relaxed font-medium">
                                 {item.description}
                             </p>
                         </div>

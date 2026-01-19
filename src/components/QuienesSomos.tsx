@@ -326,7 +326,7 @@ export default function QuienesSomos() {
                                 <p className="text-foreground/70 text-lg leading-relaxed font-medium mb-8">
                                     {team[0].bio}
                                 </p>
-                                <button className="px-6 py-3 rounded-xl bg-navy-deep text-white font-bold text-sm hover:bg-accent transition-all duration-300 shadow-lg flex items-center gap-2">
+                                <button className="px-6 py-3 rounded-xl bg-foreground text-background font-bold text-sm hover:bg-accent hover:text-white transition-all duration-300 shadow-lg flex items-center gap-2">
                                     Ver CV Completo <BookOpen size={16} />
                                 </button>
                             </div>
@@ -360,15 +360,15 @@ export default function QuienesSomos() {
                     </div>
                 </div>
 
-                <div className={`mb-32 p-8 md:p-12 rounded-[3rem] bg-navy-deep relative overflow-hidden shadow-strong transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                    <div className="absolute inset-0 tech-grid-dark opacity-5" />
+                <div className={`mb-32 p-8 md:p-12 rounded-[3rem] bg-foreground/5 relative overflow-hidden shadow-strong transition-all duration-1000 delay-300 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10" />
 
                     <div className="relative z-10 space-y-16">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div>
-                                <h4 className="text-2xl md:text-3xl font-black text-white font-montserrat mb-2">Presencia pública y producción intelectual</h4>
+                                <h4 className="text-2xl md:text-3xl font-black text-foreground font-montserrat mb-2">Presencia pública y producción intelectual</h4>
                             </div>
-                            <button className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-sm hover:bg-white/10 transition-all">
+                            <button className="px-6 py-3 rounded-xl bg-foreground/5 border border-foreground/10 text-foreground font-bold text-sm hover:bg-foreground/10 transition-all">
                                 Ver más contenido
                             </button>
                         </div>
@@ -399,7 +399,7 @@ export default function QuienesSomos() {
                                                             window.open(item.url, '_blank', 'noopener,noreferrer');
                                                         }
                                                     }}
-                                                    className="aspect-[4/3] bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 relative group cursor-pointer overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block"
+                                                    className="aspect-[4/3] bg-card rounded-xl border border-foreground/10 relative group cursor-pointer overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block"
                                                 >
                                                     {/* Image / Thumbnail */}
                                                     <div className="absolute inset-0 bg-[#161622]">
@@ -411,8 +411,8 @@ export default function QuienesSomos() {
                                                                 loading="lazy"
                                                             />
                                                         ) : (
-                                                            <div className={`w-full h-full bg-gradient-to-br from-[#1E1E2E] to-black p-4 flex flex-col justify-center items-center text-center`}>
-                                                                <span className="text-xl font-black text-white/20 uppercase break-words w-full px-2">{item.source}</span>
+                                                            <div className={`w-full h-full bg-gradient-to-br from-card to-background p-4 flex flex-col justify-center items-center text-center`}>
+                                                                <span className="text-xl font-black text-foreground/20 uppercase break-words w-full px-2">{item.source}</span>
                                                             </div>
                                                         )}
                                                     </div>
@@ -435,8 +435,8 @@ export default function QuienesSomos() {
                                                         </span>
                                                     </div>
 
-                                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/70 to-transparent pt-10 text-white z-10">
-                                                        <div className="text-[10px] font-bold leading-tight line-clamp-2 mb-1 group-hover:text-[#4A90E2] transition-colors shadow-black drop-shadow-md">
+                                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-background/90 via-background/70 to-transparent pt-10 text-foreground z-10">
+                                                        <div className="text-[10px] font-bold leading-tight line-clamp-2 mb-1 group-hover:text-accent transition-colors">
                                                             {item.shortTitle || item.title}
                                                         </div>
                                                     </div>
@@ -448,7 +448,7 @@ export default function QuienesSomos() {
                                         <div className="mt-6 flex justify-center">
                                             <button
                                                 onClick={() => setShowAllInterviews(!showAllInterviews)}
-                                                className="px-4 py-2 rounded-lg bg-[#1E1E2E] border border-[#4A90E2]/20 text-white text-[10px] font-bold hover:bg-[#4A90E2]/10 transition-all flex items-center gap-2 uppercase tracking-widest"
+                                                className="px-4 py-2 rounded-lg bg-card border border-foreground/10 text-foreground text-[10px] font-bold hover:bg-foreground/5 transition-all flex items-center gap-2 uppercase tracking-widest"
                                             >
                                                 {showAllInterviews ? (
                                                     <>Ver menos <ChevronUp size={12} /></>
@@ -476,10 +476,10 @@ export default function QuienesSomos() {
                                                     href={item.url}
                                                     target={item.url ? "_blank" : "_self"}
                                                     rel="noopener noreferrer"
-                                                    className="aspect-square bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 p-6 flex flex-col justify-end hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group relative"
+                                                    className="aspect-square bg-card rounded-xl border border-foreground/10 p-6 flex flex-col justify-end hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group relative"
                                                 >
                                                     {/* Background Gradient */}
-                                                    <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#252535] to-[#151520] group-hover:from-[#2a2a3e] group-hover:to-[#1a1a25] transition-colors" />
+                                                    <div className="absolute inset-0 z-0 bg-gradient-to-br from-card to-background group-hover:from-background group-hover:to-card transition-colors" />
 
                                                     {/* Icon Overlay */}
                                                     <div className="absolute top-3 right-3 z-10 opacity-50 group-hover:opacity-100 transition-opacity">
@@ -489,14 +489,14 @@ export default function QuienesSomos() {
                                                     </div>
 
                                                     <div className="relative z-10">
-                                                        <div className="text-[10px] font-black text-white mb-2 leading-tight group-hover:text-[#4A90E2] transition-colors line-clamp-3">
+                                                        <div className="text-[10px] font-black text-foreground mb-2 leading-tight group-hover:text-accent transition-colors line-clamp-3">
                                                             {item.title}
                                                         </div>
-                                                        <div className="text-[9px] text-white/50">{item.duration}</div>
+                                                        <div className="text-[9px] text-foreground/50">{item.duration}</div>
 
                                                         {/* Visual Progress Bar */}
-                                                        <div className="mt-3 w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                                                            <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : 'bg-[#4A90E2]'}`} />
+                                                        <div className="mt-3 w-full h-1 bg-foreground/5 rounded-full overflow-hidden">
+                                                            <div className={`h-full w-1/3 ${isSpotify ? 'bg-[#1DB954]' : 'bg-accent'}`} />
                                                         </div>
                                                     </div>
                                                 </a>
@@ -507,17 +507,17 @@ export default function QuienesSomos() {
 
                                 {/* 3. Publications */}
                                 <div>
-                                    <div className="flex items-center gap-2 mb-6 text-white/60">
+                                    <div className="flex items-center gap-2 mb-6 text-foreground/60">
                                         <BookOpen size={20} />
                                         <span className="font-black text-xs uppercase tracking-widest">Publicaciones Destacadas</span>
                                     </div>
                                     <div className="grid grid-cols-1 gap-2">
                                         {multimedia.publications.map((item, i) => (
-                                            <div key={i} className="flex items-center justify-between p-6 rounded-xl bg-[#1E1E2E] border border-white/5 hover:border-[#4A90E2]/30 hover:bg-[#252535] hover:-translate-y-1 hover:shadow-xl transition-all group cursor-pointer shadow-lg">
-                                                <div className="text-xs font-bold text-white group-hover:text-[#4A90E2] transition-colors leading-snug pr-4">{item.title}</div>
+                                            <div key={i} className="flex items-center justify-between p-6 rounded-xl bg-card border border-foreground/5 hover:border-accent/30 hover:bg-background hover:-translate-y-1 hover:shadow-xl transition-all group cursor-pointer shadow-lg">
+                                                <div className="text-xs font-bold text-foreground group-hover:text-accent transition-colors leading-snug pr-4">{item.title}</div>
                                                 <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                                                    <span className="text-[9px] font-black uppercase text-white/30 tracking-wider text-right">{item.media}</span>
-                                                    <span className="text-[9px] font-mono text-white/20">{item.year}</span>
+                                                    <span className="text-[9px] font-black uppercase text-foreground/30 tracking-wider text-right">{item.media}</span>
+                                                    <span className="text-[9px] font-mono text-foreground/20">{item.year}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -538,7 +538,7 @@ export default function QuienesSomos() {
                                                     href={item.url}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className={`aspect-[3/4] bg-[#1E1E2E] rounded-xl border border-[#4A90E2]/20 p-2 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group`}
+                                                    className={`aspect-[3/4] bg-card rounded-xl border border-foreground/10 p-2 shadow-xl transform transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer flex flex-col items-center justify-center text-center relative overflow-hidden group`}
                                                 >
                                                     {/* Coauthor badge */}
                                                     {item.isCoauthor && (
@@ -555,7 +555,7 @@ export default function QuienesSomos() {
 
                                                     {!item.image && (
                                                         <div className="relative z-10 p-2">
-                                                            <div className="text-[9px] font-black text-white uppercase leading-tight group-hover:text-amber-300 transition-colors line-clamp-3">
+                                                            <div className="text-[9px] font-black text-foreground uppercase leading-tight group-hover:text-amber-500 transition-colors line-clamp-3">
                                                                 {item.title}
                                                             </div>
                                                         </div>
@@ -567,7 +567,7 @@ export default function QuienesSomos() {
                                                 </a>
                                             ) : (
                                                 <div key={i} className="aspect-[3/4] bg-[#1E1E2E] rounded-xl border border-white/5 p-2 flex items-center justify-center text-center opacity-40">
-                                                    <div className="text-[8px] font-black text-white/50 uppercase">{item.title}</div>
+                                                    <div className="text-[8px] font-black text-foreground/50 uppercase">{item.title}</div>
                                                 </div>
                                             )
                                         ))}
@@ -576,7 +576,7 @@ export default function QuienesSomos() {
                             </div>
 
                             {/* RIGHT COLUMN: Instagram Widget (33%) */}
-                            <div className="lg:col-span-1 flex flex-col h-full bg-[#1E1E2E]/50 rounded-xl border border-white/5 p-6">
+                            <div className="lg:col-span-1 flex flex-col h-full bg-card/50 rounded-xl border border-foreground/10 p-6">
                                 <div className="flex items-center gap-2 mb-6 text-[#E1306C]">
                                     <Instagram size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Publicaciones</span>

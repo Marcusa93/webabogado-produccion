@@ -40,7 +40,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy-deep px-4 md:px-0"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background px-4 md:px-0 transition-colors duration-500"
     >
       {/* 3D Background Resource */}
       <ThreeBackground />
@@ -58,17 +58,17 @@ export default function Hero() {
         <MessageCircle size={32} className="text-white fill-white" />
 
         {/* Tooltip on hover */}
-        <div className="absolute right-full mr-4 px-3 py-1 bg-white text-navy-deep text-xs font-bold rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <div className="absolute right-full mr-4 px-3 py-1 bg-card text-foreground text-xs font-bold rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-foreground/10">
           Consulta rápida
         </div>
       </a>
 
       {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/40 via-transparent to-navy-deep z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background z-[1]" />
       <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-gradient-to-bl from-accent/10 via-transparent to-transparent blur-[120px] z-[1]" />
 
       {/* Grid Overlay (Subtle) */}
-      <div className="absolute inset-0 tech-grid-dark opacity-10 z-[1]" />
+      <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 z-[1]" />
 
       {/* Content */}
       <div className="relative z-10 section-container py-32 md:py-40 lg:py-48">
@@ -84,12 +84,12 @@ export default function Hero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-8 md:mb-10 opacity-0 animate-fade-in-up animation-delay-200 max-w-4xl">
+            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-8 md:mb-10 opacity-0 animate-fade-in-up animation-delay-200 max-w-4xl">
               Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
             </h1>
 
             {/* Subheadline */}
-            <p className="text-base md:text-lg lg:text-xl text-white/70 max-w-2xl mb-10 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-normal">
+            <p className="text-base md:text-lg lg:text-xl text-foreground/70 max-w-2xl mb-10 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-normal">
               Los conflictos actuales requieren una visión multidisciplinaria. Nuestra experiencia dentro de la Justicia y el dominio de la tecnología nos permiten construir defensas invulnerables en entornos digitales complejos.
             </p>
 
@@ -107,7 +107,7 @@ export default function Hero() {
               {/* Secondary Button */}
               <button
                 onClick={() => scrollToSection('#especialidades')}
-                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl border-2 border-accent hover:bg-accent transition-all duration-300 shadow-lg group text-base"
+                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-foreground font-bold rounded-xl border-2 border-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
               >
                 <Scale size={20} className="group-hover:scale-110 transition-transform" />
                 Conocé más
@@ -155,9 +155,9 @@ export default function Hero() {
             }}
             className="flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
           >
-            <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Explorar</span>
-            <div className="w-5 h-8 rounded-full border-2 border-white/30 flex justify-center p-1">
-              <div className="w-1 h-3 bg-white/50 rounded-full animate-scroll" />
+            <span className="text-[10px] font-bold tracking-[0.2em] text-foreground uppercase">Explorar</span>
+            <div className="w-5 h-8 rounded-full border-2 border-foreground/30 flex justify-center p-1">
+              <div className="w-1 h-3 bg-foreground/50 rounded-full animate-scroll" />
             </div>
           </button>
         </div>

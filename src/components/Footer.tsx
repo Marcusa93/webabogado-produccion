@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 mb-20">
           {/* Brand Info */}
           <div className="lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left">
-            <img src={logo} alt="Marco Rossi" className="h-10 w-auto mb-8 brightness-0 dark:brightness-100 invert dark:invert-0 opacity-80" />
+            <img src={logo} alt="Marco Rossi" className="h-10 w-auto mb-8 brightness-0 dark:brightness-100 opacity-80" />
             <p className="text-foreground/70 text-lg leading-relaxed max-w-sm mb-10 font-medium">
               Defensa legal estratégica para la economía digital y los negocios tecnológicos.
               Experiencia judicial y técnica para una justicia moderna y efectiva.
@@ -102,7 +102,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleSocialClick(social.label)}
-                  className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-foreground/10 text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground transition-all duration-300 hover:scale-110"
+                  className="w-12 h-12 flex items-center justify-center rounded-xl bg-foreground/5 text-foreground/70 hover:bg-accent hover:text-white transition-all duration-300 hover:scale-110"
                   aria-label={social.label}
                 >
                   <social.icon size={20} />
@@ -119,8 +119,8 @@ export default function Footer() {
               © {currentYear} Marco Rossi. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-8">
-              <a href="#" className="text-foreground/30 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">Aviso Legal</a>
-              <a href="#" className="text-foreground/30 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">Privacidad</a>
+              <a href="#" className="text-foreground/30 hover:text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors">Aviso Legal</a>
+              <a href="#" className="text-foreground/30 hover:text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors">Privacidad</a>
               <button
                 onClick={scrollToTop}
                 className="btn-interactive inline-flex items-center gap-1.5 text-foreground/40 hover:text-accent transition-colors"

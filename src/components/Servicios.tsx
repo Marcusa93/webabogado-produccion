@@ -87,7 +87,7 @@ export default function Servicios() {
       style={{ minHeight: '300vh' }}
     >
       {/* Subtle grid background */}
-      <div className="absolute inset-0 tech-grid-dark opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
 
       {/* Ambient Glows */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
@@ -98,7 +98,7 @@ export default function Servicios() {
 
           {/* Left Column: Title & Intro (Sticky) */}
           <div className="lg:w-2/5 lg:sticky lg:top-32 h-fit mb-12 lg:mb-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
               <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat tracking-[0.2em]">Ecosistema Legal</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight font-montserrat">
@@ -111,7 +111,7 @@ export default function Servicios() {
 
             <button
               onClick={scrollToContact}
-              className="hidden lg:flex items-center gap-3 px-8 py-4 bg-accent text-white font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow hover:translate-x-2 w-fit group"
+              className="hidden lg:flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow hover:translate-x-2 w-fit group"
             >
               <span>Solicitar presupuesto</span>
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -182,7 +182,7 @@ export default function Servicios() {
             {/* Solicitar Presupuesto Button - Separated with margin */}
             <button
               onClick={scrollToContact}
-              className="lg:hidden flex items-center justify-center gap-3 px-8 py-4 bg-accent text-white font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow mt-16 w-full"
+              className="lg:hidden flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow mt-16 w-full"
             >
               <span>Solicitar presupuesto</span>
               <ArrowRight size={20} />
