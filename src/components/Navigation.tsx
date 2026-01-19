@@ -8,7 +8,7 @@ const navLinks = [
   { href: '#especialidades', label: 'Especialidades' },
   { href: '#que-esperar', label: 'Nuestro estudio' },
   { href: '#servicios', label: 'Servicios' },
-  { label: 'Quiénes Somos', href: '#quienes-somos' },
+  { label: 'Nuestro Equipo', href: '#quienes-somos' },
   { href: '#contacto', label: 'Contacto' },
 ];
 
@@ -75,8 +75,8 @@ export default function Navigation() {
       </button>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[80px] flex items-center ${isScrolled
-          ? 'glass border-b border-border/50 shadow-soft'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[72px] flex items-center ${isScrolled
+          ? 'glass border-b border-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
           : 'bg-transparent'
           }`}
       >
@@ -95,7 +95,7 @@ export default function Navigation() {
               <img
                 src={isScrolled ? logoNavy : logoWhite}
                 alt="Marco Rossi Abogado"
-                className="h-10 md:h-12 w-auto transition-all duration-500"
+                className="h-10 md:h-11 w-auto transition-all duration-500"
               />
             </a>
 
@@ -110,7 +110,7 @@ export default function Navigation() {
                       scrollToSection(link.href);
                     }}
                     className={`text-sm font-bold tracking-tight transition-all duration-300 relative py-2 group ${isScrolled
-                      ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-navy-deep')
+                      ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
                       : (activeSection === link.href.substring(1) ? 'text-white underline-offset-8' : 'text-white/70 hover:text-white')
                       }`}
                   >
@@ -122,7 +122,7 @@ export default function Navigation() {
               ))}
             </ul>
 
-            {/* CTA Button */}
+            {/* CTA Button - Highlighted */}
             <div className="hidden lg:flex items-center ml-8">
               <a
                 href="#contacto"
@@ -130,10 +130,7 @@ export default function Navigation() {
                   e.preventDefault();
                   scrollToSection('#contacto');
                 }}
-                className={`inline-flex items-center px-6 py-2.5 transition-all duration-300 hover:shadow-strong rounded-lg text-sm font-black active:scale-95 ${isScrolled
-                  ? 'bg-primary text-primary-foreground hover:bg-accent'
-                  : 'bg-white text-navy-deep hover:bg-accent hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)]'
-                  }`}
+                className="inline-flex items-center px-6 py-3 transition-all duration-300 hover:shadow-xl rounded-xl text-sm font-black active:scale-95 bg-accent text-white hover:bg-accent-light shadow-lg"
               >
                 Agendar consulta
               </a>

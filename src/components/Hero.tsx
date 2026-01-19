@@ -71,10 +71,10 @@ export default function Hero() {
       <div className="absolute inset-0 tech-grid-dark opacity-10 z-[1]" />
 
       {/* Content */}
-      <div className="relative z-10 section-container py-20 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="relative z-10 section-container py-32 md:py-40 lg:py-48">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left: Text Content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start px-4 sm:px-6 lg:px-0">
             {/* Tagline / Microcopy */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
@@ -84,30 +84,40 @@ export default function Hero() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[clamp(2rem,10vw,4.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
+            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-8 md:mb-10 opacity-0 animate-fade-in-up animation-delay-200 max-w-4xl">
               Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
             </h1>
 
             {/* Subheadline */}
-            <p className="text-base md:text-xl lg:text-2xl text-white/60 max-w-3xl mb-8 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-medium">
+            <p className="text-base md:text-lg lg:text-xl text-white/70 max-w-2xl mb-10 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-normal">
               Los conflictos actuales requieren una visión multidisciplinaria. Nuestra experiencia dentro de la Justicia y el dominio de la tecnología nos permiten construir defensas invulnerables en entornos digitales complejos.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
+              {/* Primary Button */}
               <button
                 onClick={() => scrollToSection('#contacto')}
-                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-4 md:px-10 md:py-5 bg-white text-navy-deep font-black rounded-xl hover:bg-ice transition-all duration-500 shadow-strong hover:scale-[1.02] group text-sm md:text-base tap-target-enhanced"
+                className="w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-navy-deep font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] group text-base"
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
+              </button>
+
+              {/* Secondary Button */}
+              <button
+                onClick={() => scrollToSection('#servicios')}
+                className="w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl border-2 border-white/30 hover:border-accent hover:bg-accent/10 transition-all duration-300 hover:scale-[1.03] group text-base"
+              >
+                Ver servicios
+                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
-          <div className="relative mt-12 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0">
-            <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
+          <div className="relative mt-16 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0 px-4 sm:px-0">
+            <div className="w-full max-w-[300px] h-[400px] md:max-w-[480px] md:h-[580px] xl:max-w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
               <div
@@ -134,14 +144,20 @@ export default function Hero() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in animation-delay-700 hidden md:block">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
           <button
-            onClick={() => scrollToSection('#que-hago')}
-            className="group flex flex-col items-center gap-3 text-white/20 hover:text-white transition-all duration-500"
+            onClick={() => {
+              const nextSection = document.getElementById('que-esperar');
+              if (nextSection) {
+                const top = nextSection.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top, behavior: 'smooth' });
+              }
+            }}
+            className="flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
           >
-            <span className="text-[10px] font-bold tracking-widest uppercase opacity-50 group-hover:opacity-100">Explorar</span>
-            <div className="h-10 w-6 rounded-full border-2 border-white/10 flex justify-center p-1 group-hover:border-accent">
-              <div className="w-1 h-2 bg-white/40 rounded-full animate-bounce" />
+            <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Explorar</span>
+            <div className="w-5 h-8 rounded-full border-2 border-white/30 flex justify-center p-1">
+              <div className="w-1 h-3 bg-white/50 rounded-full animate-scroll" />
             </div>
           </button>
         </div>

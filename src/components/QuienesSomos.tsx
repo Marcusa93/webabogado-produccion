@@ -1,4 +1,5 @@
 import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, Play, ExternalLink, Lightbulb, ChevronDown, ChevronUp, Users, Building, X, Instagram } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 import { useInView } from '@/hooks/useInView';
 import { useRef, useState, useEffect } from 'react';
 
@@ -202,6 +203,12 @@ const multimedia = {
             isHighlight: true
         },
         {
+            title: "Impacto de la Inteligencia Artificial",
+            year: "2024",
+            publisher: "Hammurabi",
+            image: "/books/impacto-ia.png"
+        },
+        {
             title: "Impacto de la Inteligencia Artificial en el ámbito legal",
             subTitle: "Obra colectiva - Editorial Hammurabi",
             url: "https://www.hammurabi.com.ar/productos/leguizamon-lozano-impacto-de-la-inteligencia-artificial-en-el-ambito-legal/",
@@ -261,14 +268,15 @@ export default function QuienesSomos() {
 
             <div className="section-container relative z-10">
                 {/* Section Header */}
-                <div className="max-w-4xl mb-16 md:mb-24">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-deep/5 border border-navy-deep/10 mb-6">
-                        <span className="text-[10px] font-bold tracking-[0.2em] text-navy-deep/50 uppercase font-montserrat">Nuestro Equipo</span>
+                <div className="max-w-4xl mx-auto mb-20 md:mb-28 text-center">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+                        <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">El Estudio</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy-deep mb-6 leading-tight font-montserrat">
-                        Quiénes Somos.
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy-deep mb-6 font-montserrat">
+                        Nuestro <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Equipo.</span>
                     </h2>
-                    <p className="text-xl md:text-2xl text-slate font-medium leading-relaxed max-w-2xl">
+                    <p className="text-xl md:text-2xl text-slate font-medium leading-relaxed max-w-2xl mx-auto">
                         Equipo profesional multidisciplinario con experiencia en derecho, justicia y tecnología.
                     </p>
                 </div>
@@ -290,10 +298,14 @@ export default function QuienesSomos() {
                                     }}
                                     className="w-full h-full relative"
                                 >
-                                    <img
+                                    <OptimizedImage
                                         src="/team/marco.jpg"
                                         alt="Marco Rossi"
-                                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 active:scale-105"
+                                        className="w-full h-full object-cover"
+                                        blurPlaceholder={true}
+                                        priority={true}
+                                        width={400} // Approximate width
+                                        height={500}
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 </div>

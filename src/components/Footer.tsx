@@ -49,19 +49,49 @@ export default function Footer() {
       <div className="absolute inset-0 tech-grid-dark opacity-20" />
 
       <div className="section-container relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-12">
+          {/* Column 1: Brand & Description */}
+          <div>
             <img
               src={logo}
               alt="Marco Rossi Abogado"
-              className="h-10 md:h-12 w-auto mb-6"
+              className="h-10 md:h-11 w-auto mb-6"
             />
-            <p className="text-primary-foreground/70 max-w-md leading-relaxed mb-6">
+            <p className="text-primary-foreground/70 max-w-md leading-relaxed text-sm">
               Defensa legal estratégica centrada en la protección de derechos en entornos digitales complejos.
               Experiencia judicial y técnica para una justicia moderna y efectiva.
             </p>
-            <div className="flex items-center gap-4">
+          </div>
+
+          {/* Column 2: Navigation */}
+          <div>
+            <h4 className="text-xs font-bold text-primary-foreground uppercase tracking-wider mb-5">
+              Navegación
+            </h4>
+            <ul className="space-y-2.5">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-300"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Contactos (Social Links) */}
+          <div>
+            <h4 className="text-xs font-bold text-primary-foreground uppercase tracking-wider mb-5">
+              Contactos
+            </h4>
+            <div className="flex flex-wrap gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -69,7 +99,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleSocialClick(social.label)}
-                  className="w-12 h-12 flex items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground transition-all duration-300"
+                  className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-foreground/10 text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                   aria-label={social.label}
                 >
                   <social.icon size={20} />
@@ -77,57 +107,11 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
-          {/* Navigation */}
-          <div>
-            <h4 className="text-sm font-semibold text-primary-foreground uppercase tracking-wider mb-4">
-              Navegación
-            </h4>
-            <ul className="space-y-3">
-              {navLinks.slice(0, 4).map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
-                    className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* More Links */}
-          <div>
-            <h4 className="text-sm font-semibold text-primary-foreground uppercase tracking-wider mb-4">
-              Más
-            </h4>
-            <ul className="space-y-3">
-              {navLinks.slice(4).map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
-                    className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-300"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-primary-foreground/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
+        {/* Divider Line */}
+        <div className="border-t border-primary-foreground/10 pt-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/50">
             <p>© {currentYear} Marco Rossi Abogado. Todos los derechos reservados.</p>
             <div className="flex items-center gap-6">
               <a href="#" className="hover:text-primary-foreground transition-colors">
@@ -136,19 +120,17 @@ export default function Footer() {
               <a href="#" className="hover:text-primary-foreground transition-colors">
                 Términos
               </a>
+              {/* Volver arriba - Discrete with arrow icon */}
+              <button
+                onClick={scrollToTop}
+                className="inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                aria-label="Volver arriba"
+              >
+                <span className="text-xs">Volver arriba</span>
+                <ArrowUp size={14} />
+              </button>
             </div>
           </div>
-        </div>
-
-        {/* Scroll to Top Button */}
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={scrollToTop}
-            className="w-12 h-12 flex items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground transition-all duration-300"
-            aria-label="Volver arriba"
-          >
-            <ArrowUp size={20} />
-          </button>
         </div>
       </div>
     </footer>

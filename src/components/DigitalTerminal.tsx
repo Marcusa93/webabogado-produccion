@@ -105,14 +105,14 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
     return (
         <div className="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 min-h-[300px]">
             {/* Dark Overlay / Backdrop Filter Container */}
-            <div className="w-full max-w-lg bg-[#0a0f1c]/80 backdrop-blur-md rounded-lg border border-white/10 shadow-2xl overflow-hidden font-mono text-[10px] xs:text-xs sm:text-sm transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[340px] xs:h-[380px] sm:h-[420px] relative">
+            <div className="w-full max-w-lg bg-[#0a0f1c]/90 backdrop-blur-md rounded-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden font-mono text-[9px] xs:text-[10px] sm:text-xs transform transition-all hover:scale-[1.005] duration-500 flex flex-col h-[340px] xs:h-[380px] sm:h-[420px] relative">
 
                 {/* Background Noise/Grid */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(18,24,38,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(18,24,38,0.5)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-20" />
-                <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+                <div className="absolute inset-0 bg-black/30 pointer-events-none" />
 
                 {/* Terminal Header */}
-                <div className="bg-[#1a1f2e]/90 px-4 py-3 flex items-center justify-between border-b border-white/5 flex-shrink-0 relative z-10">
+                <div className="bg-[#1a1f2e]/95 px-4 py-3 flex items-center justify-between border-b border-white/10 flex-shrink-0 relative z-10">
                     <div className="flex gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500/80" />
                         <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
@@ -126,7 +126,7 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
                 </div>
 
                 {/* Terminal Body */}
-                <div ref={scrollRef} className="p-4 sm:p-6 flex-1 overflow-y-auto scrollbar-hide relative flex flex-col z-10">
+                <div ref={scrollRef} className="p-5 sm:p-7 flex-1 overflow-y-auto scrollbar-hide relative flex flex-col z-10">
 
                     <div className="space-y-3 font-mono pb-4">
                         {displayedLines.map((item, i) => (

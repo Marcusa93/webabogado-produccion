@@ -71,10 +71,10 @@ export default function Contacto() {
   };
 
   return (
-    <section id="contacto" className="relative py-24 md:py-32 bg-background overflow-hidden font-montserrat">
-      {/* Background decoration */}
-      <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[140px] -z-10" />
+    <section id="contacto" className="relative py-24 md:py-32 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-ice to-white">
+      {/* Background Elements */}
+      <div className="absolute inset-0 tech-grid opacity-[0.02]" />
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,_#577C8E_0%,_transparent_50%)] opacity-5" />
       <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[140px] -z-10" />
 
       <div ref={ref} className="section-container relative z-10">
@@ -95,21 +95,19 @@ export default function Contacto() {
               La consulta inicial estratégica es la base de todo éxito legal. Analizamos el plano fáctico, técnico y jurídico para darte una ruta clara.
             </p>
 
-            {/* Benefits Bullets */}
-            <div className="space-y-6 mb-12">
+            {/* Benefits Cards - Visual Separation */}
+            <div className="grid sm:grid-cols-3 gap-4 mb-12">
               {[
                 { icon: Shield, title: "Confidencialidad Total", desc: "Protocolo de seguridad en comunicaciones." },
                 { icon: Clock, title: "Respuesta Ejecutiva", desc: "Feedback en menos de 24 horas hábiles." },
                 { icon: Zap, title: "Visión Técnica", desc: "No solo abogados, entendemos tu tecnología." }
               ].map((benefit, i) => (
-                <div key={i} className="flex items-start gap-4 group">
-                  <div className="w-12 h-12 shrink-0 rounded-2xl bg-white shadow-soft border border-navy-deep/5 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:scale-110">
+                <div key={i} className="bg-white p-6 rounded-2xl border-2 border-navy-deep/5 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
                     <benefit.icon size={24} />
                   </div>
-                  <div>
-                    <h4 className="font-black text-navy-deep text-lg">{benefit.title}</h4>
-                    <p className="text-slate/60 text-sm font-medium">{benefit.desc}</p>
-                  </div>
+                  <h4 className="font-black text-navy-deep text-base mb-2">{benefit.title}</h4>
+                  <p className="text-slate/60 text-sm font-medium leading-relaxed">{benefit.desc}</p>
                 </div>
               ))}
             </div>
@@ -162,7 +160,7 @@ export default function Contacto() {
                         placeholder="Nombre completo o razón social"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium invalid:border-red-300"
+                        className="w-full px-6 py-5 bg-ice-blue/30 border-2 border-navy-deep/10 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium invalid:border-red-300"
                       />
                       {formData.name.length > 3 && (
                         <CheckCircle className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in fade-in" size={20} />
@@ -181,7 +179,7 @@ export default function Contacto() {
                         placeholder="email@ejemplo.com o teléfono"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-6 py-5 bg-ice-blue/30 border rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium ${formData.email && !formData.email.includes('@') ? 'border-red-300 focus:border-red-400' : 'border-navy-deep/5'
+                        className={`w-full px-6 py-5 bg-ice-blue/30 border-2 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium ${formData.email && !formData.email.includes('@') ? 'border-red-300 focus:border-red-400' : 'border-navy-deep/10'
                           }`}
                       />
                       {formData.email.includes('@') && (
@@ -203,7 +201,7 @@ export default function Contacto() {
                       placeholder="Describe tu conflicto en 2-3 líneas..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-6 py-5 bg-ice-blue/30 border border-navy-deep/5 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all font-medium resize-none"
+                      className="w-full px-6 py-5 bg-ice-blue/30 border-2 border-navy-deep/10 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium resize-none"
                     />
                   </div>
 
@@ -211,14 +209,17 @@ export default function Contacto() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent transition-all duration-500 shadow-glow disabled:opacity-50 active:scale-[0.98] group/btn mb-4"
+                      className="w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent hover:shadow-xl transition-all duration-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] group/btn mb-4"
                     >
                       {isSubmitting ? (
-                        <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                        <>
+                          <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span className="uppercase tracking-[0.2em] text-sm">Enviando...</span>
+                        </>
                       ) : (
                         <>
                           <span className="uppercase tracking-[0.2em] text-sm">Ejecutar Envío</span>
-                          <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          <Send size={18} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                         </>
                       )}
                     </button>
