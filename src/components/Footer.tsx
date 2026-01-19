@@ -113,53 +113,26 @@ export default function Footer() {
         </div>
 
         {/* Divider Line */}
-        <div className="border-t border-primary-foreground/10 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/50">
-            <p>© {currentYear} Marco Rossi Abogado. Todos los derechos reservados.</p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
-                Política de privacidad
-              </a>
-              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
-                Términos
-              </a>
-              {/* Volver arriba - Discrete with arrow icon */}
+        <div className="border-t border-foreground/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-foreground/40 text-[10px] font-bold uppercase tracking-widest">
+              © {currentYear} Marco Rossi. Todos los derechos reservados.
+            </p>
+            <div className="flex items-center gap-8">
+              <a href="#" className="text-foreground/30 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">Aviso Legal</a>
+              <a href="#" className="text-foreground/30 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors">Privacidad</a>
               <button
                 onClick={scrollToTop}
-                className="btn-interactive inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                className="btn-interactive inline-flex items-center gap-1.5 text-foreground/40 hover:text-accent transition-colors"
                 aria-label="Volver arriba"
               >
-                <social.icon size={20} />
-              </a>
-            ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Divider Line */}
-        <div className="border-t border-primary-foreground/10 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/50">
-            <p>© {currentYear} Marco Rossi Abogado. Todos los derechos reservados.</p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
-                Política de privacidad
-              </a>
-              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
-                Términos
-              </a>
-              {/* Volver arriba - Discrete with arrow icon */}
-              <button
-                onClick={scrollToTop}
-                className="btn-interactive inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground transition-colors"
-                aria-label="Volver arriba"
-              >
-                <span className="text-xs">Volver arriba</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest">Arriba</span>
                 <ArrowUp size={14} />
               </button>
             </div>
           </div>
         </div>
       </div>
-    </footer >
+    </footer>
   );
 }

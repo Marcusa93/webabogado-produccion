@@ -83,7 +83,7 @@ export default function Servicios() {
     <section
       id="servicios"
       ref={sectionRef}
-      className="py-24 md:py-32 bg-navy-deep relative"
+      className="py-24 md:py-32 bg-background transition-colors duration-500 relative"
       style={{ minHeight: '300vh' }}
     >
       {/* Subtle grid background */}
@@ -101,11 +101,11 @@ export default function Servicios() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
               <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat tracking-[0.2em]">Ecosistema Legal</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight font-montserrat">
+            <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight font-montserrat">
               Servicios <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">profesionales.</span>
             </h2>
-            <p className="text-lg text-white/70 font-medium leading-relaxed mb-10">
+            <p className="text-lg text-foreground/70 font-medium leading-relaxed mb-10">
               Un enfoque 360° que combina la rigurosidad del derecho tradicional con la agilidad de los negocios digitales.
             </p>
 
@@ -123,7 +123,7 @@ export default function Servicios() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`fade-in-up group relative bg-[#1E1E2E] border-2 border-white/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_32px_rgba(87,124,142,0.15)] hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                className={`fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                 style={{
                   top: `${100 + index * 40}px`,
                   zIndex: index + 1
@@ -144,24 +144,24 @@ export default function Servicios() {
                       ))}
                     </div>
                     {/* Numeric Badge - More Prominent */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-2xl font-black text-white/20 font-montserrat">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-foreground/10 text-2xl font-black text-foreground/20 font-montserrat">
                       {String(index + 1).padStart(2, '0')}
                     </div>
                   </div>
 
                   {/* Icon and Title */}
                   <div className="flex items-start gap-6 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform duration-500">
+                    <div className="w-14 h-14 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform duration-500">
                       <service.icon size={28} />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-white mb-2 font-montserrat">{service.title}</h3>
+                      <h3 className="text-2xl font-bold text-foreground mb-2 font-montserrat">{service.title}</h3>
                       <p className="text-accent font-medium text-sm md:text-base">{service.summary}</p>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-white/60 leading-relaxed mb-8 pl-0 md:pl-20 md:border-l-2 border-white/5 flex-grow">
+                  <p className="text-foreground/60 leading-relaxed mb-8 pl-0 md:pl-20 md:border-l-2 border-foreground/10 flex-grow">
                     {service.description}
                   </p>
 
@@ -169,7 +169,7 @@ export default function Servicios() {
                   <div className="md:pl-20 mt-auto">
                     <button
                       onClick={scrollToContact}
-                      className="text-sm font-bold text-white/40 group-hover:text-accent flex items-center gap-2 transition-colors uppercase tracking-widest"
+                      className="text-sm font-bold text-foreground/40 group-hover:text-accent flex items-center gap-2 transition-colors uppercase tracking-widest"
                     >
                       Consultar servicio
                       <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />

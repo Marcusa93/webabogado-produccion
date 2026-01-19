@@ -213,7 +213,7 @@
 
   .fade-in-up.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 
   /* Stagger delays for sequential animations */
