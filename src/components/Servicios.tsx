@@ -123,9 +123,9 @@ export default function Servicios() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`fade-in-up group relative bg-[#1E1E2E] border-2 border-white/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_32px_rgba(123,44,191,0.15)] hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                className={`fade-in-up group relative bg-[#1E1E2E] border-2 border-white/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_32px_rgba(87,124,142,0.15)] hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                 style={{
-                  top: `${120 + index * 20}px`,
+                  top: `${100 + index * 40}px`,
                   zIndex: index + 1
                 }}
               >

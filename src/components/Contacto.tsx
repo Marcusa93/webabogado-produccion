@@ -88,10 +88,10 @@ export default function Contacto() {
 
             <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-navy-deep mb-8 leading-[1.1]">
               Iniciemos una <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">estrategia ganadora.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-secondary">estrategia ganadora.</span>
             </h2>
 
-            <p className="text-lg md:text-xl text-slate font-medium leading-relaxed mb-12 max-w-xl">
+            <p className="text-lg md:text-xl text-navy-deep font-medium leading-relaxed mb-12 max-w-xl">
               La consulta inicial estratégica es la base de todo éxito legal. Analizamos el plano fáctico, técnico y jurídico para darte una ruta clara.
             </p>
 
@@ -102,12 +102,12 @@ export default function Contacto() {
                 { icon: Clock, title: "Respuesta Ejecutiva", desc: "Feedback en menos de 24 horas hábiles." },
                 { icon: Zap, title: "Visión Técnica", desc: "No solo abogados, entendemos tu tecnología." }
               ].map((benefit, i) => (
-                <div key={i} className="bg-white p-6 rounded-2xl border-2 border-navy-deep/5 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div key={i} className="bg-white p-6 rounded-2xl border-2 border-navy-deep/10 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
                     <benefit.icon size={24} />
                   </div>
                   <h4 className="font-black text-navy-deep text-base mb-2">{benefit.title}</h4>
-                  <p className="text-slate/60 text-sm font-medium leading-relaxed">{benefit.desc}</p>
+                  <p className="text-navy-deep/60 text-sm font-medium leading-relaxed">{benefit.desc}</p>
                 </div>
               ))}
             </div>
@@ -151,7 +151,7 @@ export default function Contacto() {
                 <div className="space-y-6">
                   {/* Name Input */}
                   <div className="space-y-2 group">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Identidad</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Identidad</label>
                     <div className="relative">
                       <input
                         required
@@ -170,7 +170,7 @@ export default function Contacto() {
 
                   {/* Contact Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Conexión</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Conexión</label>
                     <div className="relative">
                       <input
                         required
@@ -193,7 +193,7 @@ export default function Contacto() {
 
                   {/* Message Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/40 ml-1">Tu Caso</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Caso</label>
                     <textarea
                       required
                       name="message"
@@ -225,7 +225,7 @@ export default function Contacto() {
                     </button>
 
                     {/* Microcopy */}
-                    <p className="text-center text-[10px] md:text-xs text-slate/50 font-medium">
+                    <p className="text-center text-[10px] md:text-xs text-navy-deep/60 font-medium">
                       ⚡ Respuesta en menos de 24hs. <span className="mx-1">·</span> 🔒 Confidencialidad garantizada.
                     </p>
                   </div>

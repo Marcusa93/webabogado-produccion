@@ -251,14 +251,18 @@ export default function QuienesSomos() {
 
     // Load EmbedSocial script
     useEffect(() => {
-        (function (d, s, id) {
-            var js;
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s) as HTMLScriptElement;
+        const id = "EmbedSocialHashtagScript";
+        if (!document.getElementById(id)) {
+            const js = document.createElement("script") as HTMLScriptElement;
             js.id = id;
             js.src = "https://embedsocial.com/cdn/ht.js";
-            d.getElementsByTagName("head")[0].appendChild(js);
-        }(document, "script", "EmbedSocialHashtagScript"));
+            document.getElementsByTagName("head")[0].appendChild(js);
+        } else {
+            // If already loaded, try to re-initialize if the global object exists
+            if ((window as any).EmbedSocialHashtag) {
+                (window as any).EmbedSocialHashtag.init();
+            }
+        }
     }, []);
 
     return (
