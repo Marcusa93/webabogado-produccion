@@ -210,7 +210,7 @@ export default function QuienesSomos() {
                 </div>
 
                 {/* Marco Rossi Highlighted Profile */}
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start mb-32">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-start mb-32">
                     {/* Left Column: Photo & Main Info (60% approx -> 7 cols) */}
                     <div className="lg:col-span-7 flex flex-col gap-8">
                         <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -303,7 +303,7 @@ export default function QuienesSomos() {
                                     <Tv size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Entrevistas y TV</span>
                                 </div>
-                                <div className={`grid grid-cols-2 gap-4 ${showAllInterviews ? '' : 'max-h-[600px] overflow-hidden'}`}>
+                                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${showAllInterviews ? '' : 'max-h-[600px] overflow-hidden'}`}>
                                     {multimedia.interviews.slice(0, showAllInterviews ? undefined : 4).map((item, i) => {
                                         const isVideo = item.url?.includes("youtu") || item.type === "Stream" || item.type === "Video";
                                         const thumbnailUrl = isVideo && item.url ? getYouTubeThumbnail(item.url) : null;
@@ -393,7 +393,7 @@ export default function QuienesSomos() {
                                     <Mic2 size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Podcasts y Audio</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {multimedia.podcasts.map((item, i) => {
                                         const isYouTube = item.type === "YouTube";
                                         const isSpotify = item.source === "Spotify";
@@ -469,7 +469,7 @@ export default function QuienesSomos() {
                                     <BookOpen size={20} />
                                     <span className="font-black text-xs uppercase tracking-widest">Libros</span>
                                 </div>
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {multimedia.books.map((item, i) => (
                                         item.url ? (
                                             <a
@@ -540,7 +540,7 @@ export default function QuienesSomos() {
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                     <span className="font-black text-xs uppercase tracking-widest">Sígueme en Instagram</span>
                                 </div>
-                                <div className="bg-black rounded-xl overflow-hidden border border-white/10 shadow-lg h-[400px] lg:h-full min-h-[400px] relative">
+                                <div className="bg-black rounded-xl overflow-hidden border border-white/10 shadow-lg h-[300px] sm:h-[350px] lg:h-full min-h-[300px] sm:min-h-[350px] relative">
                                     <iframe
                                         src="https://www.instagram.com/marquitorossi/embed"
                                         width="100%"

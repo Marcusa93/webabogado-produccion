@@ -82,8 +82,7 @@ export default function Servicios() {
     <section
       id="servicios"
       ref={sectionRef}
-      className="py-24 md:py-32 bg-white relative"
-      style={{ minHeight: '300vh' }}
+      className="py-24 md:py-32 bg-white relative min-h-[200vh] md:min-h-[250vh] lg:min-h-[300vh]"
     >
       {/* Subtle grid background */}
       <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none" />

@@ -98,7 +98,7 @@ export default function UnifiedCard({
       onMouseMove={handleMouseMove}
       onClick={onClick}
       className={`
-        group relative overflow-hidden rounded-2xl border p-6 md:p-8
+        group relative overflow-hidden rounded-2xl border p-5 sm:p-6 md:p-8
         transition-all duration-500
         hover:-translate-y-1 hover:scale-[1.02]
         ${currentVariant.card}
@@ -122,19 +122,19 @@ export default function UnifiedCard({
       {/* Contenedor de ícono */}
       <div
         className={`
-          inline-flex items-center justify-center w-14 h-14 rounded-xl mb-4
+          inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl mb-4
           ${iconBgColor} ${iconColor}
           icon-hover
           group-hover:shadow-lg
         `}
       >
-        <Icon size={28} />
+        <Icon size={24} className="sm:w-7 sm:h-7" />
       </div>
 
       {/* Título */}
       <h3
         className={`
-          text-xl md:text-2xl font-black mb-3 leading-tight
+          text-lg sm:text-xl md:text-2xl font-black mb-3 leading-tight
           ${currentVariant.text}
           transition-colors duration-300
         `}
@@ -146,7 +146,7 @@ export default function UnifiedCard({
       {description && (
         <p
           className={`
-            text-sm md:text-base font-medium leading-relaxed mb-4
+            text-base font-medium leading-relaxed mb-4
             ${currentVariant.description}
             transition-colors duration-300
           `}

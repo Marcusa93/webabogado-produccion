@@ -50,7 +50,7 @@ export default function Hero() {
         href="https://wa.me/5493813007791"
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed bottom-8 right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
           }`}
         style={{
           backgroundColor: 'var(--whatsapp-green)',
@@ -84,13 +84,13 @@ export default function Hero() {
             {/* Tagline / Microcopy */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] text-accent-foreground/90 uppercase">
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent-foreground/90 uppercase">
                 Derecho · Tecnología · Estrategia
               </span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[clamp(2rem,10vw,4.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
+            <h1 className="text-[clamp(1.75rem,8vw,3.5rem)] lg:text-7xl font-black text-white leading-[1.1] mb-6 md:mb-8 opacity-0 animate-fade-in-up animation-delay-200">
               Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
             </h1>
 
@@ -113,7 +113,7 @@ export default function Hero() {
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
           <div className="relative mt-12 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0">
-            <div className="w-[300px] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
+            <div className="w-[min(90vw,300px)] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
               <div
