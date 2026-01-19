@@ -586,11 +586,13 @@ export default function QuienesSomos() {
                     </div>
                 </div>
 
-                {/* Other Team Members Grid */}
+                {/* Other Team Members - 2 Columns */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-                    {team.slice(1).map((member, i) => (
-                        <div key={i} className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-navy-deep/10 shadow-lg hover:shadow-2xl transition-all duration-500 group">
-                            <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start text-center lg:text-left">
+                    {team.slice(1).map((member, index) => (
+                        <div
+                            key={index}
+                            className={`fade-in-up bg-white p-8 md:p-10 rounded-[2.5rem] border border-navy-deep/10 shadow-lg hover:shadow-2xl transition-all duration-500 group stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                        >  <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start text-center lg:text-left">
                                 <div className="w-32 md:w-40 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border border-navy-deep/5 flex-shrink-0">
                                     <img
                                         src={member.image}

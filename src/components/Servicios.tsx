@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
 
 const services = [
   {
@@ -52,6 +53,7 @@ const services = [
 
 export default function Servicios() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const { ref: cardsRef, isInView } = useInView({ threshold: 0.1 });
   const sectionRef = useRef<HTMLElement>(null);
 
   const scrollToContact = () => {
@@ -117,11 +119,11 @@ export default function Servicios() {
           </div>
 
           {/* Right Column: Cards with Sticky Stacking Effect */}
-          <div className="lg:w-3/5 w-full relative pt-10 pb-32">
+          <div ref={cardsRef} className="lg:w-3/5 w-full relative pt-10 pb-32">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="group relative bg-[#1E1E2E] border-2 border-white/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_32px_rgba(123,44,191,0.15)] hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg"
+                className={`fade-in-up group relative bg-[#1E1E2E] border-2 border-white/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-[0_8px_32px_rgba(123,44,191,0.15)] hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                 style={{
                   top: `${120 + index * 20}px`,
                   zIndex: index + 1

@@ -135,7 +135,6 @@ const DigitalTerminal: React.FC<DigitalTerminalProps> = ({ onComplete }) => {
                                 <span className="leading-relaxed whitespace-normal break-words drop-shadow-md">{item.text}</span>
                             </div>
                         ))}
-                        <div className="animate-pulse text-accent pl-6">_</div>
                     </div>
 
                     {/* Final Status Box fixed at bottom */}
