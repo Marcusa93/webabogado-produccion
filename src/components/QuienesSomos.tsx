@@ -266,7 +266,7 @@ export default function QuienesSomos() {
     }, []);
 
     return (
-        <section id="quienes-somos" ref={ref} className="relative py-24 md:py-32 bg-white overflow-hidden">
+        <section id="quienes-somos" ref={ref} className="relative py-24 md:py-32 bg-background transition-colors duration-500 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 tech-grid opacity-10" />
 
@@ -276,11 +276,11 @@ export default function QuienesSomos() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">El Estudio</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-navy-deep mb-6 font-montserrat">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat">
                         Nuestro <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Equipo.</span>
                     </h2>
-                    <p className="text-xl md:text-2xl text-slate font-medium leading-relaxed max-w-2xl mx-auto">
+                    <p className="text-xl md:text-2xl text-foreground/70 font-medium leading-relaxed max-w-2xl mx-auto">
                         Equipo profesional multidisciplinario con experiencia en derecho, justicia y tecnología.
                     </p>
                 </div>
@@ -317,13 +317,13 @@ export default function QuienesSomos() {
 
                             {/* Short Bio */}
                             <div className="flex-1 order-2">
-                                <h3 className="text-4xl lg:text-5xl font-black text-navy-deep mb-3 font-montserrat tracking-tight">
+                                <h3 className="text-4xl lg:text-5xl font-black text-foreground mb-3 font-montserrat tracking-tight">
                                     {team[0].name}
                                 </h3>
                                 <div className="text-accent font-bold text-lg mb-6 uppercase tracking-wider">
                                     {team[0].role}
                                 </div>
-                                <p className="text-slate text-lg leading-relaxed font-medium mb-8">
+                                <p className="text-foreground/70 text-lg leading-relaxed font-medium mb-8">
                                     {team[0].bio}
                                 </p>
                                 <button className="px-6 py-3 rounded-xl bg-navy-deep text-white font-bold text-sm hover:bg-accent transition-all duration-300 shadow-lg flex items-center gap-2">
@@ -334,12 +334,12 @@ export default function QuienesSomos() {
                     </div>
 
                     {/* Right Column: Credentials Sidebar (40% -> 5 cols) */}
-                    <div className="lg:col-span-5 bg-navy-deep/5 p-8 rounded-[2rem] border border-navy-deep/10 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <div className="lg:col-span-5 bg-foreground/5 p-8 rounded-[2rem] border border-foreground/10 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 text-foreground">
                             <Scale size={120} />
                         </div>
 
-                        <h4 className="text-xl font-black text-navy-deep mb-6 relative z-10 font-montserrat">Credenciales Destacadas</h4>
+                        <h4 className="text-xl font-black text-foreground mb-6 relative z-10 font-montserrat">Credenciales Destacadas</h4>
 
                         <ul className="space-y-4 relative z-10">
                             {[
@@ -349,11 +349,11 @@ export default function QuienesSomos() {
                                 { text: "Especialista certificado en Inteligencia Artificial", icon: Terminal },
                                 { text: "+70 acreditaciones de formación académica", icon: Award }
                             ].map((cred, i) => (
-                                <li key={i} className="flex items-start gap-4 p-3 bg-white rounded-xl shadow-sm border border-navy-deep/5 transition-transform hover:scale-[1.02]">
+                                <li key={i} className="flex items-start gap-4 p-3 bg-card rounded-xl shadow-sm border border-foreground/5 transition-transform hover:scale-[1.02]">
                                     <div className="p-2 bg-accent/10 rounded-lg text-accent shrink-0">
                                         <cred.icon size={18} />
                                     </div>
-                                    <span className="text-sm font-bold text-navy-deep/80 pt-1 leading-snug">{cred.text}</span>
+                                    <span className="text-sm font-bold text-foreground/80 pt-1 leading-snug">{cred.text}</span>
                                 </li>
                             ))}
                         </ul>
@@ -595,9 +595,9 @@ export default function QuienesSomos() {
                     {team.slice(1).map((member, index) => (
                         <div
                             key={index}
-                            className={`fade-in-up bg-white p-8 md:p-10 rounded-[2.5rem] border border-navy-deep/10 shadow-lg hover:shadow-2xl transition-all duration-500 group stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                            className={`fade-in-up bg-card p-8 md:p-10 rounded-[2.5rem] border border-foreground/10 shadow-lg hover:shadow-2xl transition-all duration-500 group stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                         >  <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start text-center lg:text-left">
-                                <div className="w-32 md:w-40 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border border-navy-deep/5 flex-shrink-0">
+                                <div className="w-32 md:w-40 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg border border-foreground/5 flex-shrink-0">
                                     <img
                                         src={member.image}
                                         alt={member.name}
@@ -605,16 +605,16 @@ export default function QuienesSomos() {
                                     />
                                 </div>
                                 <div className="flex-1">
-                                    <h4 className="text-2xl font-black text-navy-deep mb-2 font-montserrat">{member.name}</h4>
+                                    <h4 className="text-2xl font-black text-foreground mb-2 font-montserrat">{member.name}</h4>
                                     <div className="text-accent font-bold text-sm uppercase tracking-wider mb-6">{member.role}</div>
-                                    <p className="text-slate text-sm md:text-base leading-relaxed mb-8">
+                                    <p className="text-foreground/70 text-sm md:text-base leading-relaxed mb-8">
                                         {member.bio}
                                     </p>
                                     <a
                                         href={member.linkedin}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-navy-deep/40 hover:text-accent transition-colors"
+                                        className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors"
                                     >
                                         <Linkedin size={20} />
                                         <span className="text-[10px] font-black uppercase tracking-widest">Ver Perfil</span>

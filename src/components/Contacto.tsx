@@ -71,7 +71,7 @@ export default function Contacto() {
   };
 
   return (
-    <section id="contacto" className="relative py-24 md:py-32 pb-16 md:pb-24 overflow-hidden bg-gradient-to-b from-ice to-white">
+    <section id="contacto" className="relative py-24 md:py-32 pb-16 md:pb-24 transition-colors duration-500 overflow-hidden bg-background">
       {/* Background Elements */}
       <div className="absolute inset-0 tech-grid opacity-[0.02]" />
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,_#577C8E_0%,_transparent_50%)] opacity-5" />
@@ -86,12 +86,12 @@ export default function Contacto() {
               <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase">Canales Directos</span>
             </div>
 
-            <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-navy-deep mb-8 leading-[1.1]">
+            <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1]">
               Iniciemos una <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-secondary">estrategia ganadora.</span>
             </h2>
 
-            <p className="text-lg md:text-xl text-navy-deep font-medium leading-relaxed mb-12 max-w-xl">
+            <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-12 max-w-xl">
               La consulta inicial estratégica es la base de todo éxito legal. Analizamos el plano fáctico, técnico y jurídico para darte una ruta clara.
             </p>
 
@@ -102,12 +102,12 @@ export default function Contacto() {
                 { icon: Clock, title: "Respuesta Ejecutiva", desc: "Feedback en menos de 24 horas hábiles." },
                 { icon: Zap, title: "Visión Técnica", desc: "No solo abogados, entendemos tu tecnología." }
               ].map((benefit, i) => (
-                <div key={i} className="bg-white p-6 rounded-2xl border-2 border-navy-deep/10 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div key={i} className="bg-card p-6 rounded-2xl border-2 border-foreground/10 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
                     <benefit.icon size={24} />
                   </div>
-                  <h4 className="font-black text-navy-deep text-base mb-2">{benefit.title}</h4>
-                  <p className="text-navy-deep/60 text-sm font-medium leading-relaxed">{benefit.desc}</p>
+                  <h4 className="font-black text-foreground text-base mb-2">{benefit.title}</h4>
+                  <p className="text-foreground/60 text-sm font-medium leading-relaxed">{benefit.desc}</p>
                 </div>
               ))}
             </div>
@@ -133,25 +133,25 @@ export default function Contacto() {
 
               <form
                 onSubmit={handleSubmit}
-                className="relative p-10 md:p-14 bg-white rounded-[3rem] border border-navy-deep/5 shadow-strong flex flex-col gap-8 group/form overflow-hidden"
+                className="relative p-10 md:p-14 bg-card rounded-[3rem] border border-foreground/5 shadow-strong flex flex-col gap-8 group/form overflow-hidden"
               >
                 {/* Visual Indicator */}
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-accent to-transparent scale-x-0 group-hover/form:scale-x-100 transition-transform duration-1000" />
 
                 <div className="flex items-center gap-5">
-                  <div className="w-14 h-14 rounded-2xl bg-navy-deep text-white flex items-center justify-center shadow-lg">
+                  <div className="w-14 h-14 rounded-2xl bg-foreground text-background flex items-center justify-center shadow-lg">
                     <Mail size={24} />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-navy-deep">Envío Seguro</h3>
-                    <p className="text-sm text-slate/40 font-bold uppercase tracking-tighter">dr.marcorossi9@gmail.com</p>
+                    <h3 className="text-2xl font-black text-foreground">Envío Seguro</h3>
+                    <p className="text-sm text-foreground/40 font-bold uppercase tracking-tighter">dr.marcorossi9@gmail.com</p>
                   </div>
                 </div>
 
                 <div className="space-y-6">
                   {/* Name Input */}
                   <div className="space-y-2 group">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Identidad</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Identidad</label>
                     <div className="relative">
                       <input
                         required
@@ -160,7 +160,7 @@ export default function Contacto() {
                         placeholder="Nombre completo o razón social"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-6 py-5 bg-ice-blue/30 border-2 border-navy-deep/10 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium invalid:border-red-300"
+                        className="w-full px-6 py-5 bg-foreground/5 border-2 border-foreground/10 rounded-2xl text-foreground placeholder:text-foreground/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium invalid:border-red-300"
                       />
                       {formData.name.length > 3 && (
                         <CheckCircle className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in fade-in" size={20} />
@@ -170,7 +170,7 @@ export default function Contacto() {
 
                   {/* Contact Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Conexión</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Conexión</label>
                     <div className="relative">
                       <input
                         required
@@ -179,7 +179,7 @@ export default function Contacto() {
                         placeholder="email@ejemplo.com o teléfono"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-6 py-5 bg-ice-blue/30 border-2 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium ${formData.email && !formData.email.includes('@') ? 'border-red-300 focus:border-red-400' : 'border-navy-deep/10'
+                        className={`w-full px-6 py-5 bg-foreground/5 border-2 rounded-2xl text-foreground placeholder:text-foreground/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium ${formData.email && !formData.email.includes('@') ? 'border-red-300 focus:border-red-400' : 'border-foreground/10'
                           }`}
                       />
                       {formData.email.includes('@') && (
@@ -193,7 +193,7 @@ export default function Contacto() {
 
                   {/* Message Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-navy-deep/70 ml-1">Tu Caso</label>
+                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Caso</label>
                     <textarea
                       required
                       name="message"
@@ -201,7 +201,7 @@ export default function Contacto() {
                       placeholder="Describe tu conflicto en 2-3 líneas..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-6 py-5 bg-ice-blue/30 border-2 border-navy-deep/10 rounded-2xl text-navy-deep placeholder:text-navy-deep/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium resize-none"
+                      className="w-full px-6 py-5 bg-foreground/5 border-2 border-foreground/10 rounded-2xl text-foreground placeholder:text-foreground/20 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all font-medium resize-none"
                     />
                   </div>
 
@@ -209,7 +209,7 @@ export default function Contacto() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-interactive w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent transition-all duration-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group/btn mb-4"
+                      className="btn-interactive w-full flex items-center justify-center gap-3 py-6 bg-foreground text-background font-black rounded-2xl hover:bg-accent hover:text-white transition-all duration-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group/btn mb-4"
                     >
                       {isSubmitting ? (
                         <>
@@ -225,7 +225,7 @@ export default function Contacto() {
                     </button>
 
                     {/* Microcopy */}
-                    <p className="text-center text-[10px] md:text-xs text-navy-deep/60 font-medium">
+                    <p className="text-center text-[10px] md:text-xs text-foreground/60 font-medium">
                       ⚡ Respuesta en menos de 24hs. <span className="mx-1">·</span> 🔒 Confidencialidad garantizada.
                     </p>
                   </div>

@@ -6,84 +6,90 @@
 
 @layer base {
   :root {
-    /* Marco Rossi Abogado Brand Colors - HSL components only */
-    --background: 0 0% 97%;
-    /* Light gray background */
+    /* Base theme (Light) */
+    --background: 203 38% 97%;
+    /* Very light gray/ice tint */
     --foreground: 205 94% 6%;
-    /* #01101E - Primary dark */
+    /* #01101E */
     --card: 0 0% 100%;
-    /* White cards */
     --card-foreground: 205 94% 6%;
     --popover: 0 0% 100%;
     --popover-foreground: 205 94% 6%;
 
-    /* Primary: Azul Noche #01101E */
     --primary: 205 94% 6%;
+    /* #01101E */
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Azul Profundo #313852 */
     --secondary: 228 25% 27%;
+    /* #313852 */
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted/Neutral */
     --muted: 0 0% 90%;
     /* #E6E6E6 */
     --muted-foreground: 228 25% 27%;
 
-    /* Accent: Azul Medio #577C8E - For CTAs and highlights */
     --accent: 199 25% 45%;
+    /* #577C8E */
     --accent-light: 199 25% 55%;
-    /* Lighter variant for hovers */
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders and Inputs */
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 205 94% 6% / 0.1;
+    --input: 205 94% 6% / 0.1;
     --ring: 199 25% 45%;
     --radius: 0.75rem;
 
     /* Custom Brand Tokens */
     --navy-deep: 205 94% 6%;
-    /* #01101E - Primary */
+    /* #01101E */
     --navy-medium: 228 25% 27%;
-    /* #313852 - Secondary */
+    /* #313852 */
     --navy-light: 199 25% 45%;
-    /* #577C8E - Accent */
+    /* #577C8E */
     --slate: 203 38% 84%;
-    /* #C7D9E5 - Light background */
-    --slate-light: 0 0% 90%;
-    /* #E6E6E6 - Neutral */
-    --ice: 203 38% 84%;
     /* #C7D9E5 */
+    --slate-light: 0 0% 90%;
+    /* #E6E6E6 */
+    --ice: 203 38% 84%;
     --ice-dark: 203 38% 74%;
     --ice-blue: 203 38% 84%;
   }
 
   .dark {
     --background: 205 94% 6%;
-    --foreground: 0 0% 98%;
+    /* Primario #01101E as bg */
+    --foreground: 0 0% 100%;
+    /* White text */
     --card: 228 25% 27%;
-    --card-foreground: 0 0% 98%;
+    /* Secundario #313852 as card bg */
+    --card-foreground: 0 0% 100%;
     --popover: 228 25% 27%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
     --primary-foreground: 205 94% 6%;
-    --secondary: 199 25% 45%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 228 25% 27%;
-    --muted-foreground: 203 38% 84%;
+
+    --secondary: 228 25% 27%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 228 25% 20%;
+    --muted-foreground: 203 38% 70%;
+
     --accent: 199 25% 45%;
     --accent-light: 199 25% 55%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 228 25% 27%;
-    --input: 228 25% 27%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.1;
     --ring: 199 25% 45%;
+
+    /* Redefine brand tokens in dark mode if needed */
+    --navy-deep: 205 94% 6%;
+    --navy-medium: 228 25% 27%;
+    --slate: 205 94% 10%;
+    --ice: 205 94% 12%;
   }
 }
 

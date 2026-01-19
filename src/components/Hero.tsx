@@ -98,7 +98,7 @@ export default function Hero() {
               {/* Primary Button */}
               <button
                 onClick={() => scrollToSection('#contacto')}
-                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-navy-deep font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta

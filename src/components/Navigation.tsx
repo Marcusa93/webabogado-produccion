@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
 
@@ -16,6 +16,34 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  // Initialize theme
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    setTheme(initialTheme);
+
+    if (initialTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -120,8 +148,17 @@ export default function Navigation() {
               ))}
             </ul>
 
-            {/* CTA Button - Highlighted with Interactive States */}
-            <div className="hidden lg:flex items-center ml-8">
+            {/* Theme Toggle & CTA */}
+            <div className="hidden lg:flex items-center ml-8 gap-4">
+              <button
+                onClick={toggleTheme}
+                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${isScrolled ? 'text-navy-deep hover:bg-navy-deep/5' : 'text-white hover:bg-white/10'
+                  }`}
+                aria-label="Alternar tema"
+              >
+                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              </button>
+
               <a
                 href="#contacto"
                 onClick={(e) => {
@@ -168,7 +205,24 @@ export default function Navigation() {
                 </a>
               </li>
             ))}
-            <li className={`w-full pt-6 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
+            <li className={`w-full pt-6 flex flex-col gap-4 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-center gap-3 w-full px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl transition-all"
+              >
+                {theme === 'light' ? (
+                  <>
+                    <Moon size={20} />
+                    <span>Modo Oscuro</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun size={20} />
+                    <span>Modo Claro</span>
+                  </>
+                )}
+              </button>
+
               <a
                 href="#contacto"
                 onClick={(e) => {
