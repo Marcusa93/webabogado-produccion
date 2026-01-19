@@ -77,7 +77,7 @@ export default function Footer() {
                       e.preventDefault();
                       scrollToSection(link.href);
                     }}
-                    className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-300"
+                    className="link-underline text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -114,16 +114,16 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/50">
             <p>© {currentYear} Marco Rossi Abogado. Todos los derechos reservados.</p>
             <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-primary-foreground transition-colors">
+              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
                 Política de privacidad
               </a>
-              <a href="#" className="hover:text-primary-foreground transition-colors">
+              <a href="#" className="link-underline hover:text-primary-foreground transition-colors">
                 Términos
               </a>
               {/* Volver arriba - Discrete with arrow icon */}
               <button
                 onClick={scrollToTop}
-                className="inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                className="btn-interactive inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground transition-colors"
                 aria-label="Volver arriba"
               >
                 <span className="text-xs">Volver arriba</span>

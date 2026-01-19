@@ -160,6 +160,97 @@
     @apply hover:text-accent focus-visible:text-accent;
   }
 
+  /* Animated Link Underline */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    @apply absolute left-0 h-0.5 bg-accent;
+    content: '';
+    bottom: -2px;
+    width: 0;
+    transition: width 0.3s ease-out;
+  }
+
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Button Interactive States */
+  .btn-interactive {
+    @apply transition-all duration-300;
+    @apply hover:shadow-xl active:scale-[0.98];
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  /* Desktop: more pronounced hover */
+  @media (min-width: 768px) {
+    .btn-interactive {
+      @apply hover:scale-[1.03];
+    }
+  }
+
+  /* Mobile: minimal scale to avoid layout jumps */
+  @media (max-width: 767px) {
+    .btn-interactive {
+      @apply hover:scale-[1.01];
+    }
+  }
+
+  /* Scroll-triggered animations */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delays for sequential animations */
+  .stagger-1 {
+    transition-delay: 100ms;
+  }
+
+  .stagger-2 {
+    transition-delay: 200ms;
+  }
+
+  .stagger-3 {
+    transition-delay: 300ms;
+  }
+
+  .stagger-4 {
+    transition-delay: 400ms;
+  }
+
+  .stagger-5 {
+    transition-delay: 500ms;
+  }
+
+  .stagger-6 {
+    transition-delay: 600ms;
+  }
+
+  /* Accessibility: Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+
+    .fade-in-up,
+    .btn-interactive,
+    .link-underline::after {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .fade-in-up {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .tech-card {
     @apply relative overflow-hidden bg-card border border-border/50 transition-all duration-500 hover:shadow-lg;
     background-image: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),

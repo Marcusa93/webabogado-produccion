@@ -109,20 +109,18 @@ export default function Navigation() {
                       e.preventDefault();
                       scrollToSection(link.href);
                     }}
-                    className={`text-sm font-bold tracking-tight transition-all duration-300 relative py-2 group ${isScrolled
+                    className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isScrolled
                       ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
-                      : (activeSection === link.href.substring(1) ? 'text-white underline-offset-8' : 'text-white/70 hover:text-white')
+                      : (activeSection === link.href.substring(1) ? 'text-white' : 'text-white/70 hover:text-white')
                       }`}
                   >
                     {link.label}
-                    <span className={`absolute bottom-0 left-0 h-0.5 bg-accent transition-all duration-300 ${activeSection === link.href.substring(1) ? 'w-full' : 'w-0 group-hover:w-full'
-                      }`} />
                   </a>
                 </li>
               ))}
             </ul>
 
-            {/* CTA Button - Highlighted */}
+            {/* CTA Button - Highlighted with Interactive States */}
             <div className="hidden lg:flex items-center ml-8">
               <a
                 href="#contacto"
@@ -130,7 +128,7 @@ export default function Navigation() {
                   e.preventDefault();
                   scrollToSection('#contacto');
                 }}
-                className="inline-flex items-center px-6 py-3 transition-all duration-300 hover:shadow-xl rounded-xl text-sm font-black active:scale-95 bg-accent text-white hover:bg-accent-light shadow-lg"
+                className="btn-interactive inline-flex items-center px-6 py-3 rounded-xl text-sm font-black bg-accent text-white hover:bg-accent-light shadow-lg"
               >
                 Agendar consulta
               </a>

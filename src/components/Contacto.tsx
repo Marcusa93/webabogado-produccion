@@ -115,7 +115,7 @@ export default function Contacto() {
             {/* Direct WhatsApp CTA */}
             <button
               onClick={handleWhatsApp}
-              className="group relative flex items-center gap-4 px-10 py-6 bg-[#25D366] text-white font-black rounded-[2rem] transition-all duration-500 hover:bg-[#20BD5A] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] hover:-translate-y-1 active:scale-95 w-full sm:w-auto overflow-hidden"
+              className="btn-interactive group relative flex items-center gap-4 px-10 py-6 bg-[#25D366] text-white font-black rounded-[2rem] transition-all duration-500 hover:bg-[#20BD5A] hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] w-full sm:w-auto overflow-hidden"
             >
               <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               <MessageCircle size={28} className="relative z-10" />
@@ -209,7 +209,7 @@ export default function Contacto() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent hover:shadow-xl transition-all duration-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] group/btn mb-4"
+                      className="btn-interactive w-full flex items-center justify-center gap-3 py-6 bg-navy-deep text-white font-black rounded-2xl hover:bg-accent transition-all duration-500 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed group/btn mb-4"
                     >
                       {isSubmitting ? (
                         <>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowDown, MessageCircle, ChevronRight } from 'lucide-react';
+import { MessageCircle, Scale, ChevronDown } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
 import ThreeBackground from './ThreeBackground';
@@ -98,7 +98,7 @@ export default function Hero() {
               {/* Primary Button */}
               <button
                 onClick={() => scrollToSection('#contacto')}
-                className="w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-navy-deep font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] group text-base"
+                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-navy-deep font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
@@ -106,11 +106,11 @@ export default function Hero() {
 
               {/* Secondary Button */}
               <button
-                onClick={() => scrollToSection('#servicios')}
-                className="w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl border-2 border-white/30 hover:border-accent hover:bg-accent/10 transition-all duration-300 hover:scale-[1.03] group text-base"
+                onClick={() => scrollToSection('#especialidades')}
+                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-xl border-2 border-accent hover:bg-accent transition-all duration-300 shadow-lg group text-base"
               >
-                Ver servicios
-                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <Scale size={20} className="group-hover:scale-110 transition-transform" />
+                Conocé más
               </button>
             </div>
           </div>

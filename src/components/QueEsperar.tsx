@@ -55,9 +55,8 @@ export default function QueEsperar() {
                     {expectations.map((item, index) => (
                         <div
                             key={index}
-                            className={`bg-white/5 backdrop-blur-sm p-8 md:p-10 rounded-2xl border-2 border-white/10 hover:border-accent/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                            className={`fade-in-up bg-white/5 backdrop-blur-sm p-8 md:p-10 rounded-2xl border-2 border-white/10 hover:border-accent/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 stagger-${index + 1} ${isInView ? 'is-visible' : ''
                                 }`}
-                            style={{ transitionDelay: `${index * 100}ms` }}
                         >
                             {/* Icon */}
                             <div className="w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-6">
