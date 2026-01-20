@@ -92,8 +92,8 @@ export default function Navigation() {
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         className={`lg:hidden fixed top-4 left-4 p-2 z-[100] menu-toggle rounded-full transition-colors duration-300 ${isMobileMenuOpen
-          ? 'text-navy-deep bg-white/10 backdrop-blur-sm'
-          : (isScrolled ? 'text-navy-deep' : 'text-white')
+          ? 'text-foreground bg-white/10 backdrop-blur-sm'
+          : (theme === 'dark' ? 'text-white' : 'text-navy-deep')
           }`}
         style={{ touchAction: 'manipulation' }}
         aria-label="Toggle menu"
@@ -105,7 +105,7 @@ export default function Navigation() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[72px] flex items-center ${isScrolled
           ? 'glass border-b border-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
-          : 'bg-transparent'
+          : 'bg-background/20 backdrop-blur-md border-b border-white/5'
           }`}
       >
         <nav className="section-container w-full">
@@ -121,7 +121,7 @@ export default function Navigation() {
               className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0 ml-auto lg:ml-0"
             >
               <img
-                src={isScrolled ? logoNavy : logoWhite}
+                src={theme === 'dark' ? logoWhite : (isScrolled ? logoNavy : logoNavy)}
                 alt="Marco Rossi Abogado"
                 className="h-10 md:h-11 w-auto transition-all duration-500"
               />
@@ -139,7 +139,10 @@ export default function Navigation() {
                     }}
                     className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isScrolled
                       ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
-                      : (activeSection === link.href.substring(1) ? 'text-white' : 'text-white/70 hover:text-white')
+                      : (theme === 'dark'
+                        ? (activeSection === link.href.substring(1) ? 'text-white' : 'text-white/70 hover:text-white')
+                        : (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
+                      )
                       }`}
                   >
                     {link.label}

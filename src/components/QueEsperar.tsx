@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ClipboardCheck, DollarSign, CheckCircle, Calendar, Heart } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
+import UnifiedCard from './UnifiedCard';
 
 const expectations = [
     {
@@ -53,24 +54,16 @@ export default function QueEsperar() {
                 {/* Cards Grid - 2 columns desktop, 1 column mobile */}
                 <div ref={inViewRef} className="grid md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto">
                     {expectations.map((item, index) => (
-                        <div
+                        <UnifiedCard
                             key={index}
-                            className={`fade-in-up bg-card/40 backdrop-blur-sm p-8 md:p-10 rounded-2xl border-2 border-foreground/10 hover:border-accent/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 stagger-${index + 1} ${isInView ? 'is-visible' : ''
-                                }`}
-                        >
-                            {/* Icon */}
-                            <div className="w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-6">
-                                <item.icon size={28} className="text-accent" />
-                            </div>
-
-                            {/* Content */}
-                            <h3 className="text-xl font-bold text-foreground mb-3 font-montserrat">
-                                {item.title}
-                            </h3>
-                            <p className="text-foreground/70 leading-relaxed font-medium">
-                                {item.description}
-                            </p>
-                        </div>
+                            icon={item.icon}
+                            title={item.title}
+                            description={item.description}
+                            variant="dark"
+                            delay={index * 100}
+                            mouseGlow={true}
+                            className={`stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                        />
                     ))}
                 </div>
             </div>

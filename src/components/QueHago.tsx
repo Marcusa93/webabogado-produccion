@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, ChevronDown, Check } from 'lucide-react';
+import AnimatedUnderline from './AnimatedUnderline';
 
 const specialties = [
   {
@@ -98,10 +99,9 @@ export default function QueHago() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6">
             <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">Expertise Jurídico</span>
           </div>
-
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] font-montserrat">
-            Soluciones legales <br />
-            <span className="text-foreground/90">para problemas complejos.</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-tight font-montserrat">
+            Áreas de <br />
+            <AnimatedUnderline delay={200}>especialidad.</AnimatedUnderline>
           </h2>
 
           <p className="text-lg md:text-xl text-foreground/70 max-w-2xl leading-relaxed font-medium">
@@ -109,105 +109,68 @@ export default function QueHago() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
-          {/* List of Specialties (Accordion) */}
-          <div className="lg:col-span-8 flex flex-col gap-8">
-            {specialties.map((item, index) => (
-              <div
-                key={index}
-                className={`group relative rounded-3xl transition-all duration-500 overflow-hidden shadow-lg ${expandedIndex === index
-                  ? 'bg-card border-accent/40 shadow-[0_8px_32px_rgba(87,124,142,0.2)]'
-                  : 'bg-card/50 border-foreground/10 hover:bg-card hover:border-foreground/20 hover:shadow-xl'
-                  } border-2`}
-              >
-                {/* Header (Clickable) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {specialties.map((item, index) => (
+            <div
+              key={index}
+              className="tech-card p-8 md:p-10 rounded-3xl bg-card border border-foreground/10 transition-all duration-500 hover:shadow-strong group flex flex-col"
+              style={{
+                '--mouse-x': `${mousePos.x}px`,
+                '--mouse-y': `${mousePos.y}px`,
+              } as React.CSSProperties}
+            >
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="w-14 h-14 rounded-2xl bg-foreground/5 flex items-center justify-center text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 icon-hover">
+                  <item.icon size={28} />
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 group-hover:text-accent transition-colors font-montserrat leading-tight">
+                  {item.title}
+                </h3>
+
+                {/* Bullets Section */}
+                <ul className="mb-6 space-y-2">
+                  {item.bullets.map((bullet, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm font-medium text-foreground/70">
+                      <Check size={14} className="text-accent mt-1 flex-shrink-0" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Accordion for Full Description */}
+                <div className={`overflow-hidden transition-all duration-500 ${expandedIndex === index ? 'max-h-[300px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'}`}>
+                  <p className="text-foreground/70 text-sm leading-relaxed p-4 bg-foreground/5 rounded-xl border border-foreground/5">
+                    {item.description}
+                  </p>
+                </div>
                 <button
                   onClick={() => toggleAccordion(index)}
-                  className="w-full flex items-center justify-between p-6 md:p-8 text-left relative z-10"
+                  className="flex items-center gap-2 text-xs font-bold text-accent hover:text-accent-light transition-colors mt-2"
                 >
-                  <div className="flex items-center gap-6">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${expandedIndex === index
-                      ? 'bg-accent text-white shadow-glow'
-                      : 'bg-foreground/5 text-foreground/40 group-hover:text-accent group-hover:bg-accent/10'
-                      }`}>
-                      <item.icon size={24} />
-                    </div>
-                    <h3 className={`text-xl md:text-2xl font-bold font-montserrat transition-colors duration-300 ${expandedIndex === index ? 'text-foreground' : 'text-foreground/80 group-hover:text-foreground'
-                      }`}>
-                      {item.title}
-                    </h3>
-                  </div>
-
-                  <div className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${expandedIndex === index
-                    ? 'border-accent bg-accent text-white rotate-180'
-                    : 'border-foreground/20 text-foreground/30 group-hover:border-accent group-hover:text-accent'
-                    }`}>
-                    <ChevronDown size={20} />
-                  </div>
+                  <span>{expandedIndex === index ? 'Ver menos' : 'Ver más detalle'}</span>
+                  <ChevronDown size={14} className={`transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''}`} />
                 </button>
-
-                {/* Expanded Content */}
-                <div
-                  className={`relative z-10 transition-all duration-500 ease-in-out border-t border-foreground/10 ${expandedIndex === index ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-                    }`}
-                >
-                  <div className="p-6 md:p-8 pt-6 space-y-8">
-                    {/* Description */}
-                    <div>
-                      <p className="text-foreground/70 leading-relaxed mb-6 font-medium text-base">
-                        {item.description}
-                      </p>
-
-                      {/* Tags as Pill Badges */}
-                      <div className="flex flex-wrap gap-2">
-                        {item.tags.map((tag, t) => (
-                          <span
-                            key={t}
-                            className="inline-block text-[10px] font-bold uppercase tracking-wider px-4 py-2 bg-accent/10 text-accent border border-accent/20 rounded-full cursor-default"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Areas de Practica */}
-                    <div className="bg-foreground/5 rounded-2xl p-6 border border-foreground/5">
-                      <h4 className="text-sm font-bold text-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <span className="w-1 h-4 bg-accent rounded-full"></span>
-                        Áreas de Práctica
-                      </h4>
-                      <ul className="space-y-3">
-                        {item.bullets.map((bullet, b) => (
-                          <li key={b} className="flex items-start gap-3 text-foreground/60 text-sm font-medium">
-                            <Check size={16} className="text-accent mt-0.5 shrink-0" />
-                            <span>{bullet}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
 
-          {/* Sticky Visual/Summary */}
-          <div className="hidden lg:block lg:col-span-4 relative">
-            <div className="sticky top-40 p-8 rounded-[2.5rem] bg-card border border-foreground/10 text-center shadow-strong">
-              <div className="w-20 h-20 mx-auto bg-accent/10 rounded-2xl flex items-center justify-center text-accent mb-6 animate-pulse">
-                <Fingerprint size={40} />
+              <div className="mt-auto pt-6 border-t border-foreground/10 flex flex-wrap gap-2">
+                {item.tags.map((tag, t) => (
+                  <span key={t} className="inline-block px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-wide"
+                    style={{
+                      backgroundColor: 'color-mix(in srgb, var(--tags-red) 10%, transparent)',
+                      color: 'var(--tags-red)',
+                      borderColor: 'color-mix(in srgb, var(--tags-red) 20%, transparent)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid'
+                    }}>
+                    {tag}
+                  </span>
+                ))}
               </div>
-              <h3 className="text-2xl font-black text-foreground mb-4">Estrategia Personalizada</h3>
-              <p className="text-foreground/60 text-sm mb-8 font-medium">
-                Cada caso es único. Analizamos la viabilidad técnica y jurídica para construir el mejor escenario posible.
-              </p>
-              <a href="#contacto" className="inline-flex w-full items-center justify-center gap-2 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
-                Iniciar Consulta
-              </a>
             </div>
-          </div>
+          ))}
         </div>
+
       </div>
     </section>
   );

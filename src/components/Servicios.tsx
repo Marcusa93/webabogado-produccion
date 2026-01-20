@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
+import AnimatedUnderline from './AnimatedUnderline';
 
 const services = [
   {
@@ -83,8 +84,7 @@ export default function Servicios() {
     <section
       id="servicios"
       ref={sectionRef}
-      className="py-24 md:py-32 bg-background transition-colors duration-500 relative"
-      style={{ minHeight: '300vh' }}
+      className="py-24 md:py-32 bg-background transition-colors duration-500 relative min-h-[200vh] md:min-h-[250vh] lg:min-h-[300vh]"
     >
       {/* Subtle grid background */}
       <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
@@ -103,7 +103,7 @@ export default function Servicios() {
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight font-montserrat">
               Servicios <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">profesionales.</span>
+              <AnimatedUnderline delay={200}>profesionales.</AnimatedUnderline>
             </h2>
             <p className="text-lg text-foreground/70 font-medium leading-relaxed mb-10">
               Un enfoque 360° que combina la rigurosidad del derecho tradicional con la agilidad de los negocios digitales.
@@ -123,7 +123,7 @@ export default function Servicios() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                className={`tech-card fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-12 transition-all duration-500 hover:shadow-strong hover:scale-[1.02] overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                 style={{
                   top: `${100 + index * 40}px`,
                   zIndex: index + 1

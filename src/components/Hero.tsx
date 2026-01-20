@@ -50,11 +50,17 @@ export default function Hero() {
         href="https://wa.me/5493813007791"
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed bottom-8 right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] bg-[#25D366] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 hover:bg-[#20ba5a] group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
           }`}
+        style={{
+          backgroundColor: 'var(--whatsapp-green)',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)'}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green)'}
         aria-label="Consulta rápida por WhatsApp"
       >
-        <div className="absolute inset-0 rounded-full animate-[pulse_2s_infinite] bg-[#25D366] opacity-30 z-[-1]" />
+        <div className="absolute inset-0 rounded-full animate-[pulse_2s_infinite] opacity-30 z-[-1]"
+          style={{ backgroundColor: 'var(--whatsapp-green)' }} />
         <MessageCircle size={32} className="text-white fill-white" />
 
         {/* Tooltip on hover */}
@@ -78,7 +84,7 @@ export default function Hero() {
             {/* Tagline / Microcopy */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] text-accent-foreground/90 uppercase">
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent-foreground/90 uppercase">
                 Derecho · Tecnología · Estrategia
               </span>
             </div>
@@ -117,7 +123,7 @@ export default function Hero() {
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}
           <div className="relative mt-16 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0 px-4 sm:px-0">
-            <div className="w-full max-w-[300px] h-[400px] md:max-w-[480px] md:h-[580px] xl:max-w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
+            <div className="w-[min(90vw,300px)] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
               <div

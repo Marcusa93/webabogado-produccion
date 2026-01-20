@@ -4,7 +4,6 @@ import QueHago from '@/components/QueHago';
 import QueEsperar from '@/components/QueEsperar';
 import Servicios from '@/components/Servicios';
 import QuienesSomos from '@/components/QuienesSomos';
-import Recursos from '@/components/Recursos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
 
@@ -18,7 +17,6 @@ export default function Index() {
         <QueEsperar />
         <Servicios />
         <QuienesSomos />
-        <Recursos />
         <Contacto />
       </main>
       <Footer />

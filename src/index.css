@@ -55,41 +55,48 @@
     --ice: 203 38% 84%;
     --ice-dark: 203 38% 74%;
     --ice-blue: 203 38% 84%;
+
+    /* Social Media & Tag Colors (added from design branch) */
+    --whatsapp-green: #25D366;
+    --whatsapp-green-hover: #20BA5A;
+    --tags-red: #FF4444;
+    --spotify-green: #1DB954;
+    --instagram-pink: #E1306C;
   }
 
   .dark {
-    --background: 205 94% 6%;
-    /* Primario #01101E as bg */
+    --background: 210 25% 15%;
+    /* #1c2633 - noticeably lighter than before for better contrast */
     --foreground: 0 0% 100%;
-    /* White text */
-    --card: 228 25% 27%;
-    /* Secundario #313852 as card bg */
+    --card: 210 20% 20%;
+    /* #293444 - clearer elevation and separation */
     --card-foreground: 0 0% 100%;
-    --popover: 228 25% 27%;
+    --popover: 210 20% 20%;
     --popover-foreground: 0 0% 100%;
 
     --primary: 0 0% 100%;
-    --primary-foreground: 205 94% 6%;
+    --primary-foreground: 210 25% 15%;
 
-    --secondary: 228 25% 27%;
+    --secondary: 210 20% 24%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 228 25% 20%;
-    --muted-foreground: 203 38% 70%;
+    --muted: 210 20% 18%;
+    --muted-foreground: 210 15% 70%;
 
     --accent: 199 25% 45%;
     --accent-light: 199 25% 55%;
     --accent-foreground: 0 0% 100%;
 
-    --border: 0 0% 100% / 0.1;
-    --input: 0 0% 100% / 0.1;
+    --border: 0 0% 100% / 0.18;
+    /* slightly more visible borders for structural clarity */
+    --input: 0 0% 100% / 0.18;
     --ring: 199 25% 45%;
 
-    /* Redefine brand tokens in dark mode if needed */
-    --navy-deep: 205 94% 6%;
-    --navy-medium: 228 25% 27%;
-    --slate: 205 94% 10%;
-    --ice: 205 94% 12%;
+    /* Redefine brand tokens in dark mode */
+    --navy-deep: 210 25% 15%;
+    --navy-medium: 210 20% 20%;
+    --slate: 210 20% 24%;
+    --ice: 210 20% 28%;
   }
 }
 
@@ -285,6 +292,14 @@
 }
 
 @layer utilities {
+  /*
+   * TRANSITION DURATION STANDARDS:
+   * - duration-300: Hover effects, simple interactions (buttons, icons)
+   * - duration-500: Card/element entrance, medium transitions
+   * - duration-700: Section entrance, title animations
+   * - duration-1000: Major transitions, complex animations
+   */
+
   .tech-grid {
     background-image: linear-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px),
       linear-gradient(90deg, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
@@ -335,5 +350,98 @@
 
   .animation-delay-700 {
     animation-delay: 700ms;
+  }
+
+  /* Animated Underline */
+  .animate-underline-grow {
+    animation: underline-grow 0.7s ease-out forwards;
+  }
+
+  @keyframes underline-grow {
+    from {
+      width: 0%;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Icon Hover Animation (Unified) */
+  .icon-hover {
+    @apply transition-all duration-500;
+  }
+
+  .icon-hover:hover {
+    @apply scale-110 rotate-3;
+  }
+
+  /* Card Entrance Animation */
+  .card-entrance {
+    @apply opacity-0 translate-y-8;
+    animation: card-entrance 0.6s ease-out forwards;
+  }
+
+  @keyframes card-entrance {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Fade In Animation */
+  .animate-fade-in {
+    opacity: 0;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Fade In Up Animation */
+  .animate-fade-in-up {
+    opacity: 0;
+    animation: fade-in-up 0.7s ease-out forwards;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Enhanced Tap Target for Mobile */
+  .tap-target-enhanced {
+    @apply relative;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .tap-target-enhanced::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Shadow Soft Utility */
+  .shadow-soft {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 }
