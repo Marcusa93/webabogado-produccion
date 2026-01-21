@@ -200,6 +200,24 @@ const books = [
         image: "/content/books/justicia-algoritmica.jpg",
         publisher: "Abeledo Perrot",
         year: "2023"
+    },
+    {
+        title: "Título de Libro 3",
+        image: "/content/books/placeholder.jpg",
+        publisher: "Editorial",
+        year: "2022"
+    },
+    {
+        title: "Título de Libro 4",
+        image: "/content/books/placeholder.jpg",
+        publisher: "Editorial",
+        year: "2021"
+    },
+    {
+        title: "Título de Libro 5",
+        image: "/content/books/placeholder.jpg",
+        publisher: "Editorial",
+        year: "2020"
     }
 ];
 
@@ -496,8 +514,19 @@ export default function QuienesSomos() {
                                     <span className="flex items-center gap-2"><Mic2 size={14} /> Podcast</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-                            {/* Instagram Link instead of full feed if requested to be smaller */}
+                {/* Instagram Feed Section */}
+                <div className={`mb-32 p-8 md:p-12 rounded-[3rem] border border-foreground/10 bg-foreground/5 relative overflow-hidden transition-all duration-1000 delay-500 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+                    <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none" />
+                    <div className="relative z-10">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                            <div>
+                                <h4 className="text-2xl md:text-3xl font-black text-foreground font-montserrat mb-2">Comunidad Digital</h4>
+                                <p className="text-foreground/60 text-sm font-medium">Actualidad, tips legales y el día a día en @marquitorossi.</p>
+                            </div>
                             <a
                                 href="https://instagram.com/marquitorossi"
                                 target="_blank"
@@ -507,6 +536,15 @@ export default function QuienesSomos() {
                                 <Instagram size={18} />
                                 <span>Seguir en Instagram</span>
                             </a>
+                        </div>
+
+                        <div className="w-full bg-white/5 rounded-3xl border border-white/10 overflow-hidden shadow-2xl group">
+                            <div className="embedsocial-hashtag" data-ref="28afa55df19dabf3da5b1eb3d07414d457966dbd">
+                                <div className="text-center py-20">
+                                    <Instagram size={48} className="text-white/20 mx-auto mb-4 animate-pulse" />
+                                    <p className="text-white/40 font-bold uppercase tracking-widest text-xs">Sincronizando feed...</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

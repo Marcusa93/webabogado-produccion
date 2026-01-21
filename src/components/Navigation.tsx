@@ -121,7 +121,7 @@ export default function Navigation() {
               className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0 ml-auto lg:ml-0"
             >
               <img
-                src={theme === 'dark' ? logoWhite : (isScrolled ? logoNavy : logoNavy)}
+                src={theme === 'dark' ? logoWhite : logoNavy}
                 alt="Marco Rossi Abogado"
                 className="h-10 md:h-11 w-auto transition-all duration-500"
               />
@@ -129,33 +129,38 @@ export default function Navigation() {
 
             {/* Desktop Navigation */}
             <ul className="hidden lg:flex items-center gap-6 xl:gap-8 ml-auto">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
-                    className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isScrolled
-                      ? (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
-                      : (theme === 'dark'
-                        ? (activeSection === link.href.substring(1) ? 'text-white' : 'text-white/70 hover:text-white')
-                        : (activeSection === link.href.substring(1) ? 'text-accent' : 'text-navy-deep/80 hover:text-accent')
-                      )
-                      }`}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                const isDark = theme === 'dark';
+
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(link.href);
+                      }}
+                      className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isActive
+                          ? 'text-accent'
+                          : (isDark
+                            ? 'text-white/70 hover:text-white'
+                            : (isScrolled ? 'text-navy-deep/80 hover:text-accent' : 'text-navy-deep/80 hover:text-accent')
+                          )
+                        }`}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
 
             {/* Theme Toggle & CTA */}
             <div className="hidden lg:flex items-center ml-8 gap-4">
               <button
                 onClick={toggleTheme}
-                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${isScrolled ? 'text-navy-deep hover:bg-navy-deep/5' : 'text-white hover:bg-white/10'
+                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${theme === 'dark' ? 'text-white hover:bg-white/10' : (isScrolled ? 'text-navy-deep hover:bg-navy-deep/5' : 'text-white hover:bg-white/10')
                   }`}
                 aria-label="Alternar tema"
               >
