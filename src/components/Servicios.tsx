@@ -123,7 +123,7 @@ export default function Servicios() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`tech-card fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-12 transition-all duration-500 hover:shadow-strong hover:scale-[1.02] overflow-hidden lg:sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
+                className={`tech-card fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-12 transition-all duration-500 hover:shadow-strong hover:scale-[1.02] overflow-hidden sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
                 style={{
                   top: `${100 + index * 40}px`,
                   zIndex: index + 1

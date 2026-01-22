@@ -84,7 +84,7 @@ export default function Hero() {
             {/* Tagline / Microcopy */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent-foreground/90 uppercase">
+              <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent uppercase">
                 Derecho · Tecnología · Estrategia
               </span>
             </div>

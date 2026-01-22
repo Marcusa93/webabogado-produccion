@@ -6,6 +6,7 @@ import Servicios from '@/components/Servicios';
 import QuienesSomos from '@/components/QuienesSomos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
+import Chatbot from '@/components/Chatbot';
 
 export default function Index() {
   return (
@@ -20,6 +21,7 @@ export default function Index() {
         <Contacto />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }

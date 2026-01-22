@@ -142,11 +142,11 @@ export default function Navigation() {
                         scrollToSection(link.href);
                       }}
                       className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isActive
-                          ? 'text-accent'
-                          : (isDark
-                            ? 'text-white/70 hover:text-white'
-                            : (isScrolled ? 'text-navy-deep/80 hover:text-accent' : 'text-navy-deep/80 hover:text-accent')
-                          )
+                        ? 'text-accent'
+                        : (isDark
+                          ? 'text-white/70 hover:text-white'
+                          : (isScrolled ? 'text-navy-deep/80 hover:text-accent' : 'text-navy-deep/80 hover:text-accent')
+                        )
                         }`}
                     >
                       {link.label}
@@ -160,7 +160,7 @@ export default function Navigation() {
             <div className="hidden lg:flex items-center ml-8 gap-4">
               <button
                 onClick={toggleTheme}
-                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${theme === 'dark' ? 'text-white hover:bg-white/10' : (isScrolled ? 'text-navy-deep hover:bg-navy-deep/5' : 'text-white hover:bg-white/10')
+                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${theme === 'dark' ? 'text-white hover:bg-white/10' : 'text-navy-deep hover:bg-navy-deep/5'
                   }`}
                 aria-label="Alternar tema"
               >

@@ -88,7 +88,7 @@ export default function Contacto() {
 
             <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1]">
               Iniciemos una <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-secondary">estrategia ganadora.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">estrategia ganadora.</span>
             </h2>
 
             <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-12 max-w-xl">

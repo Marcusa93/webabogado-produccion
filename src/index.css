@@ -83,7 +83,7 @@
     --muted: 210 20% 18%;
     --muted-foreground: 210 15% 70%;
 
-    --accent: 199 25% 45%;
+    --accent: 199 50% 60%;
     --accent-light: 199 25% 55%;
     --accent-foreground: 0 0% 100%;
 
@@ -141,7 +141,7 @@
   }
 
   .glass {
-    @apply backdrop-blur-md bg-background/70;
+    @apply backdrop-blur-md bg-background/90;
   }
 
   /* Unified Card Base */

@@ -101,18 +101,20 @@ const multimedia = {
         },
         {
             title: "Charla en La Gaceta: El futuro de la Justicia Digital",
-            shortTitle: "Charla La Gaceta - Tecnología y Justicia",
+            shortTitle: "Evento La gaceta IA y Sustentabilidad",
             type: "Video",
             source: "LA GACETA TV",
             url: "https://www.youtube.com/watch?v=PbbiO69oV9w&t=5s",
+            image: "/content/media/la-gaceta-ia-sustentabilidad.png",
             badgeColor: "bg-red-600"
         },
         {
             title: "Quién es Marco Rossi: el abogado que pone a Tucumán en el mapa de la mano de la IA",
-            shortTitle: "Nota Show Online",
+            shortTitle: "El abogado que pone a Tucumán en el mapa de la IA",
             type: "Artículo",
             source: "Show Online",
             url: "https://showonline.com.ar/contenido/11110/quien-es-marco-rossi-el-abogado-que-pone-a-tucuman-en-el-mapa-de-la-mano-de-la-i",
+            image: "/content/media/show-online-tucuman-ia.png",
             date: "Nov 2024",
             badgeColor: "bg-indigo-600"
         },
@@ -126,45 +128,50 @@ const multimedia = {
         },
         {
             title: "Marco Rossi: 'La Justicia también puede innovar y humanizar'",
-            shortTitle: "Nota La Gaceta",
+            shortTitle: "“La justicia también puede innovar y humanizar”",
             type: "Artículo",
             source: "La Gaceta",
             url: "https://www.lagaceta.com.ar/nota/amp/1088664/sociedad/marco-rossi-justicia-tambien-puede-innovar-humanizar.html",
+            image: "/content/media/la-gaceta-innovar.png",
             date: "Nov 2024",
             badgeColor: "bg-blue-600"
         },
         {
             title: "La Inteligencia Artificial aplicada al beneficio de los tucumanos",
-            shortTitle: "Nota LV12 Radio",
+            shortTitle: "La Inteligencia Artificial aplicada en beneficio de los tucumanos",
             type: "Radio",
             source: "LV12",
             url: "https://www.lv12.com.ar/inteligencia-artificial/la-inteligencia-artificial-aplicada-beneficio-los-tucumanos-n167419",
+            image: "/content/media/lv12-beneficio.png",
             date: "Oct 2024",
             badgeColor: "bg-orange-500"
         },
         {
             title: "Marco Rossi: 'Hoy todos somos informáticos'",
-            shortTitle: "Entrevista Enterate Noticias",
+            shortTitle: "Marco Rossi sobre la IA",
             type: "Artículo",
             source: "ENTERATE",
             url: "https://www.enteratenoticias.com.ar/actualidad/marco-rossi-hoy-todos-somos-informaticos/",
+            image: "/content/media/enterate-noticias.png",
             badgeColor: "bg-amber-500"
         },
         {
             title: "Debate sobre Inteligencia Artificial en el ámbito legal",
-            shortTitle: "Debate Profesional IA",
+            shortTitle: "IA en Universidad Tecnológica de México",
             type: "Video",
             source: "PANEL",
             url: "https://www.youtube.com/watch?v=l-EeDpqTX-I",
+            image: "/content/media/debate-ia-mexico.png",
             badgeColor: "bg-red-500"
         }
     ],
     podcasts: [
         {
-            title: "Derecho & Código Ep. 12",
+            title: "Un innovador de verdad en la justicia",
             url: "https://open.spotify.com/episode/2NCJg4x36jJFSZJ5h14JZ0?si=SIlxfJu2QHuYQdwupOGh_w&t=0&pi=-Tt-piIDQ2em7",
             duration: "45 min",
-            source: "Spotify"
+            source: "Spotify",
+            image: "/content/media/derecho-y-codigo.jpg"
         },
         {
             title: "Justicia 4.0 - Transformación Digital",
@@ -190,34 +197,32 @@ const multimedia = {
 
 const books = [
     {
-        title: "Impacto de la IA en el Proceso Judicial",
+        title: "Impacto de la Inteligencia Artificial en el ámbito legal",
         image: "/books/impacto-ia.png",
-        publisher: "Editorial Legis",
-        year: "2024"
+        publisher: "Editorial Hammurabi",
+        year: "2025",
+        link: null
     },
     {
         title: "Justicia Algorítmica",
         image: "/content/books/justicia-algoritmica.jpg",
-        publisher: "Abeledo Perrot",
-        year: "2023"
+        publisher: "Editorial IADPI",
+        year: "2024",
+        link: "https://ebook.iadpi.com.ar/shop/detalle/16"
     },
     {
-        title: "Título de Libro 3",
-        image: "/content/books/placeholder.jpg",
-        publisher: "Editorial",
-        year: "2022"
+        title: "Metaverso y Resolución de Conflictos",
+        image: "/content/books/metaverso-conflictos.jpg",
+        publisher: "elDial.com",
+        year: "2024",
+        link: "https://tienda.eldial.com/productos/e-book-metaverso-y-resolucion-de-conflictos/"
     },
     {
-        title: "Título de Libro 4",
-        image: "/content/books/placeholder.jpg",
-        publisher: "Editorial",
-        year: "2021"
-    },
-    {
-        title: "Título de Libro 5",
-        image: "/content/books/placeholder.jpg",
-        publisher: "Editorial",
-        year: "2020"
+        title: "¿Qué me hace especIAl? La conflictiva relación entre la ficción y la realidad",
+        image: "/content/books/que-me-hace-especial.jpg",
+        publisher: "Editorial Bibliotex",
+        year: "2024",
+        link: "https://bibliotexlibros.mitiendanube.com/productos/rossi-maidana-que-me-hace-especial-gc5ni/"
     }
 ];
 
@@ -235,42 +240,58 @@ const BooksModal = ({ onClose }: { onClose: () => void }) => {
     }, [onClose]);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300">
             <div className="absolute inset-0" onClick={onClose} />
-            <div className="relative w-full max-w-4xl bg-card rounded-[2.5rem] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300 border border-foreground/10 p-8 md:p-12">
-                <button
-                    onClick={onClose}
-                    className="absolute top-6 right-6 z-50 p-2 bg-foreground/5 hover:bg-foreground/10 rounded-full text-foreground transition-colors backdrop-blur-sm"
-                >
-                    <X size={24} />
-                </button>
+            <div className="relative w-full max-w-5xl bg-card rounded-[2rem] shadow-2xl animate-in zoom-in-95 duration-300 border border-foreground/10 flex flex-col max-h-[85vh] overflow-hidden">
 
-                <div className="text-center mb-12">
-                    <h3 className="text-3xl md:text-4xl font-black text-foreground font-montserrat mb-2">Libros Publicados</h3>
-                    <p className="text-foreground/60 font-medium">Producción intelectual y obras destacadas.</p>
+                {/* Header (Fixed) */}
+                <div className="p-6 md:p-8 border-b border-foreground/5 bg-card z-10 flex items-center justify-between shrink-0">
+                    <div>
+                        <h3 className="text-2xl md:text-3xl font-black text-foreground font-montserrat">Libros Publicados</h3>
+                        <p className="text-foreground/60 font-medium text-sm md:text-base">Producción intelectual y obras destacadas.</p>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="p-2 bg-foreground/5 hover:bg-foreground/10 rounded-full text-foreground transition-colors backdrop-blur-sm"
+                    >
+                        <X size={24} />
+                    </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {books.map((book, i) => (
-                        <div key={i} className="flex flex-col items-center group">
-                            <div className="relative w-full aspect-[3/4] max-w-[280px] rounded-xl overflow-hidden shadow-2xl border border-foreground/10 transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-2">
-                                <img
-                                    src={book.image}
-                                    alt={book.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
-                            <div className="mt-6 text-center">
-                                <h4 className="text-xl font-bold text-foreground mb-1 leading-tight">{book.title}</h4>
-                                <div className="flex items-center justify-center gap-3 text-sm text-foreground/50">
-                                    <span>{book.publisher}</span>
-                                    <span className="w-1 h-1 rounded-full bg-foreground/20" />
-                                    <span>{book.year}</span>
+                {/* Scrollable Content */}
+                <div className="overflow-y-auto p-6 md:p-8 custom-scrollbar">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {books.map((book, i) => (
+                            <div key={i} className="flex flex-col items-center group">
+                                <a
+                                    href={book.link || '#'}
+                                    target={book.link ? "_blank" : "_self"}
+                                    rel="noopener noreferrer"
+                                    className={`relative w-full aspect-[3/4] max-w-[220px] rounded-xl overflow-hidden shadow-2xl border border-foreground/10 transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-1 ${!book.link && 'cursor-default'}`}
+                                >
+                                    <img
+                                        src={book.image}
+                                        alt={book.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {book.link && (
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <div className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white">
+                                                <ExternalLink size={20} />
+                                            </div>
+                                        </div>
+                                    )}
+                                </a>
+                                <div className="mt-4 text-center w-full max-w-[220px]">
+                                    <h4 className="text-base font-bold text-foreground mb-1 leading-tight line-clamp-2 min-h-[2.5em]">{book.title}</h4>
+                                    <div className="flex flex-col gap-1 items-center justify-center text-xs text-foreground/50 mt-2">
+                                        <span className="font-bold text-accent">{book.publisher}</span>
+                                        <span className="bg-foreground/5 px-2 py-0.5 rounded-full">{book.year}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
@@ -434,7 +455,7 @@ export default function QuienesSomos() {
                                 .map((item: any, i) => {
                                     const isVideo = item.url?.includes("youtu") || item.type === "Stream" || item.type === "Video";
                                     const isSpotify = item.source === "Spotify";
-                                    const thumbnailUrl = isVideo && item.url ? getYouTubeThumbnail(item.url) : (item.image || null);
+                                    const thumbnailUrl = item.image || (isVideo && item.url ? getYouTubeThumbnail(item.url) : null);
 
                                     return (
                                         <div
