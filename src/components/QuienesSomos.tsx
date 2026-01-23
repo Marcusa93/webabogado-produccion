@@ -363,7 +363,7 @@ export default function QuienesSomos() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-start mb-32">
                     {/* Left Column: Photo & Main Info */}
                     <div className="lg:col-span-7 flex flex-col gap-8">
-                        <div className="flex flex-col md:flex-row gap-8 items-start">
+                        <div className="flex flex-col md:flex-row gap-8 items-center">
                             {/* Picture with 3D Effect */}
                             <div className={`shrink-0 w-full md:w-[350px] aspect-square rounded-[2rem] overflow-hidden shadow-2xl border border-foreground/10 relative group ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'} transition-all duration-1000 order-1`}>
                                 <div
