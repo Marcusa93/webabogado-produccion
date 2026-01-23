@@ -88,19 +88,7 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Mobile Menu Button - Detached from Header for stability */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className={`lg:hidden fixed top-4 left-4 p-2 z-[100] menu-toggle rounded-full transition-colors duration-300 ${isMobileMenuOpen
-          ? 'text-foreground bg-white/10 backdrop-blur-sm'
-          : (theme === 'dark' ? 'text-white' : 'text-navy-deep')
-          }`}
-        style={{ touchAction: 'manipulation' }}
-        aria-label="Toggle menu"
-        aria-expanded={isMobileMenuOpen}
-      >
-        {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-      </button>
+
 
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[72px] flex items-center ${isScrolled
@@ -109,7 +97,7 @@ export default function Navigation() {
           }`}
       >
         <nav className="section-container w-full">
-          <div className="flex items-center justify-end lg:justify-between">
+          <div className="flex items-center justify-between">
 
             {/* Logo */}
             <a
@@ -118,7 +106,7 @@ export default function Navigation() {
                 e.preventDefault();
                 scrollToSection('#inicio');
               }}
-              className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0 ml-auto lg:ml-0"
+              className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0"
             >
               <img
                 src={theme === 'dark' ? logoWhite : logoNavy}
@@ -178,6 +166,19 @@ export default function Navigation() {
                 Agendar consulta
               </a>
             </div>
+
+            {/* Mobile Menu Button - Integrated in Header */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`lg:hidden p-2 z-[100] rounded-xl transition-all duration-300 ${isMobileMenuOpen
+                ? 'text-foreground bg-white/10 backdrop-blur-sm fixed top-4 right-4'
+                : (theme === 'dark' ? 'text-white' : (isScrolled ? 'text-navy-deep' : 'text-navy-deep'))
+                }`}
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
         </nav>
       </header>
