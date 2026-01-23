@@ -379,7 +379,7 @@ export default function QuienesSomos() {
                                     <OptimizedImage
                                         src="/team/marco.jpg"
                                         alt="Marco Rossi"
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover object-[75%_center]"
                                         blurPlaceholder={true}
                                         priority={true}
                                         width={400}
