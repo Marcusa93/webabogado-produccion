@@ -109,7 +109,7 @@ export default function QueHago() {
           {specialties.map((item, index) => (
             <div
               key={index}
-              className="group relative h-[420px] rounded-[2rem] bg-card border border-foreground/10 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:-translate-y-2"
+              className="group relative h-auto min-h-[420px] rounded-[2rem] bg-card border border-foreground/10 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:-translate-y-2"
               style={{
                 '--mouse-x': `${mousePos.x}px`,
                 '--mouse-y': `${mousePos.y}px`,
@@ -145,11 +145,11 @@ export default function QueHago() {
                 {/* Content - Initially abstract, reveals detail on hover */}
                 <div className="flex-1 relative">
                   {/* Default View: Tags */}
-                  <div className="absolute inset-0 transition-all duration-500 opacity-100 group-hover:opacity-0 group-hover:translate-x-4">
+                  <div className="lg:absolute lg:inset-0 transition-all duration-500 lg:opacity-100 lg:group-hover:opacity-0 lg:group-hover:translate-x-4">
                     <p className="text-foreground/60 font-medium mb-6 line-clamp-3">
                       {item.description}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-6 lg:mb-0">
                       {item.tags.map((tag, t) => (
                         <span key={t} className="px-3 py-1 rounded-full bg-foreground/5 text-[10px] font-bold uppercase tracking-wider text-foreground/50 border border-foreground/5">
                           {tag}
@@ -158,8 +158,8 @@ export default function QueHago() {
                     </div>
                   </div>
 
-                  {/* Hover View: Actionable Bullets */}
-                  <div className="absolute inset-0 transition-all duration-500 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0">
+                  {/* Hover View: Actionable Bullets (Always visible on mobile below description) */}
+                  <div className="lg:absolute lg:inset-0 transition-all duration-500 lg:opacity-0 lg:translate-x-4 lg:group-hover:opacity-100 lg:group-hover:translate-x-0 mt-4 lg:mt-0">
                     <ul className="space-y-3">
                       {item.bullets.map((bullet, i) => (
                         <li key={i} className="flex items-start gap-3 text-sm font-bold text-foreground/80">
@@ -174,7 +174,7 @@ export default function QueHago() {
                 </div>
 
                 {/* Footer CTA */}
-                <div className="mt-auto pt-6 flex items-center justify-between border-t border-foreground/5">
+                <div className="mt-auto pt-6 flex items-center justify-between border-t border-foreground/5 hidden lg:flex">
                   <span className="text-[10px] font-black uppercase tracking-widest text-foreground/30 group-hover:text-accent transition-colors">
                     Saber más
                   </span>

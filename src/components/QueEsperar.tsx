@@ -62,7 +62,7 @@ export default function QueEsperar() {
                 </div>
 
                 {/* Steps Grid / Process Flow */}
-                <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
                     {/* Connecting Line (Desktop Only) */}
                     <div className="hidden lg:block absolute top-[60px] left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent/30 to-transparent z-0" />
@@ -96,9 +96,9 @@ export default function QueEsperar() {
                                 </p>
                             </div>
 
-                            {/* Mobile Connector Line */}
+                            {/* Mobile Connector Line - Vertical Arrow */}
                             {index !== steps.length - 1 && (
-                                <div className="lg:hidden absolute bottom-[-32px] left-1/2 -translate-x-1/2 text-foreground/20">
+                                <div className="lg:hidden absolute -bottom-10 left-1/2 -translate-x-1/2 text-foreground/20 animate-bounce">
                                     <ArrowRight className="rotate-90" size={24} />
                                 </div>
                             )}
