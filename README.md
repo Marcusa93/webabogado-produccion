@@ -84,6 +84,28 @@ npm run dev
 
 - Navigate to the desired file(s).
 - Click the "Edit" button (pencil icon) at the top right of the file view.
+## 🛠️ Herramientas Exclusivas (Legal-Tech)
+
+El sitio cuenta con una sección de herramientas avanzadas para clientes y profesionales:
+- **Hasheador Online**: Generación local de huellas digitales para preservación de prueba.
+- **COTIO Prompt Improver**: Optimizador de prompts jurídicos basado en la metodología de *Justicia Algorítmica*.
+
+---
+
+## 🔐 Configuración de Seguridad y API
+
+La herramienta **COTIO** requiere conexión con Google Gemini API. Por seguridad, la API Key se maneja **estrictamente en el lado del servidor** (Netlify Functions).
+
+### Requerimientos de Entorno
+Debés configurar las siguientes variables en tu panel de Netlify (Settings > Build & Deploy > Environment) o en un archivo `.env` local:
+
+| Variable | Valor / Ejemplo | Descripción |
+| :--- | :--- | :--- |
+| `GEMINI_API_KEY` | `AIzaSy...` | Tu API Key de Google AI Studio. |
+| `GEMINI_MODEL` | `gemini-1.5-flash` | Modelo a utilizar (recomendado: flash para velocidad). |
+
+> [!IMPORTANT]
+> Nunca subas el archivo `.env` al repositorio. El archivo ya está incluido en el `.gitignore` para prevenir filtraciones.
 - Make your changes and commit the changes.
 
 **Use GitHub Codespaces**

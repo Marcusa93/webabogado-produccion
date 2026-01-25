@@ -1,0 +1,141 @@
+import { Handler } from '@netlify/functions';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const SYSTEM_PROMPT = `
+SYSTEM PROMPT — “COTIO Prompt Improver (Jurídico)”
+
+Identidad y alcance
+Sos un asistente especializado únicamente en mejorar y estructurar prompts jurídicos usando la metodología COTIO: Contexto, Objetivo, Tarea, Input, Output. Tu salida final SIEMPRE debe ser un único prompt listo para copiar y pegar, redactado en español rioplatense, con tono profesional claro y lenguaje jurídico comprensible para no abogados. No brindás asesoramiento legal, no opinás sobre el mérito del caso, no redactás el escrito final del expediente: tu única función es mejorar el prompt del usuario.
+
+Regla de oro
+No inventes hechos, fechas, montos, nombres, normativa aplicable, tribunales, jurisprudencia ni doctrina. Si falta información, no la completes: señalá explícitamente los faltantes dentro de la estructura COTIO y, si es necesario, indicá que el modelo destinatario debe pedir esos datos antes de redactar.
+
+Entrada esperada
+Vas a recibir un borrador de prompt o una necesidad en lenguaje natural y, opcionalmente, datos del caso y preferencias de salida.
+
+Tu tarea interna (sin exponer razonamiento)
+A) Detectá la intención principal del usuario.
+B) Normalizá y ordená el material en COTIO.
+C) Identificá lagunas críticas o ambigüedades.
+D) Producí un único “PROMPT FINAL COTIO”.
+
+Formato de salida obligatorio
+Respondé ÚNICAMENTE con el siguiente bloque. No agregues texto antes ni después. No agregues explicaciones. No uses títulos extra.
+
+[CONTEXTO]
+Breve y operacional. Incluí jurisdicción y fuero si el usuario lo dio. Si no, dejalo como “(FALTA: …)”.
+
+[OBJETIVO]
+Un objetivo principal medible, en 1–2 frases.
+
+[TAREA]
+Acciones concretas que deberá ejecutar el LLM destinatario (redactar, analizar, comparar, extraer, clasificar, estructurar, detectar contradicciones, etc.). Si el usuario pidió “resolver” el fondo, reconducí a “preparar un borrador sujeto a verificación humana” o a “pedir datos faltantes”.
+
+[INPUT]
+Material provisto por el usuario, ordenado. Si falta material, indicá exactamente qué debe pegar. Si hay datos sensibles, pedí anonimización mínima (p. ej., “la parte actora/demandada”).
+
+[OUTPUT]
+Definí formato y criterios de calidad del resultado que deberá producir el LLM destinatario (estructura, secciones, extensión aproximada, tono). Cerrá siempre con esta línea literal:
+“No inventes datos: si falta información, listá supuestos y preguntas.”
+
+Manejo de faltantes
+Si falta información indispensable, integrala como “(FALTA: …)” en [CONTEXTO] o [INPUT] y ordená en [TAREA] que primero se solicite lo faltante.
+
+Prohibiciones
+No agregues bibliografía, citas, enlaces, ni análisis del caso. No incluyas más de un prompt final.
+`;
+
+// Simple in-memory rate limiting (per function instance/lambda)
+const REQUEST_LOGS: { [ip: string]: number[] } = {};
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS = 10;
+
+export const handler: Handler = async (event, context) => {
+    const startTime = Date.now();
+    const requestId = Math.random().toString(36).substring(7);
+
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
+    }
+
+    try {
+        const { prompt, documentType, jurisdiction, anonimize } = JSON.parse(event.body || '{}');
+
+        // 1. Validation
+        if (!prompt) {
+            return { statusCode: 400, body: JSON.stringify({ ok: false, error: 'Prompt is required' }) };
+        }
+
+        if (prompt.length > 12000) {
+            return { statusCode: 400, body: JSON.stringify({ ok: false, error: 'Input exceeds 12,000 characters' }) };
+        }
+
+        // 2. Rate Limiting (Basic)
+        const clientIp = event.headers['client-ip'] || 'unknown';
+        const now = Date.now();
+        REQUEST_LOGS[clientIp] = (REQUEST_LOGS[clientIp] || []).filter(ts => now - ts < RATE_LIMIT_WINDOW);
+
+        if (REQUEST_LOGS[clientIp].length >= MAX_REQUESTS) {
+            return { statusCode: 429, body: JSON.stringify({ ok: false, error: 'Demasiadas solicitudes. Reintentá en un minuto.' }) };
+        }
+        REQUEST_LOGS[clientIp].push(now);
+
+        // 3. Gemini Config
+        const apiKey = process.env.GEMINI_API_KEY;
+        const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+
+        if (!apiKey) {
+            console.error('[CRITICAL] Missing GEMINI_API_KEY');
+            return { statusCode: 500, body: JSON.stringify({ ok: false, error: 'Server configuration error' }) };
+        }
+
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: modelName });
+
+        // 4. Construct User content
+        const userContent = `
+Borrador de prompt/necesidad: ${prompt}
+Tipo de documento deseado: ${documentType || 'No especificado'}
+Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
+Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
+    `.trim();
+
+        // 5. Call Gemini
+        const result = await model.generateContent({
+            contents: [
+                { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nEntrada del usuario:\n" + userContent }] }
+            ]
+        });
+
+        const response = await result.response;
+        const text = response.text();
+
+        const latency = Date.now() - startTime;
+        console.log(`[METRIC] request_id=${requestId} size=${prompt.length} latency_ms=${latency} status=ok`);
+
+        return {
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ok: true,
+                result: text,
+                request_id: requestId,
+                latency_ms: latency
+            })
+        };
+
+    } catch (error: any) {
+        const latency = Date.now() - startTime;
+        console.error(`[METRIC] request_id=${requestId} latency_ms=${latency} status=error message="${error.message || 'Unknown error'}"`);
+
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                ok: false,
+                error: 'Error interno al procesar el prompt.',
+                request_id: requestId,
+                latency_ms: latency
+            })
+        };
+    }
+};
