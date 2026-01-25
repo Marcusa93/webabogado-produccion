@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X, Hash } from 'lucide-react';
+import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X, Hash, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import StaggeredTitle from './StaggeredTitle';
 import Hasher from './Hasher';
+import Magnetic from './Magnetic';
 
 const tools = [
     {
@@ -47,6 +48,14 @@ const tools = [
         subtitle: "Integridad de Datos",
         color: "from-emerald-500 to-teal-600",
         isHasher: true
+    },
+    {
+        id: 'cotio',
+        icon: Sparkles,
+        title: "COTIO Improver",
+        subtitle: "Justicia Algorítmica",
+        color: "from-indigo-500 to-purple-600",
+        isCotioTool: true
     }
 ];
 
@@ -68,7 +77,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
             ref={cardRef}
             onClick={onClick}
             onMouseMove={handleMouseMove}
-            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
+            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent shadow-glow-accent' : 'shadow-soft'}`}
         >
             {/* Spotlight Glow */}
             <div
@@ -90,7 +99,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
                 <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
 
                 <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
-                    {tool.isHasher ? 'Abrir Herramienta' : 'Ver Instrucciones'} <ArrowRight size={14} />
+                    {tool.isHasher || tool.isCotioTool ? 'Abrir Herramienta' : 'Ver Instrucciones'} <ArrowRight size={14} />
                 </div>
             </div>
         </button>
@@ -99,6 +108,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
 
 export default function Toolkit() {
     const [activeTool, setActiveTool] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     return (
         <section id="toolkit" className="py-16 md:py-24 bg-background transition-colors duration-500 relative overflow-hidden">
@@ -135,7 +145,7 @@ export default function Toolkit() {
 
                 {/* Action Content Drawer */}
                 {activeTool && (
-                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden">
+                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden shadow-2xl">
                         {/* Background Decoration */}
                         <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${tools.find(t => t.id === activeTool)?.color} opacity-10 blur-[80px] pointer-events-none`} />
 
@@ -148,15 +158,45 @@ export default function Toolkit() {
 
                         <div className="relative z-10">
                             {tools.find(t => t.id === activeTool)?.isHasher ? (
-                                <div className="space-y-8">
-                                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-2`}>
-                                        <span className="text-[10px] font-bold text-accent uppercase tracking-widest">Utilidad Criptográfica de Marco Rossi</span>
+                                <div className="space-y-12">
+                                    <div className="space-y-4">
+                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-2`}>
+                                            <span className="text-[10px] font-bold text-accent uppercase tracking-widest">Utilidad Criptográfica de Marco Rossi</span>
+                                        </div>
+                                        <h4 className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
+                                            Hasheador Online <br />
+                                            <span className="text-foreground/30 text-xl md:text-2xl italic">Privacidad 100% Client-Side</span>
+                                        </h4>
                                     </div>
-                                    <h4 className="text-3xl md:text-4xl font-black text-foreground font-montserrat leading-tight mb-2">
-                                        Hasheador Online <br />
-                                        <span className="text-foreground/30 text-xl md:text-2xl italic">Privacidad 100% Client-Side</span>
-                                    </h4>
                                     <Hasher />
+                                </div>
+                            ) : tools.find(t => t.id === activeTool)?.isCotioTool ? (
+                                <div className="flex flex-col md:flex-row items-center gap-12 py-8">
+                                    <div className="flex-1 space-y-8">
+                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-2`}>
+                                            <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Optimización Justicia Algorítmica</span>
+                                        </div>
+                                        <h4 className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
+                                            COTIO Prompt <br />
+                                            <span className="text-foreground/30 italic">Improver</span>
+                                        </h4>
+                                        <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-xl">
+                                            Nuestra herramienta exclusiva para abogados. Convertí borradores en prompts profesionales usando la metodología COTIO. Procesado de forma segura en nuestro laboratorio digital.
+                                        </p>
+                                        <Magnetic>
+                                            <button
+                                                onClick={() => navigate('/herramientas/cotio')}
+                                                className="px-10 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-glow flex items-center gap-3"
+                                            >
+                                                Acceder a la herramienta
+                                                <ArrowRight size={18} />
+                                            </button>
+                                        </Magnetic>
+                                    </div>
+                                    <div className="w-full md:w-1/3 aspect-square rounded-[3rem] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center p-12 relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-indigo-500/10 blur-3xl group-hover:scale-125 transition-transform duration-1000" />
+                                        <Sparkles size={80} className="text-indigo-400 relative z-10 animate-pulse" />
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="flex flex-col md:flex-row gap-8 md:gap-12">
