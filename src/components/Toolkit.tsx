@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X } from 'lucide-react';
+import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X, Hash } from 'lucide-react';
 import StaggeredTitle from './StaggeredTitle';
+import Hasher from './Hasher';
 
 const tools = [
     {
@@ -38,6 +39,14 @@ const tools = [
             { text: "Urgencia Artificial: Desconfiá de avisos de bloqueo que te piden acción inmediata.", icon: AlertTriangle },
             { text: "Links Directos: Nunca pongas claves tras un link de SMS. Usá siempre la App oficial.", icon: AlertTriangle }
         ]
+    },
+    {
+        id: 'hasher',
+        icon: Hash,
+        title: "Hasheador Online",
+        subtitle: "Integridad de Datos",
+        color: "from-emerald-500 to-teal-600",
+        isHasher: true
     }
 ];
 
@@ -59,7 +68,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
             ref={cardRef}
             onClick={onClick}
             onMouseMove={handleMouseMove}
-            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:bg-card/80 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
+            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
         >
             {/* Spotlight Glow */}
             <div
@@ -81,7 +90,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
                 <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
 
                 <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
-                    Ver Instrucciones <ArrowRight size={14} />
+                    {tool.isHasher ? 'Abrir Herramienta' : 'Ver Instrucciones'} <ArrowRight size={14} />
                 </div>
             </div>
         </button>
@@ -113,7 +122,7 @@ export default function Toolkit() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {tools.map((tool) => (
                         <ToolCard
                             key={tool.id}
@@ -124,65 +133,82 @@ export default function Toolkit() {
                     ))}
                 </div>
 
-                {/* Action Content Drawer (Single item to keep it compact) */}
+                {/* Action Content Drawer */}
                 {activeTool && (
-                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden">
+                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden">
                         {/* Background Decoration */}
                         <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${tools.find(t => t.id === activeTool)?.color} opacity-10 blur-[80px] pointer-events-none`} />
 
                         <button
                             onClick={() => setActiveTool(null)}
-                            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/50 transition-colors"
+                            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/50 transition-colors z-20"
                         >
                             <X size={20} />
                         </button>
 
-                        <div className="flex-1">
-                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 mb-6 md:mb-8`}>
-                                <span className="text-[10px] font-bold text-foreground/40 dark:text-white/40 uppercase tracking-widest">Protocolo Activo</span>
-                            </div>
-                            <h4 className="text-2xl md:text-3xl font-black text-foreground mb-6 font-montserrat leading-tight">
-                                {tools.find(t => t.id === activeTool)?.title} <br />
-                                <span className="text-foreground/30 dark:text-white/30">{tools.find(t => t.id === activeTool)?.subtitle}</span>
-                            </h4>
-                            <ul className="space-y-4 md:space-y-6">
-                                {tools.find(t => t.id === activeTool)?.content.map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 md:gap-4 group">
-                                        <div className={`mt-1 p-1 rounded bg-accent/10 text-accent transition-transform group-hover:scale-110 shrink-0`}>
-                                            <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
+                        <div className="relative z-10">
+                            {tools.find(t => t.id === activeTool)?.isHasher ? (
+                                <div className="space-y-8">
+                                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-2`}>
+                                        <span className="text-[10px] font-bold text-accent uppercase tracking-widest">Utilidad Criptográfica de Marco Rossi</span>
+                                    </div>
+                                    <h4 className="text-3xl md:text-4xl font-black text-foreground font-montserrat leading-tight mb-2">
+                                        Hasheador Online <br />
+                                        <span className="text-foreground/30 text-xl md:text-2xl italic">Privacidad 100% Client-Side</span>
+                                    </h4>
+                                    <Hasher />
+                                </div>
+                            ) : (
+                                <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+                                    <div className="flex-1">
+                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 mb-6 md:mb-8`}>
+                                            <span className="text-[10px] font-bold text-foreground/40 dark:text-white/40 uppercase tracking-widest">Protocolo Activo</span>
                                         </div>
-                                        <span className="text-base md:text-lg text-foreground/70 dark:text-white/70 font-medium leading-relaxed">{item.text}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                                        <h4 className="text-2xl md:text-3xl font-black text-foreground mb-6 font-montserrat leading-tight">
+                                            {tools.find(t => t.id === activeTool)?.title} <br />
+                                            <span className="text-foreground/30 dark:text-white/30">{tools.find(t => t.id === activeTool)?.subtitle}</span>
+                                        </h4>
+                                        <ul className="space-y-4 md:space-y-6">
+                                            {tools.find(t => t.id === activeTool)?.content?.map((item: any, idx: number) => (
+                                                <li key={idx} className="flex items-start gap-3 md:gap-4 group">
+                                                    <div className={`mt-1 p-1 rounded bg-accent/10 text-accent transition-transform group-hover:scale-110 shrink-0`}>
+                                                        <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
+                                                    </div>
+                                                    <span className="text-base md:text-lg text-foreground/70 dark:text-white/70 font-medium leading-relaxed">{item.text}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
 
-                            {/* Mobile CTA (visible only on small screens) */}
-                            <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
-                                <a
-                                    href="#contacto"
-                                    onClick={() => setActiveTool(null)}
-                                    className="flex items-center justify-center gap-3 w-full py-5 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
-                                >
-                                    <ShieldAlert size={18} />
-                                    <span>Hablar con Marco</span>
-                                </a>
-                            </div>
-                        </div>
+                                        {/* Mobile CTA (visible only on small screens) */}
+                                        <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
+                                            <a
+                                                href="#contacto"
+                                                onClick={() => setActiveTool(null)}
+                                                className="flex items-center justify-center gap-3 w-full py-5 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
+                                            >
+                                                <ShieldAlert size={18} />
+                                                <span>Hablar con Marco</span>
+                                            </a>
+                                        </div>
+                                    </div>
 
-                        {/* Desktop Sidebar */}
-                        <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-foreground/5 dark:bg-white/5 border border-foreground/5 dark:border-white/5 max-w-[300px] text-center">
-                            <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6">
-                                <ShieldAlert size={32} />
-                            </div>
-                            <h5 className="font-bold text-foreground mb-3">¿Necesitás acción legal?</h5>
-                            <p className="text-sm text-foreground/40 dark:text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital.</p>
-                            <a
-                                href="#contacto"
-                                onClick={() => setActiveTool(null)}
-                                className="w-full py-4 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest hover:shadow-glow transition-all"
-                            >
-                                Hablar con Marco
-                            </a>
+                                    {/* Desktop Sidebar */}
+                                    <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-foreground/5 dark:bg-white/5 border border-foreground/5 dark:border-white/5 max-w-[300px] text-center">
+                                        <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6">
+                                            <ShieldAlert size={32} />
+                                        </div>
+                                        <h5 className="font-bold text-foreground mb-3 text-lg">¿Necesitás acción legal?</h5>
+                                        <p className="text-sm text-foreground/40 dark:text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital para asegurar la prueba.</p>
+                                        <a
+                                            href="#contacto"
+                                            onClick={() => setActiveTool(null)}
+                                            className="w-full py-4 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest hover:shadow-glow transition-all"
+                                        >
+                                            Hablar con Marco
+                                        </a>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
