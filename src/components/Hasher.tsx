@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Copy, Check, FileText, Upload, ShieldCheck, Loader2 } from 'lucide-react';
+import { Copy, Check, FileText, Upload, ShieldCheck, Loader2, AlertTriangle } from 'lucide-react';
 // @ts-ignore
 import Hashes from 'jshashes';
 import { toast } from 'sonner';
@@ -85,6 +85,54 @@ export default function Hasher() {
         toast.success("Copiado al portapapeles");
     };
 
+    const downloadReport = (type: 'text' | 'file') => {
+        const val = type === 'text' ? textHash : fileHash;
+        const algo = type === 'text' ? textAlgo : fileAlgo;
+        const name = type === 'text' ? 'Texto_Ingresado' : file?.name;
+
+        if (!val) return;
+
+        const date = new Date().toLocaleString('es-AR');
+        const content = `
+ESTUDIO JURÍDICO DR. MARCO ROSSI - REPORTE DE INTEGRIDAD DIGITAL
+==============================================================
+Fecha y Hora: ${date}
+Origen: Kit de Herramientas Digitales (Local Browser-Side)
+
+DETALLES DEL OBJETO:
+-------------------
+Tipo: ${type === 'text' ? 'Contenido de Texto' : 'Archivo Digital'}
+Identificador: ${name}
+Algoritmo Utilizado: ${algo}
+
+VALOR HASH (HUELLA DIGITAL):
+---------------------------
+${val}
+
+NOTA TÉCNICO-LEGAL:
+------------------
+El valor hash (digest) funciona como el ADN digital del objeto. Cualquier
+modificación mínima, incluso un solo bit, cambiará este valor por completo.
+
+Este reporte certifica que, al momento de la generación, el objeto identificado
+posee la huella digital arriba mencionada. Para una preservación con validez
+forense internacional, se recomienda la intervención de un perito o la 
+certificación ante escribano público.
+
+--------------------------------------------------------------
+dr.marcorossi9@gmail.com | Tucumán, Argentina
+        `.trim();
+
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Reporte_Integridad_${name?.replace(/[^a-z0-9]/gi, '_')}.txt`;
+        link.click();
+        URL.revokeObjectURL(url);
+        toast.success("Reporte descargado correctamente.");
+    };
+
     return (
         <div className="w-full space-y-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -132,12 +180,20 @@ export default function Hasher() {
                             <div className="mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                 <div className="flex items-center justify-between mb-2 px-1">
                                     <span className="text-[10px] font-black text-accent uppercase tracking-widest">Resultado Hexadecimal:</span>
-                                    <button
-                                        onClick={() => copyToClipboard(textHash)}
-                                        className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
-                                    >
-                                        <Copy size={12} /> Copiar
-                                    </button>
+                                    <div className="flex gap-4">
+                                        <button
+                                            onClick={() => copyToClipboard(textHash)}
+                                            className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
+                                        >
+                                            <Copy size={12} /> Copiar
+                                        </button>
+                                        <button
+                                            onClick={() => downloadReport('text')}
+                                            className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
+                                        >
+                                            <Upload size={12} className="rotate-180" /> Reporte
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-4 break-all font-mono text-sm text-foreground/80 relative">
                                     {textHash}
@@ -214,12 +270,20 @@ export default function Hasher() {
                             <div className="mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                 <div className="flex items-center justify-between mb-2 px-1">
                                     <span className="text-[10px] font-black text-accent uppercase tracking-widest">Hash del Archivo:</span>
-                                    <button
-                                        onClick={() => copyToClipboard(fileHash)}
-                                        className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
-                                    >
-                                        <Copy size={12} /> Copiar
-                                    </button>
+                                    <div className="flex gap-4">
+                                        <button
+                                            onClick={() => copyToClipboard(fileHash)}
+                                            className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
+                                        >
+                                            <Copy size={12} /> Copiar
+                                        </button>
+                                        <button
+                                            onClick={() => downloadReport('file')}
+                                            className="text-foreground/40 hover:text-accent transition-colors flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest"
+                                        >
+                                            <Upload size={12} className="rotate-180" /> Reporte
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="bg-foreground/5 border border-foreground/10 rounded-2xl p-4 break-all font-mono text-sm text-foreground/80 relative">
                                     {fileHash}
@@ -231,16 +295,29 @@ export default function Hasher() {
             </div>
 
             {/* Disclaimer & Information */}
-            <div className="p-8 rounded-[2rem] bg-accent/5 border border-accent/10 flex flex-col md:flex-row items-center gap-6">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent shrink-0">
-                    <ShieldCheck size={24} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-8 rounded-[2rem] bg-accent/5 border border-accent/10 flex items-start gap-6">
+                    <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-accent shrink-0">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm font-bold text-foreground">Privacidad Garantizada</p>
+                        <p className="text-xs text-foreground/50 leading-relaxed">
+                            Procesamiento **100% local**. Tus datos no viajan por internet. Ideal para documentos confidenciales.
+                        </p>
+                    </div>
                 </div>
-                <div className="space-y-1 text-center md:text-left">
-                    <p className="text-sm font-bold text-foreground">Privacidad y Seguridad Garantizada</p>
-                    <p className="text-xs text-foreground/50 leading-relaxed font-medium">
-                        El hasheo se realiza **100% localmente** en tu navegador. Los archivos o textos procesados nunca se envían a nuestros servidores ni a terceros.
-                        Esta herramienta tiene fines de utilidad general y verificación lógica de integridad.
-                    </p>
+
+                <div className="p-8 rounded-[2rem] bg-foreground/5 border border-foreground/10 flex items-start gap-6">
+                    <div className="w-12 h-12 rounded-xl bg-foreground/10 flex items-center justify-center text-foreground/40 shrink-0">
+                        <AlertTriangle size={24} />
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm font-bold text-foreground">Uso Forense</p>
+                        <p className="text-xs text-foreground/50 leading-relaxed">
+                            Para que esta prueba sea invulnerable en juicio, se recomienda registrar el hash ante un Escribano o mediante un Perito Informático.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
