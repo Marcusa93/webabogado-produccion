@@ -1,8 +1,16 @@
+import React, { useState, useRef } from 'react';
 import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X, Hash, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import StaggeredTitle from './StaggeredTitle';
 import Hasher from './Hasher';
 import Magnetic from './Magnetic';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog";
 
 const tools = [
     {
@@ -59,7 +67,7 @@ const tools = [
     }
 ];
 
-const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, onClick: () => void }) => {
+const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const cardRef = useRef<HTMLButtonElement>(null);
 
@@ -77,7 +85,7 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
             ref={cardRef}
             onClick={onClick}
             onMouseMove={handleMouseMove}
-            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent shadow-glow-accent' : 'shadow-soft'}`}
+            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:shadow-xl active:scale-[0.98] overflow-hidden shadow-soft`}
         >
             {/* Spotlight Glow */}
             <div
@@ -107,8 +115,10 @@ const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, o
 };
 
 export default function Toolkit() {
-    const [activeTool, setActiveTool] = useState<string | null>(null);
+    const [activeToolId, setActiveToolId] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    const activeTool = tools.find(t => t.id === activeToolId);
 
     return (
         <section id="toolkit" className="py-16 md:py-24 bg-background transition-colors duration-500 relative overflow-hidden">
@@ -137,122 +147,124 @@ export default function Toolkit() {
                         <ToolCard
                             key={tool.id}
                             tool={tool}
-                            isActive={activeTool === tool.id}
-                            onClick={() => setActiveTool(activeTool === tool.id ? null : tool.id)}
+                            onClick={() => setActiveToolId(tool.id)}
                         />
                     ))}
                 </div>
 
-                {/* Action Content Drawer */}
-                {activeTool && (
-                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 relative overflow-hidden shadow-2xl">
-                        {/* Background Decoration */}
-                        <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${tools.find(t => t.id === activeTool)?.color} opacity-10 blur-[80px] pointer-events-none`} />
+                {/* Dialog for Tool Content */}
+                <Dialog open={!!activeToolId} onOpenChange={(open) => !open && setActiveToolId(null)}>
+                    <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-y-auto rounded-[2rem] border-foreground/10 bg-card/95 backdrop-blur-2xl shadow-2xl p-0">
+                        <div className="relative">
+                            {/* Background Decoration */}
+                            <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${activeTool?.color} opacity-10 blur-[80px] pointer-events-none`} />
 
-                        <button
-                            onClick={() => setActiveTool(null)}
-                            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/50 transition-colors z-20"
-                        >
-                            <X size={20} />
-                        </button>
+                            <div className="p-8 md:p-12 relative z-10">
+                                {activeTool?.isHasher ? (
+                                    <div className="space-y-12">
+                                        <div className="space-y-4">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20`}>
+                                                <span className="text-[10px] font-bold text-accent uppercase tracking-widest">Utilidad Criptográfica de Marco Rossi</span>
+                                            </div>
+                                            <DialogHeader className="text-left space-y-2">
+                                                <DialogTitle className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight translate-z-0">
+                                                    Hasheador Online
+                                                </DialogTitle>
+                                                <DialogDescription className="text-foreground/40 text-xl font-medium italic">
+                                                    Privacidad 100% Client-Side
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                        </div>
+                                        <Hasher />
+                                    </div>
+                                ) : activeTool?.isCotioTool ? (
+                                    <div className="flex flex-col md:flex-row items-center gap-12 py-8">
+                                        <div className="flex-1 space-y-8 text-left">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20`}>
+                                                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Optimización Justicia Algorítmica</span>
+                                            </div>
+                                            <DialogHeader className="text-left space-y-2">
+                                                <DialogTitle className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
+                                                    COTIO Prompt <span className="text-foreground/30 italic">Improver</span>
+                                                </DialogTitle>
+                                            </DialogHeader>
+                                            <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-xl">
+                                                Nuestra herramienta exclusiva para abogados. Convertí borradores en prompts profesionales usando la metodología COTIO. Procesado de forma segura en nuestro laboratorio digital.
+                                            </p>
+                                            <Magnetic>
+                                                <button
+                                                    onClick={() => navigate('/herramientas/cotio')}
+                                                    className="px-10 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-glow flex items-center gap-3"
+                                                >
+                                                    Acceder a la herramienta
+                                                    <ArrowRight size={18} />
+                                                </button>
+                                            </Magnetic>
+                                        </div>
+                                        <div className="w-full md:w-1/3 aspect-square rounded-[3rem] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center p-12 relative overflow-hidden group">
+                                            <div className="absolute inset-0 bg-indigo-500/10 blur-3xl group-hover:scale-125 transition-transform duration-1000" />
+                                            <Sparkles size={80} className="text-indigo-400 relative z-10 animate-pulse" />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 text-left">
+                                        <div className="flex-1">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 mb-6 md:mb-8`}>
+                                                <span className="text-[10px] font-bold text-foreground/40 dark:text-white/40 uppercase tracking-widest">Protocolo Activo</span>
+                                            </div>
+                                            <DialogHeader className="text-left space-y-2 mb-8">
+                                                <DialogTitle className="text-3xl md:text-4xl font-black text-foreground font-montserrat leading-tight">
+                                                    {activeTool?.title} <br />
+                                                    <span className="text-foreground/30 dark:text-white/30">{activeTool?.subtitle}</span>
+                                                </DialogTitle>
+                                            </DialogHeader>
+                                            <ul className="space-y-4 md:space-y-6">
+                                                {activeTool?.content?.map((item: any, idx: number) => (
+                                                    <li key={idx} className="flex items-start gap-3 md:gap-4 group">
+                                                        <div className={`mt-1 p-1 rounded bg-accent/10 text-accent transition-transform group-hover:scale-110 shrink-0`}>
+                                                            <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
+                                                        </div>
+                                                        <span className="text-base md:text-lg text-foreground/70 dark:text-white/70 font-medium leading-relaxed">{item.text}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
 
-                        <div className="relative z-10">
-                            {tools.find(t => t.id === activeTool)?.isHasher ? (
-                                <div className="space-y-12">
-                                    <div className="space-y-4">
-                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-2`}>
-                                            <span className="text-[10px] font-bold text-accent uppercase tracking-widest">Utilidad Criptográfica de Marco Rossi</span>
+                                            {/* Mobile CTA (visible only on small screens) */}
+                                            <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
+                                                <a
+                                                    href="#contacto"
+                                                    onClick={() => setActiveToolId(null)}
+                                                    className="flex items-center justify-center gap-3 w-full py-5 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
+                                                >
+                                                    <ShieldAlert size={18} />
+                                                    <span>Hablar con Marco</span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <h4 className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
-                                            Hasheador Online <br />
-                                            <span className="text-foreground/30 text-xl md:text-2xl italic">Privacidad 100% Client-Side</span>
-                                        </h4>
-                                    </div>
-                                    <Hasher />
-                                </div>
-                            ) : tools.find(t => t.id === activeTool)?.isCotioTool ? (
-                                <div className="flex flex-col md:flex-row items-center gap-12 py-8">
-                                    <div className="flex-1 space-y-8">
-                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-2`}>
-                                            <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Optimización Justicia Algorítmica</span>
-                                        </div>
-                                        <h4 className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
-                                            COTIO Prompt <br />
-                                            <span className="text-foreground/30 italic">Improver</span>
-                                        </h4>
-                                        <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-xl">
-                                            Nuestra herramienta exclusiva para abogados. Convertí borradores en prompts profesionales usando la metodología COTIO. Procesado de forma segura en nuestro laboratorio digital.
-                                        </p>
-                                        <Magnetic>
-                                            <button
-                                                onClick={() => navigate('/herramientas/cotio')}
-                                                className="px-10 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-glow flex items-center gap-3"
-                                            >
-                                                Acceder a la herramienta
-                                                <ArrowRight size={18} />
-                                            </button>
-                                        </Magnetic>
-                                    </div>
-                                    <div className="w-full md:w-1/3 aspect-square rounded-[3rem] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center p-12 relative overflow-hidden group">
-                                        <div className="absolute inset-0 bg-indigo-500/10 blur-3xl group-hover:scale-125 transition-transform duration-1000" />
-                                        <Sparkles size={80} className="text-indigo-400 relative z-10 animate-pulse" />
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-                                    <div className="flex-1">
-                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 mb-6 md:mb-8`}>
-                                            <span className="text-[10px] font-bold text-foreground/40 dark:text-white/40 uppercase tracking-widest">Protocolo Activo</span>
-                                        </div>
-                                        <h4 className="text-2xl md:text-3xl font-black text-foreground mb-6 font-montserrat leading-tight">
-                                            {tools.find(t => t.id === activeTool)?.title} <br />
-                                            <span className="text-foreground/30 dark:text-white/30">{tools.find(t => t.id === activeTool)?.subtitle}</span>
-                                        </h4>
-                                        <ul className="space-y-4 md:space-y-6">
-                                            {tools.find(t => t.id === activeTool)?.content?.map((item: any, idx: number) => (
-                                                <li key={idx} className="flex items-start gap-3 md:gap-4 group">
-                                                    <div className={`mt-1 p-1 rounded bg-accent/10 text-accent transition-transform group-hover:scale-110 shrink-0`}>
-                                                        <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
-                                                    </div>
-                                                    <span className="text-base md:text-lg text-foreground/70 dark:text-white/70 font-medium leading-relaxed">{item.text}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
 
-                                        {/* Mobile CTA (visible only on small screens) */}
-                                        <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
+                                        {/* Desktop Sidebar */}
+                                        <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-foreground/5 dark:bg-white/5 border border-foreground/5 dark:border-white/5 max-w-[300px] text-center">
+                                            <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6">
+                                                <ShieldAlert size={32} />
+                                            </div>
+                                            <h5 className="font-bold text-foreground mb-3 text-lg">¿Necesitás acción legal?</h5>
+                                            <p className="text-sm text-foreground/40 dark:text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital para asegurar la prueba.</p>
                                             <a
                                                 href="#contacto"
-                                                onClick={() => setActiveTool(null)}
-                                                className="flex items-center justify-center gap-3 w-full py-5 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
+                                                onClick={() => setActiveToolId(null)}
+                                                className="w-full py-4 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest hover:shadow-glow transition-all"
                                             >
-                                                <ShieldAlert size={18} />
-                                                <span>Hablar con Marco</span>
+                                                Hablar con Marco
                                             </a>
                                         </div>
                                     </div>
-
-                                    {/* Desktop Sidebar */}
-                                    <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-foreground/5 dark:bg-white/5 border border-foreground/5 dark:border-white/5 max-w-[300px] text-center">
-                                        <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6">
-                                            <ShieldAlert size={32} />
-                                        </div>
-                                        <h5 className="font-bold text-foreground mb-3 text-lg">¿Necesitás acción legal?</h5>
-                                        <p className="text-sm text-foreground/40 dark:text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital para asegurar la prueba.</p>
-                                        <a
-                                            href="#contacto"
-                                            onClick={() => setActiveTool(null)}
-                                            className="w-full py-4 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest hover:shadow-glow transition-all"
-                                        >
-                                            Hablar con Marco
-                                        </a>
-                                    </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    </DialogContent>
+                </Dialog>
             </div>
         </section>
     );
 }
+
