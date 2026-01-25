@@ -344,16 +344,23 @@ export default function QuienesSomos() {
             {/* Background Elements */}
             <div className="absolute inset-0 tech-grid opacity-10" />
 
+            import StaggeredTitle from './StaggeredTitle';
+
+            //...
+
             <div className="section-container relative z-10">
                 {/* Section Header */}
                 <div className="max-w-4xl mx-auto mb-20 md:mb-28 text-center">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">El Estudio</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat">
-                        Nuestro <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Equipo.</span>
-                    </h2>
+
+                    <StaggeredTitle
+                        text="Nuestro Equipo."
+                        highlightWords={['Equipo.']}
+                        className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat justify-center"
+                    />
+
                     <p className="text-xl md:text-2xl text-foreground/70 font-medium leading-relaxed max-w-2xl mx-auto">
                         Equipo profesional multidisciplinario con experiencia en derecho, justicia y tecnología.
                     </p>

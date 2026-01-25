@@ -80,16 +80,21 @@ export default function Contacto() {
       <div ref={ref} className="section-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
+          import StaggeredTitle from './StaggeredTitle';
+
+          //...
+
           {/* Left Column: Intake Paragraph & Benefits */}
           <div className={`transition-all duration-1000 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 mb-8">
               <span className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase">Canales Directos</span>
             </div>
 
-            <h2 className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1]">
-              Iniciemos una <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-500">estrategia ganadora.</span>
-            </h2>
+            <StaggeredTitle
+              text="Iniciemos una estrategia ganadora."
+              highlightWords={['estrategia', 'ganadora.']}
+              className="text-[clamp(2rem,5vw,3.75rem)] md:text-5xl lg:text-6xl font-black text-foreground mb-8 leading-[1.1] justify-start text-left"
+            />
 
             <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed mb-12 max-w-xl">
               La consulta inicial estratégica es la base de todo éxito legal. Analizamos el plano fáctico, técnico y jurídico para darte una ruta clara.

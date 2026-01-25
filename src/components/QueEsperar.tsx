@@ -1,41 +1,8 @@
-import React, { useRef } from 'react';
-import { ClipboardCheck, DollarSign, MessageCircle, Heart, ArrowRight } from 'lucide-react';
-import { useInView } from '@/hooks/useInView';
+import StaggeredTitle from './StaggeredTitle';
 
-const steps = [
-    {
-        number: "01",
-        title: "Consulta inicial estratégica",
-        description: "Reunión de diagnóstico para evaluar la viabilidad de tu caso. No tomamos casos sin análisis previo.",
-        icon: MessageCircle,
-        color: "bg-blue-500",
-        delay: 0
-    },
-    {
-        number: "02",
-        title: "Propuesta clara y transparente",
-        description: "Un plan de acción detallado con costos definidos desde el primer día. Sin sorpresas ni letra chica.",
-        icon: DollarSign,
-        color: "bg-emerald-500",
-        delay: 100
-    },
-    {
-        number: "03",
-        title: "Ejecución técnica rigurosa",
-        description: "Implementamos la estrategia jurídica validada, con reportes periódicos de avance.",
-        icon: ClipboardCheck,
-        color: "bg-amber-500",
-        delay: 200
-    },
-    {
-        number: "04",
-        title: "Compromiso social",
-        description: "Reservamos un cupo mensual para casos pro bono de alto impacto social o vulnerabilidad.",
-        icon: Heart,
-        color: "bg-rose-500",
-        delay: 300
-    }
-];
+// ... (existing imports)
+
+// ... (existing steps array)
 
 export default function QueEsperar() {
     const { ref, isInView } = useInView({ threshold: 0.1 });
@@ -52,10 +19,13 @@ export default function QueEsperar() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6 transition-transform hover:scale-105">
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">Metodología</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat leading-tight">
-                        Un proceso diseñado para <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">darte resultados.</span>
-                    </h2>
+
+                    <StaggeredTitle
+                        text="Un proceso diseñado para darte resultados."
+                        highlightWords={['darte', 'resultados.']}
+                        className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat leading-tight justify-center"
+                    />
+
                     <p className="text-xl text-foreground/70 leading-relaxed font-medium">
                         Transparencia, orden y rigor técnico en cada etapa del camino.
                     </p>
