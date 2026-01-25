@@ -2,6 +2,7 @@ import { Award, BookOpen, Scale, Terminal, Radio, Mic2, Tv, Youtube, Linkedin, P
 import OptimizedImage from './OptimizedImage';
 import { useInView } from '@/hooks/useInView';
 import { useRef, useState, useEffect } from 'react';
+import StaggeredTitle from './StaggeredTitle';
 
 const team = [
     {
@@ -343,10 +344,6 @@ export default function QuienesSomos() {
         <section id="quienes-somos" ref={ref} className="relative py-24 md:py-32 bg-background transition-colors duration-500 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 tech-grid opacity-10" />
-
-            import StaggeredTitle from './StaggeredTitle';
-
-            //...
 
             <div className="section-container relative z-10">
                 {/* Section Header */}

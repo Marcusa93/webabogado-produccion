@@ -1,8 +1,42 @@
+import React, { useRef } from 'react';
+import { ClipboardCheck, DollarSign, MessageCircle, Heart, ArrowRight } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
 import StaggeredTitle from './StaggeredTitle';
 
-// ... (existing imports)
-
-// ... (existing steps array)
+const steps = [
+    {
+        number: "01",
+        title: "Consulta inicial estratégica",
+        description: "Reunión de diagnóstico para evaluar la viabilidad de tu caso. No tomamos casos sin análisis previo.",
+        icon: MessageCircle,
+        color: "bg-blue-500",
+        delay: 0
+    },
+    {
+        number: "02",
+        title: "Propuesta clara y transparente",
+        description: "Un plan de acción detallado con costos definidos desde el primer día. Sin sorpresas ni letra chica.",
+        icon: DollarSign,
+        color: "bg-emerald-500",
+        delay: 100
+    },
+    {
+        number: "03",
+        title: "Ejecución técnica rigurosa",
+        description: "Implementamos la estrategia jurídica validada, con reportes periódicos de avance.",
+        icon: ClipboardCheck,
+        color: "bg-amber-500",
+        delay: 200
+    },
+    {
+        number: "04",
+        title: "Compromiso social",
+        description: "Reservamos un cupo mensual para casos pro bono de alto impacto social o vulnerabilidad.",
+        icon: Heart,
+        color: "bg-rose-500",
+        delay: 300
+    }
+];
 
 export default function QueEsperar() {
     const { ref, isInView } = useInView({ threshold: 0.1 });

@@ -3,6 +3,7 @@ import { MessageCircle, Send, Mail, Clock, CheckCircle, Shield, Zap } from 'luci
 import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
 import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
+import StaggeredTitle from './StaggeredTitle';
 
 export default function Contacto() {
   const { ref, isInView } = useInView({ threshold: 0.1 });
@@ -79,10 +80,6 @@ export default function Contacto() {
 
       <div ref={ref} className="section-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-          import StaggeredTitle from './StaggeredTitle';
-
-          //...
 
           {/* Left Column: Intake Paragraph & Benefits */}
           <div className={`transition-all duration-1000 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
