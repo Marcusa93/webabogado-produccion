@@ -29,16 +29,16 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#020617] text-white overflow-hidden">
       {/* Pre-Footer Heroic CTA */}
-      <div className="relative py-24 md:py-32 border-b border-white/10 overflow-hidden">
+      <div className="relative py-20 md:py-32 border-b border-white/10 overflow-hidden">
         <div className="absolute inset-0 bg-accent/5" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="section-container relative z-10 text-center">
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-8 tracking-tight">
-            ¿Listo para cuidarte y <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">proteger tus derechos?</span>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-6 md:mb-8 tracking-tight px-4 md:px-0">
+            ¿Listo para cuidarte y <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400 block md:inline mt-2 md:mt-0">proteger tus derechos?</span>
           </h2>
-          <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-12 font-medium">
+          <p className="text-base md:text-xl text-white/50 max-w-2xl mx-auto mb-10 md:mb-12 font-medium px-4">
             No esperes a tener un conflicto. La mejor defensa legal se construye antes.
           </p>
 
