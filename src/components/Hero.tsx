@@ -89,9 +89,21 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-8 md:mb-10 opacity-0 animate-fade-in-up animation-delay-200 max-w-4xl">
-              Marco Rossi. <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Abogado</span> que defiende tus derechos en la era digital.
+            {/* Main Headline - Cinematic Staggered Reveal */}
+            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-8 md:mb-10 max-w-4xl flex flex-wrap gap-x-3 justify-center lg:justify-start">
+              {"Marco Rossi. Abogado que defiende tus derechos en la era digital.".split(" ").map((word, i) => (
+                <span
+                  key={i}
+                  className={`inline-block opacity-0 animate-fade-in-up`}
+                  style={{ animationDelay: `${200 + (i * 50)}ms` }}
+                >
+                  {word === "Abogado" ? (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">{word}</span>
+                  ) : (
+                    word
+                  )}
+                </span>
+              ))}
             </h1>
 
             {/* Subheadline */}

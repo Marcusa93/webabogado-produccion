@@ -9,10 +9,12 @@ import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
 import ScrollProgress from '@/components/ScrollProgress';
 import Stats from '@/components/Stats';
+import CustomCursor from '@/components/CustomCursor';
 
 export default function Index() {
   return (
     <div className="min-h-screen">
+      <CustomCursor />
       <ScrollProgress />
       <Navigation />
       <main>
