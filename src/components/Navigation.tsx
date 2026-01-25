@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import Magnetic from './Magnetic';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
 
@@ -159,18 +160,20 @@ export default function Navigation() {
                 {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
 
-              <a
-                href="#contacto"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('#contacto');
-                }}
-                className={`btn-interactive inline-flex items-center rounded-xl text-xs font-black transition-all duration-500 ${isScrolled
-                  ? 'px-5 py-2.5 bg-accent text-white hover:bg-accent-light'
-                  : 'px-6 py-3 bg-foreground text-background hover:bg-accent hover:text-white shadow-lg'}`}
-              >
-                Consultar
-              </a>
+              <Magnetic strength={0.2}>
+                <a
+                  href="#contacto"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('#contacto');
+                  }}
+                  className={`btn-interactive inline-flex items-center rounded-xl text-xs font-black transition-all duration-500 ${isScrolled
+                    ? 'px-5 py-2.5 bg-accent text-white hover:bg-accent-light'
+                    : 'px-6 py-3 bg-foreground text-background hover:bg-accent hover:text-white shadow-lg'}`}
+                >
+                  Consultar
+                </a>
+              </Magnetic>
             </div>
 
             {/* Mobile Menu Button - Integrated in Header */}

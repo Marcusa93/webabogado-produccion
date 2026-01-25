@@ -3,6 +3,7 @@ import { MessageCircle, Scale, ChevronDown } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
 import ThreeBackground from './ThreeBackground';
+import Magnetic from './Magnetic';
 
 export default function Hero() {
   const [terminalDone, setTerminalDone] = useState(false);
@@ -114,42 +115,26 @@ export default function Hero() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
               {/* Primary Button */}
-              <button
-                onClick={() => scrollToSection('#contacto')}
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = e.clientX - rect.left - rect.width / 2;
-                  const y = e.clientY - rect.top - rect.height / 2;
-                  e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0px, 0px)';
-                }}
-                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
-                style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
-              >
-                <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
-                Agendar consulta
-              </button>
+              <Magnetic>
+                <button
+                  onClick={() => scrollToSection('#contacto')}
+                  className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                >
+                  <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
+                  Agendar consulta
+                </button>
+              </Magnetic>
 
               {/* Secondary Button */}
-              <button
-                onClick={() => scrollToSection('#especialidades')}
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = e.clientX - rect.left - rect.width / 2;
-                  const y = e.clientY - rect.top - rect.height / 2;
-                  e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translate(0px, 0px)';
-                }}
-                className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-foreground font-bold rounded-xl border-2 border-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
-                style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
-              >
-                <Scale size={20} className="group-hover:scale-110 transition-transform" />
-                Conocé más
-              </button>
+              <Magnetic>
+                <button
+                  onClick={() => scrollToSection('#especialidades')}
+                  className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-foreground font-bold rounded-xl border-2 border-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                >
+                  <Scale size={20} className="group-hover:scale-110 transition-transform" />
+                  Conocé más
+                </button>
+              </Magnetic>
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight, ShieldCh
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
 import StaggeredTitle from './StaggeredTitle';
+import Magnetic from './Magnetic';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
@@ -51,18 +52,20 @@ export default function Footer() {
             No esperes a tener un conflicto. La mejor defensa legal se construye con anticipación y estrategia.
           </p>
 
-          <a
-            href="#contacto"
-            onClick={(e) => {
-              e.preventDefault();
-              document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="group relative flex items-center gap-4 px-10 py-6 bg-accent text-white font-black text-lg rounded-2xl transition-all duration-500 hover:shadow-glow hover:-translate-y-1 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            <span className="relative z-10">Agendar consulta ahora</span>
-            <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <Magnetic strength={0.4}>
+            <a
+              href="#contacto"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative flex items-center gap-4 px-10 py-6 bg-accent text-white font-black text-lg rounded-2xl transition-all duration-500 hover:shadow-glow hover:-translate-y-1 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              <span className="relative z-10">Agendar consulta ahora</span>
+              <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </Magnetic>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X } from 'lucide-react';
 import StaggeredTitle from './StaggeredTitle';
 
