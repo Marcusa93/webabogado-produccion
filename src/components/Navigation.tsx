@@ -91,12 +91,13 @@ export default function Navigation() {
 
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 min-h-[72px] flex items-center ${isScrolled
-          ? 'glass border-b border-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
-          : 'bg-background/20 backdrop-blur-md border-b border-white/5'
+        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 flex items-center px-4 md:px-6 
+          ${isScrolled
+            ? 'top-4 w-[95%] lg:w-[90%] max-w-6xl h-[64px] rounded-2xl md:rounded-full glass border border-border/40 shadow-[0_8px_32px_rgba(0,0,0,0.12)]'
+            : 'top-0 w-full h-[80px] bg-background/0 backdrop-blur-0 border-b border-transparent'
           }`}
       >
-        <nav className="section-container w-full">
+        <nav className="w-full">
           <div className="flex items-center justify-between">
 
             {/* Logo */}
@@ -106,17 +107,17 @@ export default function Navigation() {
                 e.preventDefault();
                 scrollToSection('#inicio');
               }}
-              className="relative z-50 transition-transform active:scale-95 lg:flex-shrink-0"
+              className="relative z-50 transition-transform active:scale-95 flex-shrink-0"
             >
               <img
                 src={theme === 'dark' ? logoWhite : logoNavy}
                 alt="Marco Rossi Abogado"
-                className="h-10 md:h-11 w-auto transition-all duration-500"
+                className={`transition-all duration-500 ${isScrolled ? 'h-8 md:h-9' : 'h-10 md:h-11'}`}
               />
             </a>
 
             {/* Desktop Navigation */}
-            <ul className="hidden lg:flex items-center gap-6 xl:gap-8 ml-auto">
+            <ul className="hidden lg:flex items-center gap-6 xl:gap-8 mx-auto">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 const isDark = theme === 'dark';
@@ -129,15 +130,17 @@ export default function Navigation() {
                         e.preventDefault();
                         scrollToSection(link.href);
                       }}
-                      className={`link-underline text-sm font-bold tracking-tight transition-all duration-300 relative py-2 ${isActive
+                      className={`text-[13px] font-bold tracking-tight transition-all duration-300 relative py-2 ${isActive
                         ? 'text-accent'
                         : (isDark
-                          ? 'text-white/70 hover:text-white'
-                          : (isScrolled ? 'text-navy-deep/80 hover:text-accent' : 'text-navy-deep/80 hover:text-accent')
-                        )
+                          ? 'text-white/60 hover:text-white'
+                          : 'text-navy-deep/70 hover:text-accent')
                         }`}
                     >
                       {link.label}
+                      {isActive && (
+                        <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded-full animate-in fade-in slide-in-from-bottom-1" />
+                      )}
                     </a>
                   </li>
                 );
@@ -145,14 +148,14 @@ export default function Navigation() {
             </ul>
 
             {/* Theme Toggle & CTA */}
-            <div className="hidden lg:flex items-center ml-8 gap-4">
+            <div className="hidden lg:flex items-center gap-4">
               <button
                 onClick={toggleTheme}
-                className={`p-2.5 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${theme === 'dark' ? 'text-white hover:bg-white/10' : 'text-navy-deep hover:bg-navy-deep/5'
+                className={`p-2 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 ${theme === 'dark' ? 'text-white hover:bg-white/10' : 'text-navy-deep hover:bg-navy-deep/5'
                   }`}
                 aria-label="Alternar tema"
               >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
 
               <a
@@ -161,9 +164,11 @@ export default function Navigation() {
                   e.preventDefault();
                   scrollToSection('#contacto');
                 }}
-                className="btn-interactive inline-flex items-center px-6 py-3 rounded-xl text-sm font-black bg-accent text-white hover:bg-accent-light shadow-lg"
+                className={`btn-interactive inline-flex items-center rounded-xl text-xs font-black transition-all duration-500 ${isScrolled
+                  ? 'px-5 py-2.5 bg-accent text-white hover:bg-accent-light'
+                  : 'px-6 py-3 bg-foreground text-background hover:bg-accent hover:text-white shadow-lg'}`}
               >
-                Agendar consulta
+                Consultar
               </a>
             </div>
 
@@ -171,13 +176,13 @@ export default function Navigation() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`lg:hidden p-2 z-[100] rounded-xl transition-all duration-300 ${isMobileMenuOpen
-                ? 'text-foreground bg-white/10 backdrop-blur-sm fixed top-4 right-4'
-                : (theme === 'dark' ? 'text-white' : (isScrolled ? 'text-navy-deep' : 'text-navy-deep'))
+                ? 'text-foreground bg-foreground/10 fixed top-4 right-4'
+                : (theme === 'dark' ? 'text-white' : 'text-navy-deep')
                 }`}
               aria-label="Toggle menu"
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </nav>
