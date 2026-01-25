@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, ChevronDown, Check } from 'lucide-react';
+import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, Check, ArrowRight, MousePointer2 } from 'lucide-react';
 import AnimatedUnderline from './AnimatedUnderline';
 
 const specialties = [
   {
     icon: Scale,
     title: "Litigios civiles y comerciales",
-    description: "Actuamos en conflictos de daños y perjuicios, responsabilidad contractual y extracontractual, incumplimientos, cobros, controversias empresariales y conflictos entre particulares. Trabajamos con prueba documental clásica y evidencia digital cuando resulta pertinente para acreditar los hechos.",
+    description: "Trabajamos con prueba documental clásica y evidencia digital cuando resulta pertinente para acreditar los hechos.",
     bullets: [
       "Daños y perjuicios",
       "Responsabilidad contractual",
@@ -18,19 +18,19 @@ const specialties = [
   {
     icon: Briefcase,
     title: "Conflictos laborales",
-    description: "Intervenimos en despidos, sanciones, acoso laboral, accidentes de trabajo y reclamos de crédito. Defensas estratégicas para empresas y representación de trabajadores en situaciones complejas, incorporando prueba digital (chats, correos) como elemento probatorio clave.",
+    description: "Defensas estratégicas para empresas y representación de trabajadores, incorporando prueba digital como elemento clave.",
     bullets: [
       "Despidos y Sanciones",
       "Acoso Laboral (Mobbing)",
       "Accidentes de Trabajo",
       "Prueba en RRSS/Chats"
     ],
-    tags: ["Laboral", "Despidos", "Evidencia Digital"]
+    tags: ["Laboral", "Despidos", "Baja Productividad"]
   },
   {
     icon: ShieldCheck,
     title: "Derecho penal",
-    description: "Asumimos la defensa técnica en procesos penales y el acompañamiento jurídico de víctimas en etapas de investigación y juicio. Especialistas en ciberdelitos y delitos informáticos, garantizando el debido proceso en la obtención y resguardo de la evidencia digital.",
+    description: "Especialistas en ciberdelitos. Garantizamos el debido proceso en la obtención y resguardo de la evidencia digital.",
     bullets: [
       "Ciberdelitos",
       "Defensa Penal",
@@ -42,19 +42,19 @@ const specialties = [
   {
     icon: Network,
     title: "Plataformas y entornos digitales",
-    description: "Intervenimos en conflictos vinculados a redes sociales, cuentas bloqueadas, fraudes en línea, comercio electrónico y servicios digitales. Traducimos hechos complejos en planteos jurídicos claros, comprensibles y exigibles en sede judicial o administrativa.",
+    description: "Traducimos conflictos en redes y plataformas en planteos jurídicos claros, comprensibles y exigibles.",
     bullets: [
       "Recuperación de Cuentas",
       "Fraudes Online",
       "Comercio Electrónico",
       "Términos y Condiciones"
     ],
-    tags: ["Redes Sociales", "E-Commerce", "Plataformas"]
+    tags: ["Redes Sociales", "Influencers", "Plataformas"]
   },
   {
     icon: Fingerprint,
     title: "Prueba electrónica y estrategia procesal",
-    description: "Asesoramos en la identificación, preservación y presentación de evidencia digital: mensajes, correos, metadatos, registros de actividad y pericias informáticas. Diseñamos la estrategia probatoria pensando en su evaluación posterior por jueces y tribunales.",
+    description: "Asesoramos en la identificación, preservación y presentación de evidencia digital para su validez judicial.",
     bullets: [
       "Preservación de Evidencia",
       "Pericias Informáticas",
@@ -67,7 +67,6 @@ const specialties = [
 
 export default function QueHago() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -84,15 +83,12 @@ export default function QueHago() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-  const toggleAccordion = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
 
   return (
     <section id="especialidades" ref={sectionRef} className="py-24 md:py-32 bg-background relative overflow-hidden transition-colors duration-500">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mb-16 md:mb-24">
@@ -113,64 +109,83 @@ export default function QueHago() {
           {specialties.map((item, index) => (
             <div
               key={index}
-              className="tech-card p-8 md:p-10 rounded-3xl bg-card border border-foreground/10 transition-all duration-500 hover:shadow-strong group flex flex-col"
+              className="group relative h-[420px] rounded-[2rem] bg-card border border-foreground/10 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:-translate-y-2"
               style={{
                 '--mouse-x': `${mousePos.x}px`,
                 '--mouse-y': `${mousePos.y}px`,
               } as React.CSSProperties}
             >
-              <div className="relative z-10 flex-1 flex flex-col">
-                <div className="w-14 h-14 rounded-2xl bg-foreground/5 flex items-center justify-center text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 icon-hover">
-                  <item.icon size={28} />
+              {/* Hover Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Hover Glow Effect defined by mouse position */}
+              <div
+                className="absolute w-[300px] h-[300px] bg-accent/10 rounded-full blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  left: 'var(--mouse-x)',
+                  top: 'var(--mouse-y)',
+                  transform: 'translate(-50%, -50%)'
+                }}
+              />
+
+              <div className="relative z-10 h-full p-8 flex flex-col">
+                {/* Header */}
+                <div className="mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-foreground/5 flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-glow group-hover:scale-110">
+                    <item.icon size={28} />
+                  </div>
+                  <h3 className="text-2xl font-black text-foreground mb-3 font-montserrat leading-tight group-hover:text-accent transition-colors">
+                    {item.title}
+                  </h3>
+
+                  {/* Abstract Line */}
+                  <div className="w-12 h-1 bg-foreground/10 rounded-full group-hover:w-full group-hover:bg-accent/30 transition-all duration-700" />
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-6 group-hover:text-accent transition-colors font-montserrat leading-tight">
-                  {item.title}
-                </h3>
+                {/* Content - Initially abstract, reveals detail on hover */}
+                <div className="flex-1 relative">
+                  {/* Default View: Tags */}
+                  <div className="absolute inset-0 transition-all duration-500 opacity-100 group-hover:opacity-0 group-hover:translate-x-4">
+                    <p className="text-foreground/60 font-medium mb-6 line-clamp-3">
+                      {item.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map((tag, t) => (
+                        <span key={t} className="px-3 py-1 rounded-full bg-foreground/5 text-[10px] font-bold uppercase tracking-wider text-foreground/50 border border-foreground/5">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
 
-                {/* Bullets Section */}
-                <ul className="mb-6 space-y-2">
-                  {item.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm font-medium text-foreground/70">
-                      <Check size={14} className="text-accent mt-1 flex-shrink-0" />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Accordion for Full Description */}
-                <div className={`overflow-hidden transition-all duration-500 ${expandedIndex === index ? 'max-h-[300px] opacity-100 mb-6' : 'max-h-0 opacity-0 mb-0'}`}>
-                  <p className="text-foreground/70 text-sm leading-relaxed p-4 bg-foreground/5 rounded-xl border border-foreground/5">
-                    {item.description}
-                  </p>
+                  {/* Hover View: Actionable Bullets */}
+                  <div className="absolute inset-0 transition-all duration-500 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0">
+                    <ul className="space-y-3">
+                      {item.bullets.map((bullet, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm font-bold text-foreground/80">
+                          <div className="mt-0.5 min-w-[16px] text-accent">
+                            <Check size={16} />
+                          </div>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <button
-                  onClick={() => toggleAccordion(index)}
-                  className="flex items-center gap-2 text-xs font-bold text-accent hover:text-accent-light transition-colors mt-2"
-                >
-                  <span>{expandedIndex === index ? 'Ver menos' : 'Ver más detalle'}</span>
-                  <ChevronDown size={14} className={`transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
 
-              <div className="mt-auto pt-6 border-t border-foreground/10 flex flex-wrap gap-2">
-                {item.tags.map((tag, t) => (
-                  <span key={t} className="inline-block px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-wide"
-                    style={{
-                      backgroundColor: 'color-mix(in srgb, var(--tags-red) 10%, transparent)',
-                      color: 'var(--tags-red)',
-                      borderColor: 'color-mix(in srgb, var(--tags-red) 20%, transparent)',
-                      borderWidth: '1px',
-                      borderStyle: 'solid'
-                    }}>
-                    {tag}
+                {/* Footer CTA */}
+                <div className="mt-auto pt-6 flex items-center justify-between border-t border-foreground/5">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-foreground/30 group-hover:text-accent transition-colors">
+                    Saber más
                   </span>
-                ))}
+                  <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center text-foreground/50 group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:translate-x-1">
+                    <ArrowRight size={14} />
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
