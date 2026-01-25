@@ -1,60 +1,65 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User } from 'lucide-react';
+import { Shield, Briefcase, ShoppingBag, Users, Gavel, ArrowRight, Star, User, ChevronDown, ChevronUp } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import AnimatedUnderline from './AnimatedUnderline';
+import StaggeredTitle from './StaggeredTitle';
 
 const services = [
   {
+    id: 1,
     icon: Star,
     badges: [
-      { text: "Para Influencers", color: "bg-purple-100 text-purple-600", icon: Star },
+      { text: "Influyentes", color: "bg-purple-100 text-purple-600", icon: Star },
       { text: "Creators", color: "bg-pink-100 text-pink-600", icon: Users }
     ],
     title: "Abogacía para influencers y creadores digitales",
-    summary: "Protección legal integral para creadores de contenido digital y streamers.",
-    description: "Representamos a influencers y streamers en negociaciones con marcas, contratos, uso de imagen, desmonetizaciones, bloqueos y conflictos reputacionales."
+    summary: "Protección integral de marca personal e imagen.",
+    description: "Representamos a influencers y streamers en negociaciones con marcas, redacción de contratos publicitarios, defensa ante uso no autorizado de imagen, recuperación de cuentas, desmonetizaciones y gestión de crisis reputacionales."
   },
   {
+    id: 2,
     icon: Briefcase,
     badges: [
-      { text: "Para Empresas", color: "bg-blue-100 text-blue-600", icon: Briefcase }
+      { text: "Empresas", color: "bg-blue-100 text-blue-600", icon: Briefcase }
     ],
     title: "Defensa integral para empresas",
-    summary: "Seguridad jurídica para negocios en conflictos civiles y laborales.",
-    description: "Intervenimos en reclamos laborales, demandas de consumidores, incumplimientos contractuales y gestión de crisis reputacionales con estrategias preventivas."
+    summary: "Seguridad jurídica en negocios y litigios.",
+    description: "Intervenimos en reclamos laborales complejos, demandas colectivas de consumidores, disputas societarias, incumplimientos contractuales B2B y estrategias preventivas de Compliance digital."
   },
   {
+    id: 3,
     icon: ShoppingBag,
     badges: [
-      { text: "Para Personas", color: "bg-green-100 text-green-600", icon: User }
+      { text: "Personas", color: "bg-green-100 text-green-600", icon: User }
     ],
     title: "Protección avanzada del consumidor",
-    summary: "Defensa contra abusos de bancos, plataformas y aerolíneas.",
-    description: "Actuamos frente a fraudes, compras incumplidas, débitos indebidos y trato indigno por parte de grandes proveedores de servicios y plataformas."
+    summary: "Acciones contra abusos de grandes proveedores.",
+    description: "Defensa especializada frente a fraudes bancarios (phishing), estafas en plataformas de e-commerce, vuelos cancelados, débitos indebidos y prácticas abusivas de servicios masivos."
   },
   {
+    id: 4,
     icon: Users,
     badges: [
-      { text: "Para Trabajadores", color: "bg-green-100 text-green-600", icon: User }
+      { text: "Trabajadores", color: "bg-green-100 text-green-600", icon: User }
     ],
-    title: "Defensa en conflictos laborales personales",
-    summary: "Acompañamiento en despidos, sanciones y acoso laboral.",
-    description: "Evaluamos tu situación para definir la mejor estrategia: negociación, vía administrativa o demanda judicial ante presiones o despidos injustificados."
+    title: "Defensa en conflictos laborales",
+    summary: "Acompañamiento en despidos y sanciones.",
+    description: "Evaluamos tu situación para definir la mejor estrategia: negociación prejudicial, reclamo administrativo o demanda judicial ante despidos injustificados, trabajo no registrado o acoso laboral."
   },
   {
+    id: 5,
     icon: Gavel,
     badges: [
       { text: "Penal / Civil", color: "bg-orange-100 text-orange-600", icon: Shield }
     ],
     title: "Denuncias penales, mediaciones y juicios",
-    summary: "Representación firme en instancias judiciales críticas.",
-    description: "Asistencia en denuncias policiales, mediaciones y juicios orales. Construimos defensas técnicas serias y representamos a víctimas con compromiso."
+    summary: "Litigación estratégica en casos críticos.",
+    description: "Asistencia letrada en denuncias penales por ciberdelitos, querellas por calumnias e injurias, mediaciones civiles y juicios orales. Construimos defensas técnicas sólidas con alto estándar probatorio."
   }
 ];
 
 export default function Servicios() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const { ref: cardsRef, isInView } = useInView({ threshold: 0.1 });
+  const [activeService, setActiveService] = useState<number | null>(1); // Default open first one
   const sectionRef = useRef<HTMLElement>(null);
 
   const scrollToContact = () => {
@@ -65,26 +70,11 @@ export default function Servicios() {
     }
   };
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        setMousePos({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   return (
     <section
       id="servicios"
       ref={sectionRef}
-      className="py-24 md:py-32 bg-background transition-colors duration-500 relative min-h-[200vh] md:min-h-[250vh] lg:min-h-[300vh]"
+      className="py-24 md:py-32 bg-background transition-colors duration-500 relative"
     >
       {/* Subtle grid background */}
       <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
@@ -97,14 +87,17 @@ export default function Servicios() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
 
           {/* Left Column: Title & Intro (Sticky) */}
-          <div className="lg:w-2/5 lg:sticky lg:top-32 h-fit mb-12 lg:mb-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
-              <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat tracking-[0.2em]">Ecosistema Legal</span>
+          <div className="lg:w-2/5 lg:sticky lg:top-32 h-fit mb-12 lg:mb-0 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6 mx-auto lg:mx-0">
+              <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat tracking-[0.2em] w-full">Ecosistema Legal</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight font-montserrat">
-              Servicios <br />
-              <AnimatedUnderline delay={200}>profesionales.</AnimatedUnderline>
-            </h2>
+
+            <StaggeredTitle
+              text="Servicios profesionales."
+              highlightWords={['profesionales']}
+              className="text-4xl md:text-5xl font-black text-foreground mb-8 leading-tight font-montserrat justify-center lg:justify-start"
+            />
+
             <p className="text-lg text-foreground/70 font-medium leading-relaxed mb-10">
               Un enfoque 360° que combina la rigurosidad del derecho tradicional con la agilidad de los negocios digitales.
             </p>
@@ -118,71 +111,74 @@ export default function Servicios() {
             </button>
           </div>
 
-          {/* Right Column: Cards with Sticky Stacking Effect */}
-          <div ref={cardsRef} className="lg:w-3/5 w-full relative pt-10 pb-32">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className={`tech-card fade-in-up group relative bg-card border-2 border-foreground/10 hover:border-accent/40 rounded-3xl p-8 md:p-12 transition-all duration-500 hover:shadow-strong hover:scale-[1.02] overflow-hidden sticky mb-12 last:mb-0 shadow-lg stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
-                style={{
-                  top: `${100 + index * 40}px`,
-                  zIndex: index + 1
-                }}
-              >
-                {/* Background Hover Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          {/* Right Column: Accordion */}
+          <div className="lg:w-3/5 w-full flex flex-col gap-6">
+            {services.map((service, index) => {
+              const isActive = activeService === service.id;
 
-                <div className="relative z-10 flex flex-col h-full">
-                  {/* Header: Badges and Number */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div className="flex flex-wrap gap-3">
-                      {service.badges.map((badge, i) => (
-                        <div key={i} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${badge.color}`}>
-                          <badge.icon size={12} />
-                          {badge.text}
-                        </div>
-                      ))}
+              return (
+                <div
+                  key={service.id}
+                  className={`group bg-card rounded-3xl border transition-all duration-500 overflow-hidden ${isActive ? 'border-accent shadow-lg scale-[1.02]' : 'border-foreground/10 hover:border-foreground/20'}`}
+                >
+                  {/* Header - Always Visible */}
+                  <button
+                    onClick={() => setActiveService(isActive ? null : service.id)}
+                    className="w-full flex items-center justify-between p-6 md:p-8 text-left"
+                  >
+                    <div className="flex items-center gap-6">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-colors duration-500 shrink-0 ${isActive ? 'bg-accent/10 text-accent' : 'bg-foreground/5 text-foreground/50 group-hover:text-foreground'}`}>
+                        <service.icon size={24} />
+                      </div>
+                      <div>
+                        <h3 className={`text-lg md:text-xl font-bold font-montserrat mb-1 transition-colors ${isActive ? 'text-foreground' : 'text-foreground/80'}`}>
+                          {service.title}
+                        </h3>
+                        <p className={`text-sm md:text-base font-medium transition-colors ${isActive ? 'text-accent' : 'text-foreground/50'}`}>
+                          {service.summary}
+                        </p>
+                      </div>
                     </div>
-                    {/* Numeric Badge - More Prominent */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-foreground/5 border border-foreground/10 text-2xl font-black text-foreground/20 font-montserrat">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                  </div>
 
-                  {/* Icon and Title */}
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform duration-500">
-                      <service.icon size={28} />
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-accent text-white rotate-180' : 'bg-foreground/5 text-foreground/40 group-hover:bg-foreground/10'}`}>
+                      <ChevronDown size={20} />
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-2 font-montserrat">{service.title}</h3>
-                      <p className="text-accent font-medium text-sm md:text-base">{service.summary}</p>
+                  </button>
+
+                  {/* Content - Expandable */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${isActive ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+                  >
+                    <div className="p-6 md:p-8 pt-0 border-t border-dashed border-foreground/10">
+                      <div className="flex flex-wrap gap-2 mb-4 mt-6">
+                        {service.badges.map((badge, i) => (
+                          <span key={i} className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${badge.color}`}>
+                            {badge.text}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-foreground/70 leading-relaxed mb-6">
+                        {service.description}
+                      </p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToContact();
+                        }}
+                        className="text-sm font-bold text-accent hover:text-accent-light flex items-center gap-2 transition-colors uppercase tracking-widest"
+                      >
+                        Consultar ahora
+                        <ArrowRight size={16} />
+                      </button>
                     </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-foreground/60 leading-relaxed mb-8 pl-0 md:pl-20 md:border-l-2 border-foreground/10 flex-grow">
-                    {service.description}
-                  </p>
-
-                  {/* Button at Bottom */}
-                  <div className="md:pl-20 mt-auto">
-                    <button
-                      onClick={scrollToContact}
-                      className="text-sm font-bold text-foreground/40 group-hover:text-accent flex items-center gap-2 transition-colors uppercase tracking-widest"
-                    >
-                      Consultar servicio
-                      <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
-
-            {/* Solicitar Presupuesto Button - Separated with margin */}
+              );
+            })}
+            {/* Mobile CTA */}
             <button
               onClick={scrollToContact}
-              className="lg:hidden flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow mt-16 w-full"
+              className="lg:hidden flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-bold rounded-xl hover:bg-accent-light transition-all shadow-glow mt-8 w-full"
             >
               <span>Solicitar presupuesto</span>
               <ArrowRight size={20} />
