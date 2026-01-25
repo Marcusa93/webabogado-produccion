@@ -20,6 +20,18 @@ export default function Chatbot() {
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    // Show proactive tooltip after delay
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!isOpen) {
+                setShowTooltip(true);
+            }
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [isOpen]);
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -31,6 +43,7 @@ export default function Chatbot() {
     // Initial greeting
     useEffect(() => {
         if (isOpen && messages.length === 0) {
+            setShowTooltip(false); // Hide tooltip when opened
             setIsTyping(true);
             setTimeout(() => {
                 setMessages([
@@ -144,8 +157,8 @@ export default function Chatbot() {
             {/* Chat Window */}
             <div
                 className={`pointer-events-auto bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl w-[320px] sm:w-[380px] h-[500px] max-h-[80vh] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right mb-4 ${isOpen
-                        ? 'opacity-100 scale-100 translate-y-0'
-                        : 'opacity-0 scale-95 translate-y-10 pointer-events-none hidden'
+                    ? 'opacity-100 scale-100 translate-y-0'
+                    : 'opacity-0 scale-95 translate-y-10 pointer-events-none hidden'
                     }`}
             >
                 {/* Header */}
@@ -179,8 +192,8 @@ export default function Chatbot() {
                         >
                             <div
                                 className={`max-w-[85%] p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap shadow-sm ${msg.sender === 'user'
-                                        ? 'bg-accent text-white rounded-tr-none'
-                                        : 'bg-card border border-foreground/5 text-foreground rounded-tl-none'
+                                    ? 'bg-accent text-white rounded-tr-none'
+                                    : 'bg-card border border-foreground/5 text-foreground rounded-tl-none'
                                     }`}
                             >
                                 {msg.text}
@@ -229,6 +242,14 @@ export default function Chatbot() {
                         <Send size={16} />
                     </div>
                 </div>
+            </div>
+
+            {/* Proactive Tooltip */}
+            <div
+                className={`absolute right-[70px] bottom-[15px] bg-card text-foreground px-4 py-2 rounded-xl rounded-tr-none shadow-lg border border-foreground/10 whitespace-nowrap transition-all duration-500 origin-bottom-right ${showTooltip && !isOpen ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-50 translate-x-4 pointer-events-none'
+                    }`}
+            >
+                <p className="text-xs font-bold">👋 ¿Te puedo ayudar?</p>
             </div>
 
             {/* Toggle Button */}

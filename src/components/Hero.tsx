@@ -104,7 +104,17 @@ export default function Hero() {
               {/* Primary Button */}
               <button
                 onClick={() => scrollToSection('#contacto')}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0px, 0px)';
+                }}
                 className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
               >
                 <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
                 Agendar consulta
@@ -113,7 +123,17 @@ export default function Hero() {
               {/* Secondary Button */}
               <button
                 onClick={() => scrollToSection('#especialidades')}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0px, 0px)';
+                }}
                 className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-foreground font-bold rounded-xl border-2 border-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
               >
                 <Scale size={20} className="group-hover:scale-110 transition-transform" />
                 Conocé más
