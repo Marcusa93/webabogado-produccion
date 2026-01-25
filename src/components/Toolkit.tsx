@@ -60,7 +60,7 @@ const tools = [
     {
         id: 'cotio',
         icon: Sparkles,
-        title: "COTIO Improver",
+        title: "Optimizador COTIO",
         subtitle: "Justicia Algorítmica",
         color: "from-indigo-500 to-purple-600",
         isCotioTool: true
@@ -185,7 +185,7 @@ export default function Toolkit() {
                                             </div>
                                             <DialogHeader className="text-left space-y-2">
                                                 <DialogTitle className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
-                                                    COTIO Prompt <span className="text-foreground/30 italic">Improver</span>
+                                                    Optimizador <span className="text-foreground/30 italic">COTIO</span>
                                                 </DialogTitle>
                                             </DialogHeader>
                                             <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-xl">

@@ -88,7 +88,7 @@ npm run dev
 
 El sitio cuenta con una sección de herramientas avanzadas para clientes y profesionales:
 - **Hasheador Online**: Generación local de huellas digitales para preservación de prueba.
-- **COTIO Prompt Improver**: Optimizador de prompts jurídicos basado en la metodología de *Justicia Algorítmica*.
+- **Optimizador COTIO**: Optimizador de prompts jurídicos basado en la metodología de *Justicia Algorítmica*.
 
 ---
 

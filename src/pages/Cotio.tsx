@@ -108,8 +108,8 @@ export default function Cotio() {
                         </motion.div>
 
                         <StaggeredTitle
-                            text="COTIO Prompt Improver"
-                            highlightWords={['COTIO', 'Improver']}
+                            text="Optimizador COTIO"
+                            highlightWords={['COTIO', 'Optimizador']}
                             className="text-4xl md:text-7xl font-black font-montserrat tracking-tight leading-tight justify-start"
                         />
 
@@ -199,7 +199,7 @@ export default function Cotio() {
                                         </div>
                                     </label>
 
-                                    <Magnetic strength={20}>
+                                    <Magnetic strength={10}>
                                         <button
                                             onClick={handleImprove}
                                             disabled={isLoading}
