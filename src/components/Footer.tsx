@@ -1,16 +1,6 @@
-import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp } from 'lucide-react';
+import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight } from 'lucide-react';
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
-
-const navLinks = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#especialidades', label: 'Especialidades' },
-  { href: '#que-esperar', label: 'Nuestro estudio' },
-  { href: '#servicios', label: 'Servicios' },
-  { href: '#quienes-somos', label: 'Quiénes Somos' },
-  { href: '#contacto', label: 'Contacto' },
-  { href: '#recursos', label: 'Recursos' },
-];
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
@@ -21,13 +11,6 @@ const socialLinks = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -44,27 +27,82 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-background border-t border-foreground/5 pt-20 pb-10 transition-colors duration-500 overflow-hidden relative">
-      <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none" />
-      <div className="section-container relative z-10">
+    <footer className="relative bg-[#020617] text-white overflow-hidden">
+      {/* Pre-Footer Heroic CTA */}
+      <div className="relative py-24 md:py-32 border-b border-white/10 overflow-hidden">
+        <div className="absolute inset-0 bg-accent/5" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
+
+        <div className="section-container relative z-10 text-center">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-8 tracking-tight">
+            ¿Listo para blindar <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">tu activo digital?</span>
+          </h2>
+          <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-12 font-medium">
+            No esperes a tener un conflicto. La mejor defensa legal se construye antes.
+          </p>
+
+          <a
+            href="#contacto"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translate(0px, 0px)';
+            }}
+            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-bold text-lg rounded-full hover:bg-accent hover:text-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] group"
+            style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
+          >
+            Agendar consulta ahora
+            <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+          </a>
+        </div>
+      </div>
+
+      <div className="section-container pt-20 pb-10 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 mb-20">
           {/* Brand Info */}
-          <div className="lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left">
-            <img src={logo} alt="Marco Rossi" className="h-10 w-auto mb-8 brightness-0 dark:brightness-100 opacity-80" />
-            <p className="text-foreground/70 text-lg leading-relaxed max-w-sm mb-10 font-medium">
-              Defensa legal estratégica para la economía digital y los negocios tecnológicos.
-              Experiencia judicial y técnica para una justicia moderna y efectiva.
+          <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
+            <img src={logo} alt="Marco Rossi" className="h-12 w-auto mb-8 opacity-90 brightness-0 invert" />
+            <p className="text-white/60 text-lg leading-relaxed max-w-sm mb-10 font-medium">
+              Estrategia legal para la era digital. <br />
+              Experiencia judicial, visión tecnológica.
             </p>
+            <div className="flex gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleSocialClick(social.label)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 text-white transition-all duration-300 border border-white/5"
+                  aria-label={social.label}
+                >
+                  <social.icon size={18} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Spacer */}
+          <div className="hidden lg:block lg:col-span-1" />
+
+          {/* Quick Links - Clean List */}
           <div className="lg:col-span-3 flex flex-col items-center md:items-start">
-            <h4 className="text-sm font-black text-foreground uppercase tracking-[0.2em] mb-8">Navegación</h4>
-            <ul className="flex flex-col items-center md:items-start gap-4">
+            <h4 className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-8">Navegación</h4>
+            <ul className="flex flex-col items-center md:items-start gap-4 space-y-2">
               {[
                 { label: 'Especialidades', href: '#especialidades' },
-                { label: 'Servicios', href: '#servicios' },
-                { label: 'Equipo', href: '#quienes-somos' },
+                { label: 'Nuestro Estudio', href: '#que-esperar' },
+                { label: 'Equipo Profesional', href: '#quienes-somos' },
                 { label: 'Contacto', href: '#contacto' }
               ].map((link) => (
                 <li key={link.label}>
@@ -78,7 +116,7 @@ export default function Footer() {
                         window.scrollTo({ top, behavior: 'smooth' });
                       }
                     }}
-                    className="text-foreground/60 hover:text-accent transition-colors text-sm font-bold uppercase tracking-wider"
+                    className="text-white/70 hover:text-white transition-colors text-base font-bold"
                   >
                     {link.label}
                   </a>
@@ -87,50 +125,36 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact & Social */}
+          {/* Contact Info */}
           <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
-            <h4 className="text-sm font-black text-foreground uppercase tracking-[0.2em] mb-8">Contactos</h4>
-            <p className="text-foreground/60 text-sm font-bold mb-8 max-w-[200px] leading-relaxed">
-              Tucumán, Argentina <br />
-              <span className="text-accent underline">dr.marcorossi9@gmail.com</span>
+            <h4 className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-8">Oficinas</h4>
+            <p className="text-white/80 text-xl font-bold mb-2">
+              Tucumán, Argentina
             </p>
-            <div className="flex flex-wrap gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => handleSocialClick(social.label)}
-                  className="w-12 h-12 flex items-center justify-center rounded-xl bg-foreground/5 text-foreground/70 hover:bg-accent hover:text-white transition-all duration-300 hover:scale-110"
-                  aria-label={social.label}
-                >
-                  <social.icon size={20} />
-                </a>
-              ))}
-            </div>
+            <p className="text-white/50 text-sm mb-8">
+              Atención global remota
+            </p>
+
+            <a href="mailto:dr.marcorossi9@gmail.com" className="text-accent hover:text-white transition-colors font-bold text-lg underline decoration-accent/30 hover:decoration-white/50 underline-offset-4">
+              dr.marcorossi9@gmail.com
+            </a>
           </div>
         </div>
 
         {/* Divider Line */}
-        <div className="border-t border-foreground/10 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-foreground/40 text-[10px] font-bold uppercase tracking-widest">
-              © {currentYear} Marco Rossi. Todos los derechos reservados.
-            </p>
-            <div className="flex items-center gap-8">
-              <a href="#" className="text-foreground/30 hover:text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors">Aviso Legal</a>
-              <a href="#" className="text-foreground/30 hover:text-foreground text-[10px] font-bold uppercase tracking-widest transition-colors">Privacidad</a>
-              <button
-                onClick={scrollToTop}
-                className="btn-interactive inline-flex items-center gap-1.5 text-foreground/40 hover:text-accent transition-colors"
-                aria-label="Volver arriba"
-              >
-                <span className="text-[10px] font-bold uppercase tracking-widest">Arriba</span>
-                <ArrowUp size={14} />
-              </button>
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest">
+            © {currentYear} Marco Rossi. Todos los derechos reservados.
+          </p>
+          <button
+            onClick={scrollToTop}
+            className="group flex items-center gap-2 text-white/30 hover:text-white transition-colors"
+          >
+            <span className="text-[10px] font-bold uppercase tracking-widest">Volver arriba</span>
+            <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white/50 transition-colors">
+              <ArrowUp size={14} />
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </footer>

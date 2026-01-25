@@ -8,6 +8,7 @@ import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
 import ScrollProgress from '@/components/ScrollProgress';
+import Stats from '@/components/Stats';
 
 export default function Index() {
   return (
@@ -16,6 +17,7 @@ export default function Index() {
       <Navigation />
       <main>
         <Hero />
+        <Stats />
         <QueHago />
         <QueEsperar />
         <Servicios />
