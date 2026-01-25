@@ -1,6 +1,7 @@
-import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight } from 'lucide-react';
+import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight, ShieldCheck } from 'lucide-react';
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
+import StaggeredTitle from './StaggeredTitle';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
@@ -29,17 +30,25 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#020617] text-white overflow-hidden">
       {/* Pre-Footer Heroic CTA */}
-      <div className="relative py-20 md:py-32 border-b border-white/10 overflow-hidden">
+      <div className="relative py-24 md:py-32 border-b border-white/5 overflow-hidden">
         <div className="absolute inset-0 bg-accent/5" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="section-container relative z-10 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-6 md:mb-8 tracking-tight px-4 md:px-0">
-            ¿Listo para cuidarte y <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400 block md:inline mt-2 md:mt-0">proteger tus derechos?</span>
-          </h2>
-          <p className="text-base md:text-xl text-white/50 max-w-2xl mx-auto mb-10 md:mb-12 font-medium px-4">
-            No esperes a tener un conflicto. La mejor defensa legal se construye antes.
+        <div className="section-container relative z-10 text-center flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8">
+            <ShieldCheck size={14} className="text-accent" />
+            <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">Asesoría de Vanguardia</span>
+          </div>
+
+          <StaggeredTitle
+            text="¿Listo para proteger tus derechos?"
+            highlightWords={['proteger', 'derechos?']}
+            className="text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-8 tracking-tight justify-center text-white"
+          />
+
+          <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-12 font-medium">
+            No esperes a tener un conflicto. La mejor defensa legal se construye con anticipación y estrategia.
           </p>
 
           <a
@@ -48,20 +57,11 @@ export default function Footer() {
               e.preventDefault();
               document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left - rect.width / 2;
-              const y = e.clientY - rect.top - rect.height / 2;
-              e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(0px, 0px)';
-            }}
-            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-bold text-lg rounded-full hover:bg-accent hover:text-white transition-all duration-300 shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] group"
-            style={{ transition: 'transform 0.1s ease-out, background-color 0.3s, color 0.3s' }}
+            className="group relative flex items-center gap-4 px-10 py-6 bg-accent text-white font-black text-lg rounded-2xl transition-all duration-500 hover:shadow-glow hover:-translate-y-1 overflow-hidden"
           >
-            Agendar consulta ahora
-            <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <span className="relative z-10">Agendar consulta ahora</span>
+            <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
       </div>
