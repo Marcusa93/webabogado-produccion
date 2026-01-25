@@ -19,6 +19,10 @@ export default function Cotio() {
     const [isCopied, setIsCopied] = useState(false);
     const [showResult, setShowResult] = useState(false);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const handleImprove = async () => {
         if (!prompt.trim()) {
             toast.error("Por favor, ingresá un borrador o necesidad.");
