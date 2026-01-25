@@ -35,8 +35,8 @@ export default function Footer() {
 
         <div className="section-container relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-8 tracking-tight">
-            ¿Listo para blindar <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">tu activo digital?</span>
+            ¿Listo para cuidarte y <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">proteger tus derechos?</span>
           </h2>
           <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-12 font-medium">
             No esperes a tener un conflicto. La mejor defensa legal se construye antes.
