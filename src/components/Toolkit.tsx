@@ -45,7 +45,7 @@ export default function Toolkit() {
     const [activeTool, setActiveTool] = useState<string | null>(null);
 
     return (
-        <section className="py-24 bg-[#010810] relative overflow-hidden">
+        <section id="toolkit" className="py-24 bg-[#010810] relative overflow-hidden">
             {/* Dynamic Background */}
             <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
@@ -57,8 +57,8 @@ export default function Toolkit() {
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">Recursos Útiles</span>
                     </div>
                     <StaggeredTitle
-                        text="Digital Defense Toolkit."
-                        highlightWords={['Toolkit.']}
+                        text="Kit de herramientas útiles para nuestros clientes."
+                        highlightWords={['herramientas', 'útiles']}
                         className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 font-montserrat justify-start"
                     />
                     <p className="text-white/50 text-lg md:text-xl max-w-2xl font-medium">
