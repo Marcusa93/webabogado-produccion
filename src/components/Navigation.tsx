@@ -8,6 +8,7 @@ const navLinks = [
   { href: '#especialidades', label: 'Especialidades' },
   { href: '#que-esperar', label: 'Nuestro estudio' },
   { href: '#servicios', label: 'Servicios' },
+  { href: '#toolkit', label: 'Kit para clientes' },
   { label: 'Nuestro Equipo', href: '#quienes-somos' },
   { href: '#contacto', label: 'Contacto' },
 ];
