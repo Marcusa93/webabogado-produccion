@@ -41,6 +41,53 @@ const tools = [
     }
 ];
 
+const ToolCard = ({ tool, isActive, onClick }: { tool: any, isActive: boolean, onClick: () => void }) => {
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const cardRef = useRef<HTMLButtonElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        });
+    };
+
+    return (
+        <button
+            ref={cardRef}
+            onClick={onClick}
+            onMouseMove={handleMouseMove}
+            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:bg-card/80 hover:shadow-xl active:scale-[0.98] overflow-hidden ${isActive ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
+        >
+            {/* Spotlight Glow */}
+            <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                    background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--accent) / 0.1), transparent 80%)`
+                }}
+            />
+
+            {/* Tool Accent Static Glow */}
+            <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-10 blur-[40px] transition-opacity duration-500`} />
+
+            <div className="relative z-10">
+                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-6 md:mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                    <tool.icon size={tool.id === 'phishing' ? 24 : 28} className="md:w-7 md:h-7" />
+                </div>
+
+                <h3 className="text-lg md:text-xl font-black text-foreground mb-1 font-montserrat uppercase tracking-tight">{tool.title}</h3>
+                <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
+
+                <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
+                    Ver Instrucciones <ArrowRight size={14} />
+                </div>
+            </div>
+        </button>
+    );
+};
+
 export default function Toolkit() {
     const [activeTool, setActiveTool] = useState<string | null>(null);
 
@@ -68,27 +115,12 @@ export default function Toolkit() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     {tools.map((tool) => (
-                        <button
+                        <ToolCard
                             key={tool.id}
+                            tool={tool}
+                            isActive={activeTool === tool.id}
                             onClick={() => setActiveTool(activeTool === tool.id ? null : tool.id)}
-                            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:bg-card/80 hover:shadow-xl active:scale-[0.98] overflow-hidden ${activeTool === tool.id ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
-                        >
-                            {/* Tool Accent Glow */}
-                            <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-10 blur-[40px] transition-opacity duration-500`} />
-
-                            <div className="relative z-10">
-                                <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-white mb-6 md:mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
-                                    <tool.icon size={tool.id === 'phishing' ? 24 : 28} className="md:w-7 md:h-7" />
-                                </div>
-
-                                <h3 className="text-lg md:text-xl font-black text-foreground mb-1 font-montserrat uppercase tracking-tight">{tool.title}</h3>
-                                <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
-
-                                <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
-                                    Ver Instrucciones <ArrowRight size={14} />
-                                </div>
-                            </div>
-                        </button>
+                        />
                     ))}
                 </div>
 

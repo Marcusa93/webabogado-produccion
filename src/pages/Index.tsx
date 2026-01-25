@@ -13,7 +13,7 @@ import CustomCursor from '@/components/CustomCursor';
 
 export default function Index() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen noise-overlay">
       <CustomCursor />
       <ScrollProgress />
       <Navigation />
