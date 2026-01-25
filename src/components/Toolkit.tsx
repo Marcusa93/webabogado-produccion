@@ -45,23 +45,23 @@ export default function Toolkit() {
     const [activeTool, setActiveTool] = useState<string | null>(null);
 
     return (
-        <section id="toolkit" className="py-16 md:py-24 bg-[#010810] relative overflow-hidden">
+        <section id="toolkit" className="py-16 md:py-24 bg-background transition-colors duration-500 relative overflow-hidden">
             {/* Dynamic Background */}
-            <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
+            <div className="absolute inset-0 tech-grid opacity-10 dark:opacity-20 pointer-events-none" />
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="section-container relative z-10">
                 <div className="max-w-4xl mb-12 md:mb-16">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 dark:bg-accent/10 border border-accent/10 dark:border-accent/20 mb-6">
                         <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">Recursos Útiles</span>
                     </div>
                     <StaggeredTitle
                         text="Kit de herramientas útiles para nuestros clientes."
                         highlightWords={['herramientas', 'útiles']}
-                        className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 font-montserrat justify-start leading-tight"
+                        className="text-3xl md:text-5xl lg:text-6xl font-black text-foreground mb-6 font-montserrat justify-start leading-tight"
                     />
-                    <p className="text-white/50 text-base md:text-xl max-w-2xl font-medium leading-relaxed">
+                    <p className="text-foreground/60 dark:text-white/50 text-base md:text-xl max-w-2xl font-medium leading-relaxed">
                         Herramientas tácticas de uso inmediato para proteger tu identidad y patrimonio en entornos digitales.
                     </p>
                 </div>
@@ -71,7 +71,7 @@ export default function Toolkit() {
                         <button
                             key={tool.id}
                             onClick={() => setActiveTool(activeTool === tool.id ? null : tool.id)}
-                            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-white/5 border border-white/10 text-left transition-all duration-500 hover:bg-white/10 hover:shadow-glow active:scale-[0.98] overflow-hidden ${activeTool === tool.id ? 'ring-2 ring-accent border-transparent' : ''}`}
+                            className={`group relative p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-card border border-foreground/5 dark:border-white/10 text-left transition-all duration-500 hover:bg-card/80 hover:shadow-xl active:scale-[0.98] overflow-hidden ${activeTool === tool.id ? 'ring-2 ring-accent border-transparent' : 'shadow-soft'}`}
                         >
                             {/* Tool Accent Glow */}
                             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${tool.color} opacity-0 group-hover:opacity-10 blur-[40px] transition-opacity duration-500`} />
@@ -81,8 +81,8 @@ export default function Toolkit() {
                                     <tool.icon size={tool.id === 'phishing' ? 24 : 28} className="md:w-7 md:h-7" />
                                 </div>
 
-                                <h3 className="text-lg md:text-xl font-black text-white mb-1 font-montserrat uppercase tracking-tight">{tool.title}</h3>
-                                <p className="text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
+                                <h3 className="text-lg md:text-xl font-black text-foreground mb-1 font-montserrat uppercase tracking-tight">{tool.title}</h3>
+                                <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
 
                                 <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
                                     Ver Instrucciones <ArrowRight size={14} />
@@ -94,38 +94,38 @@ export default function Toolkit() {
 
                 {/* Action Content Drawer (Single item to keep it compact) */}
                 {activeTool && (
-                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden">
+                    <div className="mt-6 md:mt-8 p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-card/50 dark:bg-white/5 border border-foreground/10 dark:border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-500 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden">
                         {/* Background Decoration */}
                         <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${tools.find(t => t.id === activeTool)?.color} opacity-10 blur-[80px] pointer-events-none`} />
 
                         <button
                             onClick={() => setActiveTool(null)}
-                            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/5 hover:bg-white/20 text-white/50 transition-colors"
+                            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/50 transition-colors"
                         >
                             <X size={20} />
                         </button>
 
                         <div className="flex-1">
-                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 md:mb-8`}>
-                                <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Protocolo Activo</span>
+                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 mb-6 md:mb-8`}>
+                                <span className="text-[10px] font-bold text-foreground/40 dark:text-white/40 uppercase tracking-widest">Protocolo Activo</span>
                             </div>
-                            <h4 className="text-2xl md:text-3xl font-black text-white mb-6 font-montserrat leading-tight">
+                            <h4 className="text-2xl md:text-3xl font-black text-foreground mb-6 font-montserrat leading-tight">
                                 {tools.find(t => t.id === activeTool)?.title} <br />
-                                <span className="text-white/30">{tools.find(t => t.id === activeTool)?.subtitle}</span>
+                                <span className="text-foreground/30 dark:text-white/30">{tools.find(t => t.id === activeTool)?.subtitle}</span>
                             </h4>
                             <ul className="space-y-4 md:space-y-6">
                                 {tools.find(t => t.id === activeTool)?.content.map((item, idx) => (
                                     <li key={idx} className="flex items-start gap-3 md:gap-4 group">
-                                        <div className={`mt-1 p-1 rounded bg-white/5 text-accent transition-transform group-hover:scale-110 shrink-0`}>
+                                        <div className={`mt-1 p-1 rounded bg-accent/10 text-accent transition-transform group-hover:scale-110 shrink-0`}>
                                             <item.icon size={16} className="md:w-[18px] md:h-[18px]" />
                                         </div>
-                                        <span className="text-base md:text-lg text-white/70 font-medium leading-relaxed">{item.text}</span>
+                                        <span className="text-base md:text-lg text-foreground/70 dark:text-white/70 font-medium leading-relaxed">{item.text}</span>
                                     </li>
                                 ))}
                             </ul>
 
                             {/* Mobile CTA (visible only on small screens) */}
-                            <div className="mt-8 pt-8 border-t border-white/5 md:hidden">
+                            <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
                                 <a
                                     href="#contacto"
                                     onClick={() => setActiveTool(null)}
@@ -138,12 +138,12 @@ export default function Toolkit() {
                         </div>
 
                         {/* Desktop Sidebar */}
-                        <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-white/5 border border-white/5 max-w-[300px] text-center">
+                        <div className="hidden md:flex flex-col justify-center items-center p-12 rounded-[2rem] bg-foreground/5 dark:bg-white/5 border border-foreground/5 dark:border-white/5 max-w-[300px] text-center">
                             <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center text-accent mb-6">
                                 <ShieldAlert size={32} />
                             </div>
-                            <h5 className="font-bold text-white mb-3">¿Necesitás acción legal?</h5>
-                            <p className="text-sm text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital.</p>
+                            <h5 className="font-bold text-foreground mb-3">¿Necesitás acción legal?</h5>
+                            <p className="text-sm text-foreground/40 dark:text-white/40 mb-8">Si ya ocurrió el incidente, la rapidez es vital.</p>
                             <a
                                 href="#contacto"
                                 onClick={() => setActiveTool(null)}
