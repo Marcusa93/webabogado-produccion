@@ -199,19 +199,17 @@ export default function Cotio() {
                                         </div>
                                     </label>
 
-                                    <Magnetic strength={10}>
-                                        <button
-                                            onClick={handleImprove}
-                                            disabled={isLoading}
-                                            className="relative group overflow-hidden px-12 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-[0.2em] transition-all hover:bg-accent hover:text-white shadow-2xl disabled:opacity-50"
-                                        >
-                                            <div className="flex items-center gap-3 relative z-10">
-                                                <Wand2 size={20} className="group-hover:rotate-12 transition-transform" />
-                                                Optimizar Estructura
-                                            </div>
-                                            <div className="absolute inset-0 bg-gradient-to-r from-accent to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                        </button>
-                                    </Magnetic>
+                                    <button
+                                        onClick={handleImprove}
+                                        disabled={isLoading}
+                                        className="relative group overflow-hidden px-12 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-[0.2em] transition-all hover:bg-accent hover:text-white shadow-2xl disabled:opacity-50"
+                                    >
+                                        <div className="flex items-center gap-3 relative z-10">
+                                            <Wand2 size={20} className="group-hover:rotate-12 transition-transform" />
+                                            Optimizar Estructura
+                                        </div>
+                                        <div className="absolute inset-0 bg-gradient-to-r from-accent to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    </button>
                                 </div>
                             </div>
 
