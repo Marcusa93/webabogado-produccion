@@ -32,8 +32,8 @@ const services = [
     badges: [
       { text: "Personas", color: "bg-green-100 text-green-600", icon: User }
     ],
-    title: "Protección avanzada del consumidor",
-    summary: "Acciones contra abusos de grandes proveedores.",
+    title: "Protección avanzada del consumidor y las empresas",
+    summary: "Acciones preventivas empresariales y contra abusos de grandes proveedores.",
     description: "Defensa especializada frente a fraudes bancarios (phishing), estafas en plataformas de e-commerce, vuelos cancelados, débitos indebidos y prácticas abusivas de servicios masivos."
   },
   {
@@ -43,7 +43,7 @@ const services = [
       { text: "Trabajadores", color: "bg-green-100 text-green-600", icon: User }
     ],
     title: "Defensa en conflictos laborales",
-    summary: "Acompañamiento en despidos y sanciones.",
+    summary: "Acompañamiento a empresas y trabajadores.",
     description: "Evaluamos tu situación para definir la mejor estrategia: negociación prejudicial, reclamo administrativo o demanda judicial ante despidos injustificados, trabajo no registrado o acoso laboral."
   },
   {
