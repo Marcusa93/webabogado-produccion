@@ -4,13 +4,13 @@ import { useInView } from '@/hooks/useInView';
 const stats = [
     { number: 8, suffix: '+', label: "Años de Experiencia Judicial" },
     { number: 100, suffix: '%', label: "Enfoque Digital & Tech" },
-    { number: 50, suffix: '+', label: "Casos Complejos Resueltos" }, // Placeholder estimate
-    { number: 24, suffix: 'h', label: "Tiempo de Respuesta Promedio" }
+    { number: 15, suffix: '+', label: "Publicaciones y Disertaciones" },
+    { number: 24, suffix: 'h', label: "Tiempo de Respuesta Máximo" }
 ];
 
 const Counter = ({ end, duration = 2000 }: { end: number, duration?: number }) => {
     const [count, setCount] = useState(0);
-    const { ref, isInView } = useInView({ threshold: 0.5 });
+    const { ref, isInView } = useInView({ threshold: 0.1 }); // Lower threshold for earlier trigger
     const [hasAnimated, setHasAnimated] = useState(false);
 
     useEffect(() => {

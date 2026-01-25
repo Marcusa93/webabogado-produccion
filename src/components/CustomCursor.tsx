@@ -68,19 +68,19 @@ export default function CustomCursor() {
 
             <div
                 ref={cursorRef}
-                className={`fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-75 ease-out will-change-transform`}
+                className={`fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-75 ease-out will-change-transform mix-blend-difference`}
                 style={{ marginLeft: -12, marginTop: -12 }} // Center the cursor (w-6/2)
             >
                 <div
                     className={`
-                        relative flex items-center justify-center rounded-full border border-accent/50 transition-all duration-300 ease-out
-                        ${isHovering ? 'w-12 h-12 bg-accent/10 border-accent' : 'w-6 h-6 bg-transparent'}
+                        relative flex items-center justify-center rounded-full transition-all duration-300 ease-out border-2 border-white
+                        ${isHovering ? 'w-14 h-14 bg-white/20 scale-110' : 'w-8 h-8 bg-transparent'}
                     `}
                 >
                     <div
                         className={`
-                            rounded-full bg-accent transition-all duration-300
-                            ${isHovering ? 'w-2 h-2 opacity-100' : 'w-1.5 h-1.5 opacity-80'}
+                            rounded-full bg-white transition-all duration-300
+                            ${isHovering ? 'w-3 h-3' : 'w-2 h-2'}
                         `}
                     />
                 </div>
