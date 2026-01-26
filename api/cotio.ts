@@ -45,6 +45,8 @@ No agregues bibliografía, citas, enlaces, ni análisis del caso. No incluyas m�
 `;
 
 export default async function handler(req: any, res: any) {
+    console.log('[COTIO] Request received', req.method);
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -53,15 +55,15 @@ export default async function handler(req: any, res: any) {
         const { prompt, documentType, jurisdiction, anonimize } = req.body;
 
         if (!prompt) {
-            return res.status(400).json({ ok: false, error: 'Prompt is required' });
+            return res.status(400).json({ ok: false, error: 'Falta el prompt original.' });
         }
 
         const apiKey = process.env.GEMINI_API_KEY;
         const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
         if (!apiKey) {
-            console.error('[CRITICAL] Missing GEMINI_API_KEY');
-            return res.status(500).json({ ok: false, error: 'Server configuration error' });
+            console.error('[CRITICAL] Missing GEMINI_API_KEY environment variable');
+            return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente en el servidor.' });
         }
 
         const genAI = new GoogleGenerativeAI(apiKey);
@@ -74,6 +76,7 @@ Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
 Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
         `.trim();
 
+        console.log('[COTIO] Calling Gemini API...');
         const result = await model.generateContent({
             contents: [
                 { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nEntrada del usuario:\n" + userContent }] }
@@ -83,16 +86,24 @@ Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
         const response = await result.response;
         const text = response.text();
 
+        console.log('[COTIO] Gemini response successful');
         return res.status(200).json({
             ok: true,
             result: text
         });
 
     } catch (error: any) {
-        console.error('[ERROR]', error);
+        console.error('[COTIO ERROR]', error);
+
+        // Provide more specific error info to the user for debugging
+        const errorMessage = error.message || 'Error desconocido';
+        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized');
+
         return res.status(500).json({
             ok: false,
-            error: 'Error interno al procesar el prompt.'
+            error: isAuthError
+                ? 'Error de autenticación: La clave de Gemini no es válida o no tiene permisos.'
+                : `Error en el laboratorio: ${errorMessage}`
         });
     }
 }
