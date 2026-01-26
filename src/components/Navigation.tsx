@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import Magnetic from './Magnetic';
+import UserProfileDropdown from './UserProfileDropdown';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
 
@@ -15,6 +18,7 @@ const navLinks = [
 ];
 
 export default function Navigation() {
+  const { user } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
@@ -149,7 +153,7 @@ export default function Navigation() {
               })}
             </ul>
 
-            {/* Theme Toggle & CTA */}
+            {/* Theme Toggle, User Profile & CTA */}
             <div className="hidden lg:flex items-center gap-4">
               <button
                 onClick={toggleTheme}
@@ -159,6 +163,17 @@ export default function Navigation() {
               >
                 {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
+
+              {user ? (
+                <UserProfileDropdown />
+              ) : (
+                <Link
+                  to="/login"
+                  className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${theme === 'dark' ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-navy-deep/70 hover:text-navy-deep hover:bg-navy-deep/5'}`}
+                >
+                  Iniciar Sesión
+                </Link>
+              )}
 
               <Magnetic strength={0.2}>
                 <a
