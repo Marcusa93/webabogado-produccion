@@ -37,7 +37,7 @@ export default function Cotio() {
         setResult('');
 
         try {
-            const response = await fetch('/.netlify/functions/cotio', {
+            const response = await fetch('/api/cotio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt, documentType, jurisdiction, anonimize })
