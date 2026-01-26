@@ -56,50 +56,74 @@ export default async function handler(req: any, res: any) {
             return res.status(400).json({ ok: false, error: 'Falta el prompt original.' });
         }
 
-        const apiKey = process.env.GEMINI_API_KEY?.trim();
-        const modelName = process.env.GEMINI_MODEL?.trim() || 'gemini-1.5-flash';
+        const rawApiKey = process.env.GEMINI_API_KEY?.trim();
 
-        if (!apiKey) {
+        if (!rawApiKey) {
             console.error('[CRITICAL] Missing GEMINI_API_KEY environment variable');
             return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente en el servidor.' });
         }
 
-        const genAI = new GoogleGenerativeAI(apiKey);
-        // Explicitly using gemini-1.5-flash as it's the most stable/common
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const genAI = new GoogleGenerativeAI(rawApiKey);
 
-        const userContent = `
+        // Let's try to find a valid model if gemini-1.5-flash fails
+        // We will try multiple stable aliases
+        const candidateModels = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash-8b", "gemini-pro"];
+        let lastError = null;
+
+        for (const modelName of candidateModels) {
+            try {
+                console.log(`[COTIO] Attempting with model: ${modelName}`);
+                const model = genAI.getGenerativeModel({ model: modelName });
+
+                const userContent = `
 Borrador de prompt/necesidad: ${prompt}
 Tipo de documento deseado: ${documentType || 'No especificado'}
 Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
 Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
-        `.trim();
+                `.trim();
 
-        const result = await model.generateContent({
-            contents: [
-                { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nEntrada del usuario:\n" + userContent }] }
-            ]
-        });
+                const result = await model.generateContent({
+                    contents: [
+                        { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nEntrada del usuario:\n" + userContent }] }
+                    ]
+                });
 
-        const response = await result.response;
-        const text = response.text();
+                const response = await result.response;
+                const text = response.text();
 
-        return res.status(200).json({
-            ok: true,
-            result: text
-        });
+                console.log(`[COTIO] Success with model: ${modelName}`);
+                return res.status(200).json({
+                    ok: true,
+                    result: text
+                });
+            } catch (err: any) {
+                console.warn(`[COTIO] Failed with model ${modelName}:`, err.message);
+                lastError = err;
+                // If it's a specific auth error, don't keep trying models
+                if (err.message.includes('401') || err.message.includes('API key')) break;
+                if (err.message.includes('permission')) break;
+            }
+        }
+
+        // If we reach here, all models failed
+        throw lastError || new Error("No se pudo conectar con ningún modelo de Gemini.");
 
     } catch (error: any) {
-        console.error('[COTIO ERROR]', error);
+        console.error('[COTIO ERROR FINAL]', error);
 
         const errorMessage = error.message || 'Error desconocido';
-        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized') || errorMessage.includes('400');
+        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized') || errorMessage.includes('401') || errorMessage.includes('403');
+
+        if (isAuthError) {
+            return res.status(500).json({
+                ok: false,
+                error: 'Error de Conexión: La Clave de API es inválida o no tiene permisos suficientes. Verificá tu configuración en Google AI Studio.'
+            });
+        }
 
         return res.status(500).json({
             ok: false,
-            error: isAuthError
-                ? 'Error de conexión: La clave de Gemini no es válida o hay un problema de permisos.'
-                : `Error en el laboratorio: ${errorMessage}`
+            error: `Error de Laboratorio: ${errorMessage}. Probablemente un problema de acceso regional o de cuota.`
         });
     }
 }
