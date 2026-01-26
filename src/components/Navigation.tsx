@@ -164,16 +164,7 @@ export default function Navigation() {
                 {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
 
-              {user ? (
-                <UserProfileDropdown />
-              ) : (
-                <Link
-                  to="/login"
-                  className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${theme === 'dark' ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-navy-deep/70 hover:text-navy-deep hover:bg-navy-deep/5'}`}
-                >
-                  Iniciar Sesión
-                </Link>
-              )}
+              {user && <UserProfileDropdown />}
 
               <Magnetic strength={0.2}>
                 <a

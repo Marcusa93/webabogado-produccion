@@ -10,7 +10,6 @@ import ScrollProgress from "./components/ScrollProgress";
 import Analytics from "./components/Analytics";
 import Index from "./pages/Index";
 import Cotio from "./pages/Cotio";
-import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,7 +26,6 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
             <Route
               path="/herramientas/cotio"
               element={

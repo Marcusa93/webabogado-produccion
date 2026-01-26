@@ -1,6 +1,7 @@
-import { Navigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
+import AuthModal from './AuthModal';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -8,6 +9,7 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const { user, loading } = useAuth();
+    const [showAuthModal, setShowAuthModal] = useState(!user && !loading);
 
     if (loading) {
         return (
@@ -21,7 +23,29 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     }
 
     if (!user) {
-        return <Navigate to="/login" replace />;
+        return (
+            <>
+                <AuthModal
+                    isOpen={showAuthModal}
+                    onClose={() => setShowAuthModal(false)}
+                    onSuccess={() => setShowAuthModal(false)}
+                />
+                <div className="min-h-screen flex items-center justify-center bg-background p-4">
+                    <div className="text-center max-w-md">
+                        <h2 className="text-2xl font-black text-foreground mb-4">Acceso Restringido</h2>
+                        <p className="text-foreground/60 mb-6">
+                            Esta herramienta requiere autenticación. Por favor iniciá sesión para continuar.
+                        </p>
+                        <button
+                            onClick={() => setShowAuthModal(true)}
+                            className="px-8 py-3 bg-accent text-white font-bold rounded-xl hover:bg-accent/90 transition-all"
+                        >
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+            </>
+        );
     }
 
     return <>{children}</>;
