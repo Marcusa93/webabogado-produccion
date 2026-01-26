@@ -59,20 +59,17 @@ export default async function handler(req: any, res: any) {
         const rawApiKey = process.env.GEMINI_API_KEY?.trim();
 
         if (!rawApiKey) {
-            console.error('[CRITICAL] Missing GEMINI_API_KEY environment variable');
-            return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente en el servidor.' });
+            return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente.' });
         }
 
         const genAI = new GoogleGenerativeAI(rawApiKey);
 
-        // Let's try to find a valid model if gemini-1.5-flash fails
-        // We will try multiple stable aliases
-        const candidateModels = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash-8b", "gemini-pro"];
+        // We will try gemini-1.5-flash as the main one, and gemini-2.0-flash-exp as fallback
+        const candidateModels = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"];
         let lastError = null;
 
         for (const modelName of candidateModels) {
             try {
-                console.log(`[COTIO] Attempting with model: ${modelName}`);
                 const model = genAI.getGenerativeModel({ model: modelName });
 
                 const userContent = `
@@ -89,41 +86,36 @@ Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
                 });
 
                 const response = await result.response;
-                const text = response.text();
-
-                console.log(`[COTIO] Success with model: ${modelName}`);
                 return res.status(200).json({
                     ok: true,
-                    result: text
+                    result: response.text()
                 });
             } catch (err: any) {
-                console.warn(`[COTIO] Failed with model ${modelName}:`, err.message);
                 lastError = err;
-                // If it's a specific auth error, don't keep trying models
                 if (err.message.includes('401') || err.message.includes('API key')) break;
                 if (err.message.includes('permission')) break;
             }
         }
 
-        // If we reach here, all models failed
-        throw lastError || new Error("No se pudo conectar con ningún modelo de Gemini.");
+        throw lastError;
 
     } catch (error: any) {
         console.error('[COTIO ERROR FINAL]', error);
 
         const errorMessage = error.message || 'Error desconocido';
-        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized') || errorMessage.includes('401') || errorMessage.includes('403');
 
-        if (isAuthError) {
-            return res.status(500).json({
-                ok: false,
-                error: 'Error de Conexión: La Clave de API es inválida o no tiene permisos suficientes. Verificá tu configuración en Google AI Studio.'
-            });
+        // Final Diagnostic message for the user
+        let friendlyMessage = `Error de Configuración [404]: Google no encuentra el modelo "gemini-1.5-flash" con esta API Key. `;
+
+        if (errorMessage.includes('404')) {
+            friendlyMessage += "Esto ocurre cuando la clave se creó en un proyecto de GCP estricto. Por favor, andá a aistudio.google.com, generá una nueva API Key presionando 'Create API Key' y pegala en Vercel. Asegurate de que NO sea una clave de proyecto de Google Cloud, sino una de AI Studio.";
+        } else {
+            friendlyMessage = `Error en el Laboratorio: ${errorMessage}`;
         }
 
         return res.status(500).json({
             ok: false,
-            error: `[VERCEL-DIAGNOSTIC] Error de Laboratorio: ${errorMessage}. Probablemente un problema de acceso regional o de cuota.`
+            error: friendlyMessage
         });
     }
 }
