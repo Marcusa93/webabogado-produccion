@@ -123,7 +123,7 @@ Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
 
         return res.status(500).json({
             ok: false,
-            error: `Error de Laboratorio: ${errorMessage}. Probablemente un problema de acceso regional o de cuota.`
+            error: `[VERCEL-DIAGNOSTIC] Error de Laboratorio: ${errorMessage}. Probablemente un problema de acceso regional o de cuota.`
         });
     }
 }
