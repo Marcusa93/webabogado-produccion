@@ -3,6 +3,8 @@ import { ChevronLeft, Sparkles, Copy, Check, ShieldAlert, Cpu, Gavel, Scale, Loa
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
@@ -10,6 +12,7 @@ import Magnetic from '@/components/Magnetic';
 import StaggeredTitle from '@/components/StaggeredTitle';
 
 export default function Cotio() {
+    const { user } = useAuth();
     const [prompt, setPrompt] = useState('');
     const [documentType, setDocumentType] = useState('');
     const [jurisdiction, setJurisdiction] = useState('');
@@ -44,6 +47,24 @@ export default function Cotio() {
 
             if (data.ok) {
                 setResult(data.result);
+
+                // Save to database if user is logged in
+                if (user) {
+                    try {
+                        await supabase.from('cotio_history').insert({
+                            user_id: user.id,
+                            input_prompt: prompt,
+                            document_type: documentType || null,
+                            jurisdiction: jurisdiction || null,
+                            anonimize: anonimize,
+                            output_result: data.result
+                        });
+                    } catch (dbError) {
+                        console.error('Error saving to history:', dbError);
+                        // Don't show error to user, history is not critical
+                    }
+                }
+
                 // Artificial delay for cinematic feel
                 setTimeout(() => {
                     setIsLoading(false);
