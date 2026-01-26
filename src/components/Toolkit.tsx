@@ -154,12 +154,12 @@ export default function Toolkit() {
 
                 {/* Dialog for Tool Content */}
                 <Dialog open={!!activeToolId} onOpenChange={(open) => !open && setActiveToolId(null)}>
-                    <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-y-auto rounded-[2rem] border-foreground/10 bg-card/95 backdrop-blur-2xl shadow-2xl p-0">
+                    <DialogContent className="max-w-5xl w-[95vw] md:w-full max-h-[90vh] overflow-y-auto rounded-[1.5rem] md:rounded-[2rem] border-foreground/10 bg-card/95 backdrop-blur-2xl shadow-2xl p-0">
                         <div className="relative">
                             {/* Background Decoration */}
                             <div className={`absolute -right-20 -bottom-20 w-80 h-80 bg-gradient-to-br ${activeTool?.color} opacity-10 blur-[80px] pointer-events-none`} />
 
-                            <div className="p-8 md:p-12 relative z-10">
+                            <div className="p-6 md:p-12 relative z-10">
                                 {activeTool?.isHasher ? (
                                     <div className="space-y-12">
                                         <div className="space-y-4">
@@ -230,11 +230,11 @@ export default function Toolkit() {
                                             </ul>
 
                                             {/* Mobile CTA (visible only on small screens) */}
-                                            <div className="mt-8 pt-8 border-t border-foreground/5 md:hidden">
+                                            <div className="mt-6 pt-6 border-t border-foreground/5 md:hidden">
                                                 <a
                                                     href="#contacto"
                                                     onClick={() => setActiveToolId(null)}
-                                                    className="flex items-center justify-center gap-3 w-full py-5 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
+                                                    className="flex items-center justify-center gap-3 w-full py-4 bg-accent text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-glow"
                                                 >
                                                     <ShieldAlert size={18} />
                                                     <span>Hablar con Marco</span>

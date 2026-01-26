@@ -74,7 +74,7 @@ export default function Cotio() {
             <CustomCursor />
             <Navigation />
 
-            <main className="section-container pt-32 pb-24 relative overflow-hidden">
+            <main className="section-container pt-24 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
                 {/* Decorative background effects */}
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[150px] pointer-events-none -z-10" />
                 <div className="absolute bottom-10 left-10 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none -z-10" />
@@ -110,7 +110,7 @@ export default function Cotio() {
                         <StaggeredTitle
                             text="Optimizador COTIO"
                             highlightWords={['COTIO', 'Optimizador']}
-                            className="text-4xl md:text-7xl font-black font-montserrat tracking-tight leading-tight justify-start"
+                            className="text-3xl md:text-7xl font-black font-montserrat tracking-tight leading-tight justify-start"
                         />
 
                         <motion.p
@@ -131,7 +131,7 @@ export default function Cotio() {
                         className="relative"
                     >
                         {/* Glass Container */}
-                        <div className="relative p-6 md:p-12 rounded-[2.5rem] bg-card/40 border border-foreground/10 backdrop-blur-3xl shadow-2xl overflow-hidden">
+                        <div className="relative p-5 md:p-12 rounded-[2rem] md:rounded-[2.5rem] bg-card/40 border border-foreground/10 backdrop-blur-3xl shadow-2xl overflow-hidden">
                             {/* Inner border glow */}
                             <div className="absolute inset-0 border border-white/5 rounded-[2.5rem] pointer-events-none" />
 
@@ -146,7 +146,7 @@ export default function Cotio() {
                                             value={prompt}
                                             onChange={(e) => setPrompt(e.target.value)}
                                             placeholder="Describí qué necesitás que la IA haga, sin preocuparte por el orden..."
-                                            className="w-full h-56 bg-foreground/[0.03] border border-foreground/10 rounded-2xl p-8 text-foreground focus:ring-2 focus:ring-accent/50 outline-none transition-all resize-none font-medium text-lg placeholder:text-foreground/20 shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)]"
+                                            className="w-full h-48 md:h-56 bg-foreground/[0.03] border border-foreground/10 rounded-2xl p-6 md:p-8 text-foreground focus:ring-2 focus:ring-accent/50 outline-none transition-all resize-none font-medium text-base md:text-lg placeholder:text-foreground/20 shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)]"
                                         />
                                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <div className="px-2 py-1 bg-accent/10 border border-accent/20 rounded text-[9px] font-bold text-accent uppercase">Input Activo</div>
@@ -202,9 +202,8 @@ export default function Cotio() {
                                     <button
                                         onClick={handleImprove}
                                         disabled={isLoading}
-                                        className="relative group overflow-hidden px-12 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-[0.2em] transition-all hover:bg-accent hover:text-white shadow-2xl disabled:opacity-50"
-                                    >
-                                        <div className="flex items-center gap-3 relative z-10">
+                                        className="w-full md:w-auto relative group overflow-hidden px-8 md:px-12 py-4 md:py-5 bg-foreground text-background font-black rounded-2xl text-xs md:text-sm uppercase tracking-[0.2em] transition-all hover:bg-accent hover:text-white shadow-2xl disabled:opacity-50"
+                                    >                                      <div className="flex items-center gap-3 relative z-10">
                                             <Wand2 size={20} className="group-hover:rotate-12 transition-transform" />
                                             Optimizar Estructura
                                         </div>
