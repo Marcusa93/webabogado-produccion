@@ -102,15 +102,15 @@ Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
         console.error('[COTIO ERROR DETAILED]', error);
 
         const errorMessage = error.message || 'Error desconocido';
-        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized');
+        const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized') || errorMessage.includes('400');
         const isModelNotFoundError = errorMessage.includes('404') || errorMessage.includes('not found');
 
         let userErrorMessage = `Error en el laboratorio: ${errorMessage}`;
 
         if (isAuthError) {
-            userErrorMessage = 'Error de autenticación: La clave de Gemini no es válida o no tiene permisos.';
+            userErrorMessage = 'Error de conexión: Hay un problema con la API Key de Google. Verificá que sea válida y tenga facturación activa (aunque sea el tier gratuito).';
         } else if (isModelNotFoundError) {
-            userErrorMessage = `Error de configuración: El modelo "${process.env.GEMINI_MODEL || 'gemini-1.5-flash'}" no fue encontrado. Verificá si tu cuenta tiene acceso a este modelo en Google AI Studio.`;
+            userErrorMessage = `Error de modelo: El modelo "${process.env.GEMINI_MODEL || 'gemini-1.5-flash'}" no está disponible para tu cuenta en esta región.`;
         }
 
         return res.status(500).json({
