@@ -58,13 +58,19 @@ export default async function handler(req: any, res: any) {
             return res.status(400).json({ ok: false, error: 'Falta el prompt original.' });
         }
 
-        const apiKey = process.env.GEMINI_API_KEY;
-        const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+        const rawApiKey = process.env.GEMINI_API_KEY;
+        const rawModelName = process.env.GEMINI_MODEL;
+
+        // Sanitize and validate
+        const apiKey = rawApiKey?.trim();
+        const modelName = rawModelName?.trim() || 'gemini-1.5-flash';
 
         if (!apiKey) {
             console.error('[CRITICAL] Missing GEMINI_API_KEY environment variable');
             return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente en el servidor.' });
         }
+
+        console.log(`[COTIO] Using model: ${modelName} | API Key prefix: ${apiKey.substring(0, 6)}...`);
 
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: modelName });
@@ -93,17 +99,23 @@ Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
         });
 
     } catch (error: any) {
-        console.error('[COTIO ERROR]', error);
+        console.error('[COTIO ERROR DETAILED]', error);
 
-        // Provide more specific error info to the user for debugging
         const errorMessage = error.message || 'Error desconocido';
         const isAuthError = errorMessage.toLowerCase().includes('api key') || errorMessage.toLowerCase().includes('unauthorized');
+        const isModelNotFoundError = errorMessage.includes('404') || errorMessage.includes('not found');
+
+        let userErrorMessage = `Error en el laboratorio: ${errorMessage}`;
+
+        if (isAuthError) {
+            userErrorMessage = 'Error de autenticación: La clave de Gemini no es válida o no tiene permisos.';
+        } else if (isModelNotFoundError) {
+            userErrorMessage = `Error de configuración: El modelo "${process.env.GEMINI_MODEL || 'gemini-1.5-flash'}" no fue encontrado. Verificá si tu cuenta tiene acceso a este modelo en Google AI Studio.`;
+        }
 
         return res.status(500).json({
             ok: false,
-            error: isAuthError
-                ? 'Error de autenticación: La clave de Gemini no es válida o no tiene permisos.'
-                : `Error en el laboratorio: ${errorMessage}`
+            error: userErrorMessage
         });
     }
 }
