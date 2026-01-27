@@ -186,7 +186,7 @@ export default function Navigation() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`lg:hidden p-2 z-[100] rounded-xl transition-all duration-300 ${isMobileMenuOpen
-                ? 'text-foreground bg-foreground/10 fixed top-4 right-4'
+                ? 'text-foreground fixed top-4 right-4'
                 : (theme === 'dark' ? 'text-white' : 'text-navy-deep')
                 }`}
               aria-label="Toggle menu"
@@ -200,7 +200,7 @@ export default function Navigation() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 bg-navy-deep/98 backdrop-blur-3xl z-40 transition-all duration-500 ${isMobileMenuOpen
+        className={`lg:hidden fixed inset-0 bg-background/98 dark:bg-navy-deep/98 backdrop-blur-3xl z-40 transition-all duration-500 ${isMobileMenuOpen
           ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 -translate-y-full pointer-events-none'
           }`}
@@ -222,7 +222,7 @@ export default function Navigation() {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className={`block py-1.5 text-xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-white/90 hover:text-accent'
+                  className={`block py-1.5 text-xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground/90 dark:text-white/90 hover:text-accent'
                     }`}
                 >
                   {link.label}
@@ -232,17 +232,17 @@ export default function Navigation() {
             <li className={`w-full pt-6 flex flex-col gap-4 transform transition-all duration-500 delay-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}>
               <button
                 onClick={toggleTheme}
-                className="flex items-center justify-center gap-3 w-full px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl transition-all"
+                className="flex items-center justify-center gap-3 w-full px-8 py-4 bg-foreground/5 dark:bg-white/5 border border-foreground/10 dark:border-white/10 text-foreground dark:text-white font-bold rounded-xl transition-all"
               >
                 {theme === 'light' ? (
                   <>
-                    <Moon size={20} />
-                    <span>Modo Oscuro</span>
+                    <Moon size={20} className="text-navy-deep" />
+                    <span className="text-navy-deep">Modo Oscuro</span>
                   </>
                 ) : (
                   <>
-                    <Sun size={20} />
-                    <span>Modo Claro</span>
+                    <Sun size={20} className="text-white" />
+                    <span className="text-white">Modo Claro</span>
                   </>
                 )}
               </button>
