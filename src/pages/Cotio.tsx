@@ -140,7 +140,7 @@ export default function Cotio() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="text-lg md:text-xl text-foreground/60 max-w-2xl mt-8 font-medium leading-relaxed"
                         >
-                            Optimizá tus instrucciones para IA usando la metodología de <span className="text-foreground">Justicia Algorítmica</span> de Marco Rossi. Transformá borradores ambiguos en mandatos técnicos precisos.
+                            Optimizá tus instrucciones para IA. Ingresá tu contenido y generaremos un <span className="text-foreground">Prompt de precisión</span> listo para que copies y pegues en tu LLM (ChatGPT, Claude, Gemini) y obtengas resultados profesionales.
                         </motion.p>
                     </div>
 
@@ -252,7 +252,7 @@ export default function Cotio() {
                                             className="mt-8 text-center"
                                         >
                                             <p className="text-lg font-black text-foreground uppercase tracking-[0.3em] mb-2">Procesando COTIO</p>
-                                            <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-[0.2em]">Estructurando material jurídico mediante Gemini AI...</p>
+                                            <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-[0.2em]">Estructurando material jurídico para tu LLM...</p>
                                         </motion.div>
                                     </motion.div>
                                 )}
@@ -312,7 +312,7 @@ export default function Cotio() {
                                             <div className="space-y-0.5">
                                                 <p className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Nota de Integridad</p>
                                                 <p className="text-xs text-foreground/50 leading-relaxed max-w-2xl font-medium">
-                                                    Este prompt ha sido estructurado para maximizar la precisión de un LLM. Verificá que no falten datos fácticos antes del pegado final.
+                                                    Este prompt ha sido estructurado para maximizar la precisión. Recordá que los resultados de la IA son sugerencias técnicas y **deben ser siempre verificados por el profesional** antes de su uso definitivo.
                                                 </p>
                                             </div>
                                         </motion.div>
@@ -323,7 +323,7 @@ export default function Cotio() {
                             {/* Global Footer Message */}
                             <div className="mt-16 pt-8 text-center border-t border-foreground/5 opacity-30">
                                 <p className="text-[9px] font-black text-foreground uppercase tracking-[0.4em]">
-                                    Tool v1.2 · Backend Neural Gemini™ · No es asesoramiento legal · © Marco Rossi Digital
+                                    Tool v1.5 · Realizado por el área de desarrollo de Marco Rossi y Ready Lawyer One · No es asesoramiento legal · © Marco Rossi Digital
                                 </p>
                             </div>
                         </div>
