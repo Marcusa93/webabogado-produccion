@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const SYSTEM_PROMPT = `
 SYSTEM PROMPT — “COTIO Prompt Improver (Jurídico)”
@@ -56,66 +55,71 @@ export default async function handler(req: any, res: any) {
             return res.status(400).json({ ok: false, error: 'Falta el prompt original.' });
         }
 
-        const rawApiKey = process.env.GEMINI_API_KEY?.trim();
+        const openRouterKey = process.env.OPENROUTER_API_KEY?.trim();
+        const modelName = process.env.OPENROUTER_MODEL?.trim() || 'google/gemini-2.0-flash-exp:free';
 
-        if (!rawApiKey) {
-            return res.status(500).json({ ok: false, error: 'Configuración incompleta: GEMINI_API_KEY ausente.' });
+        if (!openRouterKey) {
+            console.error('[CRITICAL] Missing OPENROUTER_API_KEY environment variable');
+            return res.status(500).json({
+                ok: false,
+                error: 'Configuración incompleta: OPENROUTER_API_KEY ausente en el servidor. Por favor, añadí la variable en Vercel.'
+            });
         }
 
-        const genAI = new GoogleGenerativeAI(rawApiKey);
-
-        // We will try gemini-1.5-flash as the main one, and gemini-2.0-flash-exp as fallback
-        const candidateModels = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"];
-        let lastError = null;
-
-        for (const modelName of candidateModels) {
-            try {
-                const model = genAI.getGenerativeModel({ model: modelName });
-
-                const userContent = `
+        const userContent = `
 Borrador de prompt/necesidad: ${prompt}
 Tipo de documento deseado: ${documentType || 'No especificado'}
 Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
 Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
-                `.trim();
+        `.trim();
 
-                const result = await model.generateContent({
-                    contents: [
-                        { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nEntrada del usuario:\n" + userContent }] }
-                    ]
-                });
+        console.log(`[COTIO] Calling OpenRouter with model: ${modelName}`);
 
-                const response = await result.response;
-                return res.status(200).json({
-                    ok: true,
-                    result: response.text()
-                });
-            } catch (err: any) {
-                lastError = err;
-                if (err.message.includes('401') || err.message.includes('API key')) break;
-                if (err.message.includes('permission')) break;
-            }
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${openRouterKey}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://www.marcorossi.com.ar", // Opcional, para OpenRouter ranking
+                "X-Title": "Marco Rossi - Abogado Digital" // Opcional, para OpenRouter ranking
+            },
+            body: JSON.stringify({
+                "model": modelName,
+                "messages": [
+                    { "role": "system", "content": SYSTEM_PROMPT },
+                    { "role": "user", "content": `Entrada del usuario:\n${userContent}` }
+                ],
+                "temperature": 0.3,
+                "max_tokens": 2048
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error('[COTIO OpenRouter Error]', data);
+            throw new Error(data.error?.message || `Error status ${response.status}`);
         }
 
-        throw lastError;
+        const resultText = data.choices[0]?.message?.content;
+
+        if (!resultText) {
+            throw new Error("OpenRouter no devolvió contenido en la respuesta.");
+        }
+
+        return res.status(200).json({
+            ok: true,
+            result: resultText
+        });
 
     } catch (error: any) {
         console.error('[COTIO ERROR FINAL]', error);
 
         const errorMessage = error.message || 'Error desconocido';
 
-        // Final Diagnostic message for the user
-        let friendlyMessage = `Error de Configuración [404]: Google no encuentra el modelo "gemini-1.5-flash" con esta API Key. `;
-
-        if (errorMessage.includes('404')) {
-            friendlyMessage += "Esto ocurre cuando la clave se creó en un proyecto de GCP estricto. Por favor, andá a aistudio.google.com, generá una nueva API Key presionando 'Create API Key' y pegala en Vercel. Asegurate de que NO sea una clave de proyecto de Google Cloud, sino una de AI Studio.";
-        } else {
-            friendlyMessage = `Error en el Laboratorio: ${errorMessage}`;
-        }
-
         return res.status(500).json({
             ok: false,
-            error: friendlyMessage
+            error: `Error de Sistema (OpenRouter): ${errorMessage}.`
         });
     }
 }
