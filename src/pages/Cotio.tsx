@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, Sparkles, Copy, Check, ShieldAlert, Cpu, Gavel, Scale, Loader2, Wand2, Terminal } from 'lucide-react';
+import { ChevronLeft, Sparkles, Copy, Check, ShieldAlert, Cpu, Gavel, Scale, Loader2, Wand2, Terminal, Clock, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,9 +10,22 @@ import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
 import Magnetic from '@/components/Magnetic';
 import StaggeredTitle from '@/components/StaggeredTitle';
+import CotioHistoryPanel from '@/components/CotioHistoryPanel';
+import { useActivityTracker, logActivity } from '@/hooks/useActivityTracker';
+
+interface HistoryEntry {
+    id: string;
+    input_prompt: string;
+    document_type: string | null;
+    jurisdiction: string | null;
+    output_result: string;
+    created_at: string;
+}
 
 export default function Cotio() {
     const { user } = useAuth();
+    useActivityTracker('cotio');
+
     const [prompt, setPrompt] = useState('');
     const [documentType, setDocumentType] = useState('');
     const [jurisdiction, setJurisdiction] = useState('');
@@ -21,6 +34,7 @@ export default function Cotio() {
     const [isLoading, setIsLoading] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -48,29 +62,29 @@ export default function Cotio() {
             if (data.ok) {
                 setResult(data.result);
 
-                // Save to database if user is logged in
-                if (user) {
-                    try {
-                        await supabase.from('cotio_history').insert({
-                            user_id: user.id,
-                            input_prompt: prompt,
-                            document_type: documentType || null,
-                            jurisdiction: jurisdiction || null,
-                            anonimize: anonimize,
-                            output_result: data.result
-                        });
-                    } catch (dbError) {
-                        console.error('Error saving to history:', dbError);
-                        // Don't show error to user, history is not critical
-                    }
-                }
-
                 // Artificial delay for cinematic feel
                 setTimeout(() => {
                     setIsLoading(false);
                     setShowResult(true);
                     toast.success("Prompt optimizado con éxito.");
+
+                    // Track activity (fire and forget)
+                    logActivity({ action: 'tool_use', toolName: 'cotio', metadata: { documentType, jurisdiction, promptLength: prompt.length } });
                 }, 1500);
+
+                // Save to database in background (don't await)
+                if (user) {
+                    supabase.from('cotio_history').insert({
+                        user_id: user.id,
+                        input_prompt: prompt,
+                        document_type: documentType || null,
+                        jurisdiction: jurisdiction || null,
+                        anonimize: anonimize,
+                        output_result: data.result
+                    }).then(({ error }) => {
+                        if (error) console.error('Error saving to history:', error);
+                    });
+                }
             } else {
                 setIsLoading(false);
                 toast.error(data.error || "Ocurrió un error inesperado.");
@@ -90,10 +104,35 @@ export default function Cotio() {
         setTimeout(() => setIsCopied(false), 2000);
     };
 
+    const handleSelectHistoryEntry = (entry: HistoryEntry) => {
+        setPrompt(entry.input_prompt);
+        setDocumentType(entry.document_type || '');
+        setJurisdiction(entry.jurisdiction || '');
+        setResult(entry.output_result);
+        setShowResult(true);
+        setIsHistoryOpen(false);
+        toast.success("Entrada cargada del historial");
+    };
+
+    const handleNewPrompt = () => {
+        setPrompt('');
+        setDocumentType('');
+        setJurisdiction('');
+        setResult('');
+        setShowResult(false);
+    };
+
     return (
         <div className="min-h-screen noise-overlay bg-background selection:bg-accent/30">
             <CustomCursor />
             <Navigation />
+
+            {/* History Panel */}
+            <CotioHistoryPanel
+                isOpen={isHistoryOpen}
+                onClose={() => setIsHistoryOpen(false)}
+                onSelectEntry={handleSelectHistoryEntry}
+            />
 
             <main className="section-container pt-24 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
                 {/* Decorative background effects */}
@@ -106,14 +145,33 @@ export default function Cotio() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="flex items-center justify-between mb-12"
                     >
                         <Link
                             to="/"
-                            className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors font-bold text-xs uppercase tracking-widest mb-12 group"
+                            className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors font-bold text-xs uppercase tracking-widest group"
                         >
                             <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                             Volver al inicio
                         </Link>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={handleNewPrompt}
+                                className="p-2.5 rounded-xl bg-foreground/5 hover:bg-foreground/10 text-foreground/60 hover:text-foreground transition-all"
+                                title="Nuevo análisis"
+                            >
+                                <Plus size={18} />
+                            </button>
+                            <button
+                                onClick={() => setIsHistoryOpen(true)}
+                                className="p-2.5 rounded-xl bg-foreground/5 hover:bg-accent/20 text-foreground/60 hover:text-accent transition-all"
+                                title="Historial de análisis"
+                            >
+                                <Clock size={18} />
+                            </button>
+                        </div>
                     </motion.div>
 
                     {/* Header with staggered entry */}
@@ -171,6 +229,10 @@ export default function Cotio() {
                                         />
                                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <div className="px-2 py-1 bg-accent/10 border border-accent/20 rounded text-[9px] font-bold text-accent uppercase">Input Activo</div>
+                                        </div>
+                                        {/* Character count */}
+                                        <div className="absolute bottom-4 right-4 text-[10px] font-bold text-foreground/30">
+                                            {prompt.length} caracteres
                                         </div>
                                     </div>
                                 </div>

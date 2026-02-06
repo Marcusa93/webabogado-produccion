@@ -3,10 +3,13 @@ import { Copy, Check, FileText, Upload, ShieldCheck, Loader2, AlertTriangle } fr
 // @ts-ignore
 import Hashes from 'jshashes';
 import { toast } from 'sonner';
+import { useActivityTracker, logActivity } from '@/hooks/useActivityTracker';
 
 type Algorithm = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-512';
 
 export default function Hasher() {
+    useActivityTracker('hasheador');
+
     const [text, setText] = useState('');
     const [textAlgo, setTextAlgo] = useState<Algorithm>('SHA-256');
     const [textHash, setTextHash] = useState('');
@@ -40,6 +43,7 @@ export default function Hasher() {
                 setTextHash(new Hashes.SHA1().hex(text));
             }
             toast.success("Hash de texto generado.");
+            logActivity({ action: 'tool_use', toolName: 'hasheador', metadata: { type: 'text', algorithm: textAlgo } });
         } catch (err) {
             console.error(err);
             toast.error("Error al generar el hash.");
@@ -71,6 +75,7 @@ export default function Hasher() {
                 setFileHash(new Hashes.MD5().hex(binaryString));
             }
             toast.success("Hash de archivo generado.");
+            logActivity({ action: 'tool_use', toolName: 'hasheador', metadata: { type: 'file', algorithm: fileAlgo, fileName: file.name } });
         } catch (err) {
             console.error(err);
             toast.error("Error al procesar el archivo.");
