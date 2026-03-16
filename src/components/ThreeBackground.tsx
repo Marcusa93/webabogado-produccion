@@ -186,4 +186,4 @@ const ThreeBackground: React.FC = () => {
     return <div ref={mountRef} className="absolute inset-0 pointer-events-none z-0 opacity-60" />;
 };
 
-export default THREE ? ThreeBackground : () => null;
+export default ThreeBackground;

@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function MouseGlow() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
+    const isVisibleRef = useRef(false);
 
     useEffect(() => {
         const updatePosition = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
-            if (!isVisible) setIsVisible(true);
+            if (!isVisibleRef.current) {
+                isVisibleRef.current = true;
+                setIsVisible(true);
+            }
         };
 
-        const handleMouseLeave = () => setIsVisible(false);
-        const handleMouseEnter = () => setIsVisible(true);
+        const handleMouseLeave = () => {
+            isVisibleRef.current = false;
+            setIsVisible(false);
+        };
+        const handleMouseEnter = () => {
+            isVisibleRef.current = true;
+            setIsVisible(true);
+        };
 
         window.addEventListener('mousemove', updatePosition);
         document.addEventListener('mouseleave', handleMouseLeave);
@@ -22,7 +32,7 @@ export default function MouseGlow() {
             document.removeEventListener('mouseleave', handleMouseLeave);
             document.removeEventListener('mouseenter', handleMouseEnter);
         };
-    }, [isVisible]);
+    }, []);
 
     if (!isVisible) return null;
 

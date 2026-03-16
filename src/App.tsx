@@ -17,7 +17,6 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  console.log("App.tsx: Rendering App component");
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -26,7 +25,7 @@ const App = () => {
         <MouseGlow />
         <ScrollProgress />
         <Analytics />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Index />} />

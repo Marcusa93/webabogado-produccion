@@ -158,11 +158,12 @@ export default function Contacto() {
                 <div className="space-y-6">
                   {/* Name Input */}
                   <div className="space-y-2 group">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Identidad</label>
+                    <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Identidad</label>
                     <div className="relative">
                       <input
                         required
                         name="name"
+                        id="contact-name"
                         type="text"
                         placeholder="Nombre completo o razón social"
                         value={formData.name}
@@ -177,11 +178,12 @@ export default function Contacto() {
 
                   {/* Contact Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Conexión</label>
+                    <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Conexión</label>
                     <div className="relative">
                       <input
                         required
                         name="email"
+                        id="contact-email"
                         type="email"
                         placeholder="email@ejemplo.com o teléfono"
                         value={formData.email}
@@ -200,10 +202,11 @@ export default function Contacto() {
 
                   {/* Message Input */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Caso</label>
+                    <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/70 ml-1">Tu Caso</label>
                     <textarea
                       required
                       name="message"
+                      id="contact-message"
                       rows={4}
                       placeholder="Describe tu conflicto en 2-3 líneas..."
                       value={formData.message}

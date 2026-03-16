@@ -55,7 +55,7 @@ export default function CustomCursor() {
                 For safety, we just hide usage cursor on body via CSS class usually, 
                 but we can start by just having this follow strictly. 
             */}
-            <style jsx global>{`
+            <style>{`
                 @media (pointer: fine) {
                     body {
                         cursor: none;

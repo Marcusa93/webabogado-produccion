@@ -8,14 +8,14 @@ import QuienesSomos from '@/components/QuienesSomos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
-import ScrollProgress from '@/components/ScrollProgress';
+
 import CustomCursor from '@/components/CustomCursor';
 
 export default function Index() {
   return (
     <div className="min-h-screen noise-overlay">
       <CustomCursor />
-      <ScrollProgress />
+
       <Navigation />
       <main>
         <Hero />

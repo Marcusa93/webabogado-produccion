@@ -16,7 +16,7 @@ export async function logActivity({ action, toolName, metadata = {} }: LogActivi
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
-            console.log('No user logged in, skipping activity log');
+            // No user logged in, skipping activity log
             return;
         }
 

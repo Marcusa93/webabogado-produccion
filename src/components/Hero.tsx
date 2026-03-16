@@ -177,6 +177,7 @@ export default function Hero() {
               }
             }}
             className="flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
+            aria-label="Explorar contenido - desplazar hacia abajo"
           >
             <span className="text-[10px] font-bold tracking-[0.2em] text-foreground uppercase">Explorar</span>
             <div className="w-5 h-8 rounded-full border-2 border-foreground/30 flex justify-center p-1">

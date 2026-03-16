@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
 import AuthModal from './AuthModal';
@@ -9,7 +9,13 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const { user, loading } = useAuth();
-    const [showAuthModal, setShowAuthModal] = useState(!user && !loading);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+
+    useEffect(() => {
+        if (!loading && !user) {
+            setShowAuthModal(true);
+        }
+    }, [loading, user]);
 
     if (loading) {
         return (

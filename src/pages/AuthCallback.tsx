@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { Loader2, CheckCircle, XCircle } from 'lucide-react';
@@ -9,6 +9,7 @@ export default function AuthCallback() {
     const [searchParams] = useSearchParams();
     const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
     const [message, setMessage] = useState('Procesando autenticación...');
+    const resolvedRef = useRef(false);
 
     useEffect(() => {
         const handleCallback = async () => {
@@ -55,7 +56,8 @@ export default function AuthCallback() {
                     // Timeout after 10 seconds
                     setTimeout(() => {
                         subscription.unsubscribe();
-                        if (status === 'loading') {
+                        if (!resolvedRef.current) {
+                            resolvedRef.current = true;
                             setStatus('error');
                             setMessage('Tiempo de espera agotado. Intentá nuevamente.');
                             setTimeout(() => navigate('/'), 3000);
@@ -71,7 +73,7 @@ export default function AuthCallback() {
         };
 
         handleCallback();
-    }, [navigate, searchParams, status]);
+    }, [navigate, searchParams]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-background p-4">

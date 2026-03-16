@@ -19,11 +19,16 @@ declare global {
   }
 }
 
+// Module-level variable to store the measurement ID after initialization
+let storedMeasurementId: string | null = null;
+
 /**
  * Initialize Google Analytics
  */
 export const initGA = (measurementId: string) => {
   if (typeof window === 'undefined') return;
+
+  storedMeasurementId = measurementId;
 
   // Create script tag
   const script = document.createElement('script');
@@ -61,8 +66,8 @@ export const trackEvent = (
  * Track page views
  */
 export const trackPageView = (url: string) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-XXXXXXXXXX', {
+  if (typeof window !== 'undefined' && window.gtag && storedMeasurementId) {
+    window.gtag('config', storedMeasurementId, {
       page_path: url,
     });
   }

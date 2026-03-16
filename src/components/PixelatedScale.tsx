@@ -78,7 +78,7 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
         const add = (x: number, y: number) => pts.push({ x: cx + x * scale, y: cy + y * scale });
 
         switch (type) {
-            case 'scale':
+            case 'scale': {
                 for (let y = -200; y <= 250; y += 40) add(0, y);
                 for (let x = -250; x <= 250; x += 40) add(x, -180 + Math.abs(x) * 0.05);
                 [-250, 250].forEach(ox => {
@@ -87,8 +87,9 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                     for (let a = 0; a <= Math.PI; a += 0.5) add(ox + Math.cos(a) * 60, py + 120 + Math.sin(a) * 40);
                 });
                 break;
+            }
 
-            case 'contract':
+            case 'contract': {
                 const pH = 280; const pW = 200;
                 for (let x = -pW / 2; x <= pW / 2; x += 30) { add(x, -pH / 2); add(x, pH / 2); }
                 for (let y = -pH / 2; y <= pH / 2; y += 30) { add(-pW / 2, y); add(pW / 2, y); }
@@ -100,8 +101,9 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                 for (let a = 0; a < Math.PI * 2; a += 0.6) add(sealX + Math.cos(a) * 40, sealY + Math.sin(a) * 40);
                 add(sealX, sealY);
                 break;
+            }
 
-            case 'hammer':
+            case 'hammer': {
                 const yOff = 50;
                 for (let y = 0; y <= 300; y += 35) { add(0, y + yOff); add(10, y + yOff); }
                 const headW = 120; const headH = 60;
@@ -111,22 +113,21 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                     }
                 }
                 break;
+            }
 
-            case 'forbidden':
+            case 'forbidden': {
                 const r = 160;
                 for (let a = 0; a < Math.PI * 2; a += 0.18) {
                     add(Math.cos(a) * r, Math.sin(a) * r);
                     add(Math.cos(a) * (r - 15), Math.sin(a) * (r - 15));
                 }
-                // Slash / (Bottom-Left to Top-Right or vice versa)
-                // Standard No: Circle + backslash \ (TL to BR) or slash /? 
-                // International standard is TL to BR diagonal.
                 for (let i = -r + 20; i < r - 20; i += 20) {
-                    add(-i, i); // Diagonal top-left (-x, -y) to bottom-right (+x, +y)
+                    add(-i, i);
                 }
                 break;
+            }
 
-            case 'dna':
+            case 'dna': {
                 const dnaH = 300;
                 for (let y = -dnaH / 2; y <= dnaH / 2; y += 20) {
                     const x1 = Math.sin(y * 0.025) * 60;
@@ -139,8 +140,9 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                     }
                 }
                 break;
+            }
 
-            case 'fingerprint':
+            case 'fingerprint': {
                 for (let i = 30; i < 160; i += 25) {
                     for (let a = 0; a < Math.PI * 2; a += 0.25) {
                         const rVar = i + Math.sin(a * 3 + i) * 8;
@@ -148,30 +150,26 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                     }
                 }
                 break;
+            }
 
-            case 'whatsapp':
-                // Speech Bubble
+            case 'whatsapp': {
                 const wr = 120;
                 for (let a = 0; a < Math.PI * 2; a += 0.18) {
-                    // Tail at approx 135 deg (bottom left)
                     if (a > 2.2 && a < 2.5) {
-                        add(Math.cos(a) * wr * 1.4, Math.sin(a) * wr * 1.4); // Tail tip
+                        add(Math.cos(a) * wr * 1.4, Math.sin(a) * wr * 1.4);
                     } else {
                         add(Math.cos(a) * wr, Math.sin(a) * wr);
                     }
                 }
-                // Phone
                 const pScale = 0.6;
-                // Simplified receiver visual
                 for (let a = 0.5; a < Math.PI - 0.5; a += 0.2) {
-                    // Bow
                     add(Math.cos(a) * wr * pScale, Math.sin(a) * wr * pScale - 20);
                 }
-                // Ends
                 add(-50, 20); add(50, 20);
                 break;
+            }
 
-            case 'logo':
+            case 'logo': {
                 const mx = -150; const my = -100; const size = 200;
                 for (let y = 0; y <= size; y += 30) add(mx, my + y);
                 for (let y = 0; y <= size; y += 30) add(mx + size * 0.8, my + y);
@@ -181,6 +179,8 @@ const PixelatedScale: React.FC<PixelatedScaleProps> = ({ triggerExplosion = fals
                 for (let y = 0; y <= size; y += 30) add(rx, my + y);
                 for (let a = -Math.PI / 2; a <= Math.PI / 2; a += 0.4) add(rx + Math.cos(a) * 60, my + 60 + Math.sin(a) * 60);
                 for (let x = 0; x <= 60; x += 20) add(rx + x, my);
+                break;
+            }
         }
         return pts;
     };

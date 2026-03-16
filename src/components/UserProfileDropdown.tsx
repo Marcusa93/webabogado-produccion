@@ -80,21 +80,12 @@ export default function UserProfileDropdown() {
                         {/* Menu Items */}
                         <div className="p-2">
                             <Link
-                                to="/dashboard"
+                                to="/herramientas/cotio"
                                 onClick={() => setIsOpen(false)}
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-foreground/5 transition-colors text-foreground/70 hover:text-foreground"
                             >
                                 <History size={16} />
                                 <span className="text-sm font-medium">Historial</span>
-                            </Link>
-
-                            <Link
-                                to="/perfil"
-                                onClick={() => setIsOpen(false)}
-                                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-foreground/5 transition-colors text-foreground/70 hover:text-foreground"
-                            >
-                                <Settings size={16} />
-                                <span className="text-sm font-medium">Configuración</span>
                             </Link>
 
                             <button

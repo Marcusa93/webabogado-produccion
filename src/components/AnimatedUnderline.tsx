@@ -42,10 +42,10 @@ export default function AnimatedUnderline({
     <span className={`relative inline-block ${className}`}>
       <span className={immediate ? 'text-accent' : 'animate-fade-in'}>{children}</span>
       <span
-        className={`absolute bottom-0 left-0 h-[${thickness}px] ${colorMap[color]} transition-all duration-700 ease-out ${
-          immediate ? 'w-full' : 'w-0 animate-underline-grow'
-        }`}
+        className={`absolute bottom-0 left-0 ${colorMap[color]} transition-all duration-700 ease-out ${immediate ? 'w-full' : 'w-0 animate-underline-grow'
+          }`}
         style={{
+          height: `${thickness}px`,
           animationDelay: `${delay}ms`,
         }}
       />

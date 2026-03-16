@@ -152,7 +152,7 @@ export default function Chatbot() {
     };
 
     return (
-        <div className="fixed bottom-4 right-20 sm:bottom-8 sm:right-28 z-50 flex flex-col items-end pointer-events-none">
+        <div className="fixed bottom-4 right-[76px] sm:bottom-8 sm:right-28 z-50 flex flex-col items-end pointer-events-none">
 
             {/* Chat Window */}
             <div
@@ -244,9 +244,8 @@ export default function Chatbot() {
                 </div>
             </div>
 
-            {/* Proactive Tooltip */}
             <div
-                className={`absolute right-[70px] bottom-[15px] bg-card text-foreground px-4 py-2 rounded-xl rounded-tr-none shadow-lg border border-foreground/10 whitespace-nowrap transition-all duration-500 origin-bottom-right ${showTooltip && !isOpen ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-50 translate-x-4 pointer-events-none'
+                className={`absolute right-0 bottom-[65px] sm:right-[70px] sm:bottom-[15px] bg-card text-foreground px-4 py-2 rounded-xl sm:rounded-tr-none rounded-br-none sm:rounded-br-xl shadow-lg border border-foreground/10 whitespace-nowrap transition-all duration-500 origin-bottom-right ${showTooltip && !isOpen ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-50 translate-x-4 pointer-events-none'
                     }`}
             >
                 <p className="text-xs font-bold">👋 ¿Te puedo ayudar?</p>
@@ -255,6 +254,8 @@ export default function Chatbot() {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label={isOpen ? 'Cerrar asistente virtual' : 'Abrir asistente virtual'}
+                aria-expanded={isOpen}
                 className={`pointer-events-auto w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group relative ${isOpen ? 'bg-card text-foreground rotate-90' : 'bg-gradient-to-r from-accent to-blue-600 text-white'
                     }`}
             >
