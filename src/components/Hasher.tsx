@@ -50,10 +50,32 @@ export default function Hasher() {
         }
     };
 
+    // Tope práctico: mantener UI fluida en navegadores móviles y evitar OOM.
+    // crypto.subtle.digest mete el archivo entero en memoria + un buffer del hash.
+    // 100 MB es suficiente para PDFs forenses, capturas y videos cortos.
+    const MAX_FILE_BYTES = 100 * 1024 * 1024;
+
     const hashFile = async () => {
         if (!file) {
             toast.error("Por favor, seleccioná un archivo.");
             return;
+        }
+
+        if (file.size > MAX_FILE_BYTES) {
+            toast.error(
+                `Archivo demasiado grande (${(file.size / 1024 / 1024).toFixed(1)} MB). ` +
+                `Máximo permitido: ${MAX_FILE_BYTES / 1024 / 1024} MB.`
+            );
+            return;
+        }
+
+        // Aviso para archivos grandes: la UI puede quedar pesada unos segundos
+        // mientras crypto.subtle.digest procesa el ArrayBuffer.
+        if (file.size > 20 * 1024 * 1024) {
+            toast.message(
+                `Procesando archivo de ${(file.size / 1024 / 1024).toFixed(1)} MB. ` +
+                `Esto puede tardar unos segundos…`
+            );
         }
 
         setIsCalculating(true);

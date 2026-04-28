@@ -69,9 +69,13 @@ const ThreeBackground: React.FC = () => {
         const attractor = { x: 0, y: 0 }; // Lerped position
         const lerpFactor = 0.1; // Smooth following
 
-        // Animation Loop
+        // Animation Loop — guardamos el id para poder cancelar en cleanup
+        let rafId = 0;
+        let cancelled = false;
+
         const animate = () => {
-            requestAnimationFrame(animate);
+            if (cancelled) return;
+            rafId = requestAnimationFrame(animate);
 
             // Lerp Attractor
             attractor.x += (mouse.x - attractor.x) * lerpFactor;
@@ -168,13 +172,27 @@ const ThreeBackground: React.FC = () => {
 
         animate();
 
+        // Capturamos el nodo para usarlo en cleanup sin depender de mountRef.current,
+        // que puede estar nullificado al desmontar.
+        const mountNode = mountRef.current;
+
         return () => {
+            // 1) Detener el loop de animación ANTES de disponer recursos (evita
+            //    render() sobre objetos liberados → errores en consola).
+            cancelled = true;
+            cancelAnimationFrame(rafId);
+
+            // 2) Listeners
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('resize', handleResize);
-            if (mountRef.current && renderer.domElement) {
-                mountRef.current.removeChild(renderer.domElement);
+
+            // 3) Detach canvas
+            if (mountNode && renderer.domElement.parentNode === mountNode) {
+                mountNode.removeChild(renderer.domElement);
             }
+
+            // 4) Liberar GPU
             particlesGeometry.dispose();
             particlesMaterial.dispose();
             linesGeometry.dispose();

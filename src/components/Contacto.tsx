@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { MessageCircle, Send, Mail, Clock, CheckCircle, Shield, Zap } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
 import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 import StaggeredTitle from './StaggeredTitle';
 
+// Cooldown anti-spam (segundos entre envíos del mismo navegador)
+const SUBMIT_COOLDOWN_MS = 15_000;
+const MAX_MESSAGE_LEN = 4000;
+const MAX_NAME_LEN = 120;
+
 export default function Contacto() {
   const { ref, isInView } = useInView({ threshold: 0.1 });
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const lastSubmitRef = useRef<number>(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +23,32 @@ export default function Contacto() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // --- Rate limiting cliente (defensa en profundidad) ---
+    const now = Date.now();
+    const elapsed = now - lastSubmitRef.current;
+    if (lastSubmitRef.current > 0 && elapsed < SUBMIT_COOLDOWN_MS) {
+      const waitSec = Math.ceil((SUBMIT_COOLDOWN_MS - elapsed) / 1000);
+      toast({
+        title: 'Esperá un momento',
+        description: `Para evitar duplicados, podés volver a enviar en ${waitSec}s.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // --- Validación de tamaño ---
+    if (formData.name.length > MAX_NAME_LEN || formData.message.length > MAX_MESSAGE_LEN) {
+      toast({
+        title: 'Mensaje demasiado largo',
+        description: `Acotá tu nombre a ${MAX_NAME_LEN} y tu mensaje a ${MAX_MESSAGE_LEN} caracteres.`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
+    lastSubmitRef.current = now;
 
     // Track form submission
     trackContactFormSubmit('email');

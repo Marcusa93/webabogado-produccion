@@ -27,32 +27,43 @@ export default function CotioHistoryPanel({ isOpen, onClose, onSelectEntry }: Co
     const [deletingId, setDeletingId] = useState<string | null>(null);
 
     useEffect(() => {
-        if (isOpen && user) {
-            fetchHistory();
-        }
+        if (!isOpen || !user) return;
+
+        // AbortController evita race conditions cuando el panel se abre/cierra rápido:
+        // si la fetch anterior responde después del cleanup, descartamos su resultado.
+        const controller = new AbortController();
+        let cancelled = false;
+
+        const fetchHistory = async () => {
+            setLoading(true);
+            try {
+                const { data, error } = await supabase
+                    .from('cotio_history')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(50)
+                    .abortSignal(controller.signal);
+
+                if (cancelled) return;
+                if (error) throw error;
+                setHistory(data || []);
+            } catch (err: any) {
+                if (cancelled || err?.name === 'AbortError') return;
+                console.error('Error fetching history:', err);
+                toast.error('Error al cargar el historial');
+            } finally {
+                if (!cancelled) setLoading(false);
+            }
+        };
+
+        fetchHistory();
+
+        return () => {
+            cancelled = true;
+            controller.abort();
+        };
     }, [isOpen, user]);
-
-    const fetchHistory = async () => {
-        if (!user) return;
-
-        setLoading(true);
-        try {
-            const { data, error } = await supabase
-                .from('cotio_history')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false })
-                .limit(50);
-
-            if (error) throw error;
-            setHistory(data || []);
-        } catch (err) {
-            console.error('Error fetching history:', err);
-            toast.error('Error al cargar el historial');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDelete = async (id: string) => {
         setDeletingId(id);

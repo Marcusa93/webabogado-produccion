@@ -12,6 +12,31 @@ export default function AuthCallback() {
     const resolvedRef = useRef(false);
 
     useEffect(() => {
+        // Cancellation handles for cleanup + race protection
+        let timeoutId: ReturnType<typeof setTimeout> | undefined;
+        let redirectTimeoutId: ReturnType<typeof setTimeout> | undefined;
+        let subscription: { unsubscribe: () => void } | undefined;
+
+        const resolveSuccess = () => {
+            if (resolvedRef.current) return;
+            resolvedRef.current = true;
+            if (timeoutId) clearTimeout(timeoutId);
+            subscription?.unsubscribe();
+            setStatus('success');
+            setMessage('¡Autenticación exitosa! Redirigiendo...');
+            redirectTimeoutId = setTimeout(() => navigate('/herramientas/cotio'), 1500);
+        };
+
+        const resolveError = (msg: string) => {
+            if (resolvedRef.current) return;
+            resolvedRef.current = true;
+            if (timeoutId) clearTimeout(timeoutId);
+            subscription?.unsubscribe();
+            setStatus('error');
+            setMessage(msg);
+            redirectTimeoutId = setTimeout(() => navigate('/'), 3000);
+        };
+
         const handleCallback = async () => {
             try {
                 // Check for error in URL params
@@ -19,9 +44,7 @@ export default function AuthCallback() {
                 const errorDescription = searchParams.get('error_description');
 
                 if (error) {
-                    setStatus('error');
-                    setMessage(errorDescription || 'Error en la autenticación');
-                    setTimeout(() => navigate('/'), 3000);
+                    resolveError(errorDescription || 'Error en la autenticación');
                     return;
                 }
 
@@ -33,46 +56,36 @@ export default function AuthCallback() {
                 }
 
                 if (session) {
-                    setStatus('success');
-                    setMessage('¡Autenticación exitosa! Redirigiendo...');
-
-                    // Redirect to the tools page after a brief delay
-                    setTimeout(() => {
-                        navigate('/herramientas/cotio');
-                    }, 1500);
-                } else {
-                    // No session yet, listen for auth state change
-                    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-                        if (event === 'SIGNED_IN' && session) {
-                            setStatus('success');
-                            setMessage('¡Autenticación exitosa! Redirigiendo...');
-                            setTimeout(() => {
-                                navigate('/herramientas/cotio');
-                            }, 1500);
-                            subscription.unsubscribe();
-                        }
-                    });
-
-                    // Timeout after 10 seconds
-                    setTimeout(() => {
-                        subscription.unsubscribe();
-                        if (!resolvedRef.current) {
-                            resolvedRef.current = true;
-                            setStatus('error');
-                            setMessage('Tiempo de espera agotado. Intentá nuevamente.');
-                            setTimeout(() => navigate('/'), 3000);
-                        }
-                    }, 10000);
+                    resolveSuccess();
+                    return;
                 }
+
+                // No session yet, listen for auth state change
+                const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
+                    if (event === 'SIGNED_IN' && newSession) {
+                        resolveSuccess();
+                    }
+                });
+                subscription = data.subscription;
+
+                // Timeout after 10 seconds
+                timeoutId = setTimeout(() => {
+                    resolveError('Tiempo de espera agotado. Intentá nuevamente.');
+                }, 10000);
             } catch (err: any) {
                 console.error('Auth callback error:', err);
-                setStatus('error');
-                setMessage(err.message || 'Error al procesar la autenticación');
-                setTimeout(() => navigate('/'), 3000);
+                resolveError(err?.message || 'Error al procesar la autenticación');
             }
         };
 
         handleCallback();
+
+        // Cleanup on unmount: cancel pending timers and subscription
+        return () => {
+            if (timeoutId) clearTimeout(timeoutId);
+            if (redirectTimeoutId) clearTimeout(redirectTimeoutId);
+            subscription?.unsubscribe();
+        };
     }, [navigate, searchParams]);
 
     return (
