@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Brand background -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1929"/>
+      <stop offset="100%" stop-color="#0d2540"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="85%" cy="20%" r="55%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Subtle tech-grid -->
+  <g opacity="0.08" stroke="#5d8cb3" stroke-width="1">
+    <path d="M0 158 H1200 M0 315 H1200 M0 472 H1200 M300 0 V630 M600 0 V630 M900 0 V630"/>
+  </g>
+
+  <!-- MR Monogram (top-left) -->
+  <g transform="translate(80 80) scale(0.045)" fill="#ffffff">
+    <path d="M2051.91,601.64l-801.13,1345.77h-145.66L303.99,611.14v1605.43H0V0h259.66l924.62,1557.93L2096.24,0h259.65"/>
+    <path d="M1646.23,1763.64v452.93h316.65v-674.47h547.81c47.5,0,95-3.17,139.33-6.33l478.15,680.8h345.15l-525.64-744.13c310.32-110.83,487.64-357.82,487.64-699.8,0-447.38-300.99-730.56-806.24-768.27l-136.99,271.12h9.1c405.32,0,617.47,180.49,617.47,497.14s-212.16,500.31-617.47,500.31h-538.31"/>
+  </g>
+
+  <!-- Tagline pill -->
+  <g transform="translate(80 290)">
+    <rect x="0" y="0" width="430" height="38" rx="19" fill="#3b82f6" fill-opacity="0.12" stroke="#3b82f6" stroke-opacity="0.35" stroke-width="1"/>
+    <circle cx="22" cy="19" r="4" fill="#3b82f6"/>
+    <text x="38" y="25" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#7fb3f0">DERECHO · TECNOLOGÍA · ESTRATEGIA</text>
+  </g>
+
+  <!-- Title -->
+  <text x="80" y="395" font-family="Helvetica, Arial, sans-serif" font-size="78" font-weight="900" fill="#ffffff" letter-spacing="-1.5">Marco Rossi</text>
+
+  <!-- Subtitle with accent -->
+  <text x="80" y="470" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">
+    Abogado <tspan fill="#7fb3f0">Digital · IA</tspan>
+  </text>
+
+  <!-- Description -->
+  <text x="80" y="525" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#ffffff" fill-opacity="0.65">
+    Defensa legal especializada para influencers, empresas tech y startups.
+  </text>
+
+  <!-- URL bottom -->
+  <g transform="translate(80 580)">
+    <rect x="0" y="0" width="6" height="22" fill="#7fb3f0"/>
+    <text x="20" y="18" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.5" fill="#ffffff">www.marcorossi.com.ar</text>
+  </g>
+
+  <!-- Decorative accent (right side) -->
+  <g opacity="0.85">
+    <circle cx="1050" cy="200" r="8" fill="#7fb3f0"/>
+    <circle cx="1100" cy="240" r="4" fill="#7fb3f0" opacity="0.6"/>
+    <circle cx="1080" cy="180" r="3" fill="#7fb3f0" opacity="0.4"/>
+    <circle cx="1130" cy="220" r="2" fill="#7fb3f0" opacity="0.3"/>
+  </g>
+</svg>
