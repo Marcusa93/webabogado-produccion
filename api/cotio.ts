@@ -46,10 +46,34 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        const { prompt, documentType, jurisdiction, anonimize } = req.body;
+        const { prompt, documentType, jurisdiction, anonimize } = req.body || {};
 
-        if (!prompt) {
-            return res.status(400).json({ ok: false, error: 'Falta el prompt original.' });
+        // --- Input validation (defense in depth) ---
+        const MAX_PROMPT_LEN = 8000;       // ~2k tokens, generoso para borradores jurídicos
+        const MAX_FIELD_LEN = 200;         // documentType / jurisdiction
+
+        if (!prompt || typeof prompt !== 'string') {
+            return res.status(400).json({ ok: false, error: 'Falta el prompt original o tiene formato inválido.' });
+        }
+
+        const trimmedPrompt = prompt.trim();
+        if (trimmedPrompt.length === 0) {
+            return res.status(400).json({ ok: false, error: 'El prompt no puede estar vacío.' });
+        }
+
+        if (trimmedPrompt.length > MAX_PROMPT_LEN) {
+            return res.status(413).json({
+                ok: false,
+                error: `El prompt es demasiado extenso (${trimmedPrompt.length} caracteres). Máximo permitido: ${MAX_PROMPT_LEN}.`
+            });
+        }
+
+        if (documentType && (typeof documentType !== 'string' || documentType.length > MAX_FIELD_LEN)) {
+            return res.status(400).json({ ok: false, error: 'Tipo de documento inválido.' });
+        }
+
+        if (jurisdiction && (typeof jurisdiction !== 'string' || jurisdiction.length > MAX_FIELD_LEN)) {
+            return res.status(400).json({ ok: false, error: 'Jurisdicción inválida.' });
         }
 
         const openRouterKey = process.env.OPENROUTER_API_KEY?.trim();
@@ -64,7 +88,7 @@ export default async function handler(req: any, res: any) {
         }
 
         const userContent = `
-Borrador de prompt/necesidad: ${prompt}
+Borrador de prompt/necesidad: ${trimmedPrompt}
 Tipo de documento deseado: ${documentType || 'No especificado'}
 Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
 Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}

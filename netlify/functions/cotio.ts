@@ -55,11 +55,55 @@ export default async (req: Request, context: Context) => {
     }
 
     try {
-        const body = await req.json();
-        const { prompt, documentType, jurisdiction, anonimize } = body;
+        let body: any;
+        try {
+            body = await req.json();
+        } catch {
+            return new Response(JSON.stringify({ ok: false, error: 'Body JSON inválido.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        const { prompt, documentType, jurisdiction, anonimize } = body || {};
 
-        if (!prompt) {
-            return new Response(JSON.stringify({ ok: false, error: 'Falta el prompt original.' }), {
+        // --- Input validation (defense in depth) ---
+        const MAX_PROMPT_LEN = 8000;       // ~2k tokens, generoso para borradores jurídicos
+        const MAX_FIELD_LEN = 200;
+
+        if (!prompt || typeof prompt !== 'string') {
+            return new Response(JSON.stringify({ ok: false, error: 'Falta el prompt original o tiene formato inválido.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        const trimmedPrompt = prompt.trim();
+        if (trimmedPrompt.length === 0) {
+            return new Response(JSON.stringify({ ok: false, error: 'El prompt no puede estar vacío.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        if (trimmedPrompt.length > MAX_PROMPT_LEN) {
+            return new Response(JSON.stringify({
+                ok: false,
+                error: `El prompt es demasiado extenso (${trimmedPrompt.length} caracteres). Máximo permitido: ${MAX_PROMPT_LEN}.`
+            }), {
+                status: 413,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        if (documentType && (typeof documentType !== 'string' || documentType.length > MAX_FIELD_LEN)) {
+            return new Response(JSON.stringify({ ok: false, error: 'Tipo de documento inválido.' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+
+        if (jurisdiction && (typeof jurisdiction !== 'string' || jurisdiction.length > MAX_FIELD_LEN)) {
+            return new Response(JSON.stringify({ ok: false, error: 'Jurisdicción inválida.' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -80,7 +124,7 @@ export default async (req: Request, context: Context) => {
         }
 
         const userContent = `
-Borrador de prompt/necesidad: ${prompt}
+Borrador de prompt/necesidad: ${trimmedPrompt}
 Tipo de documento deseado: ${documentType || 'No especificado'}
 Jurisdicción/Fuero: ${jurisdiction || 'No especificada'}
 Anonimizar datos sensibles: ${anonimize ? 'Sí' : 'No'}
