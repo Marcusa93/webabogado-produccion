@@ -4,11 +4,19 @@ import { initGA, trackScrollDepth } from '@/lib/analytics';
 /**
  * Google Analytics Component
  *
- * This component initializes Google Analytics and tracks scroll depth.
- * It should be placed once in your main App component.
+ * Inicializa GA4 una sola vez en App y trackea scroll depth.
+ * Skip en development para no contaminar la data con visitas locales.
+ *
+ * Para cambiar la propiedad: editar la constante o setear VITE_GA4_MEASUREMENT_ID
+ * en Vercel (la env var tiene precedencia).
  */
 
-const MEASUREMENT_ID = 'G-XXXXXXXXXX'; // TODO: Replace with your actual GA4 Measurement ID
+const MEASUREMENT_ID =
+  (import.meta.env.VITE_GA4_MEASUREMENT_ID as string | undefined)?.trim() ||
+  'G-T1TNJFDYJF';
+
+// Guard contra olvidos: si alguien dejó el placeholder histórico, no inicializamos.
+const isPlaceholder = /^G-X+$/i.test(MEASUREMENT_ID);
 
 export default function Analytics() {
   const scrollTrackedRef = useRef({
@@ -19,6 +27,13 @@ export default function Analytics() {
   });
 
   useEffect(() => {
+    // No trackear localhost ni placeholder.
+    if (import.meta.env.DEV) return;
+    if (isPlaceholder) {
+      console.warn('[Analytics] MEASUREMENT_ID es placeholder; GA4 deshabilitado.');
+      return;
+    }
+
     // Initialize Google Analytics
     initGA(MEASUREMENT_ID);
 
