@@ -5,7 +5,7 @@
   <!-- Homepage / Inicio -->
   <url>
     <loc>https://www.marcorossi.com.ar/</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,7 +13,7 @@
   <!-- Especialidades Section -->
   <url>
     <loc>https://www.marcorossi.com.ar/#especialidades</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -21,7 +21,7 @@
   <!-- Qué Esperar Section -->
   <url>
     <loc>https://www.marcorossi.com.ar/#que-esperar</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -29,15 +29,23 @@
   <!-- Servicios Section -->
   <url>
     <loc>https://www.marcorossi.com.ar/#servicios</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <!-- Casos en los Medios -->
+  <url>
+    <loc>https://www.marcorossi.com.ar/#casos-prensa</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- Toolkit / Kit para clientes -->
   <url>
     <loc>https://www.marcorossi.com.ar/#toolkit</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -45,7 +53,7 @@
   <!-- Quiénes Somos Section -->
   <url>
     <loc>https://www.marcorossi.com.ar/#quienes-somos</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -53,7 +61,7 @@
   <!-- Contacto Section -->
   <url>
     <loc>https://www.marcorossi.com.ar/#contacto</loc>
-    <lastmod>2026-04-28</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>

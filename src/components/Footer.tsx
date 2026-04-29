@@ -105,6 +105,7 @@ export default function Footer() {
               {[
                 { label: 'Especialidades', href: '#especialidades' },
                 { label: 'Nuestro Estudio', href: '#que-esperar' },
+                { label: 'Casos en Prensa', href: '#casos-prensa' },
                 { label: 'Equipo Profesional', href: '#quienes-somos' },
                 { label: 'Contacto', href: '#contacto' }
               ].map((link) => (
