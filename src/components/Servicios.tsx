@@ -175,6 +175,34 @@ export default function Servicios() {
                 </div>
               );
             })}
+            {/* Áreas adicionales — comunica el scope completo del estudio */}
+            <div className="mt-10 p-6 md:p-8 rounded-3xl bg-foreground/[0.03] border border-foreground/10">
+              <p className="text-[10px] md:text-xs font-black tracking-[0.2em] text-foreground/40 uppercase mb-4">
+                Áreas adicionales que abordamos
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'Derecho del consumidor',
+                  'Civil',
+                  'Administrativo',
+                  'Daños y perjuicios',
+                  'Penal',
+                  'Laboral',
+                  'Mediaciones',
+                ].map((area) => (
+                  <span
+                    key={area}
+                    className="px-3 py-1.5 text-xs font-bold rounded-full bg-card border border-foreground/10 text-foreground/70 hover:border-accent/40 hover:text-foreground transition-colors"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-foreground/50 leading-relaxed">
+                Acompañamos a clientes en procesos judiciales, mediaciones y estrategias preventivas en cada una de estas áreas.
+              </p>
+            </div>
+
             {/* Mobile CTA */}
             <button
               onClick={scrollToContact}

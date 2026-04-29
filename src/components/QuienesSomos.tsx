@@ -17,7 +17,12 @@ const team = [
         role: "Abogado asociado",
         image: "/team/facundo.jpg",
         bio: "Especialista en Derecho Laboral con enfoque en litigación estratégica contra ART. Participa activamente en la gestión de expedientes y defensa de empresas y particulares.",
-        linkedin: "https://ar.linkedin.com/in/facundo-castillo-947b1b222"
+        linkedin: "https://ar.linkedin.com/in/facundo-castillo-947b1b222",
+        personalBrand: {
+            logoLight: "/team/castillo/logo-navy.png",
+            logoDark: "/team/castillo/logo-blanco.png",
+            alt: "Facundo Castillo Abogado — marca personal"
+        }
     },
     {
         name: "Vancis Roda",
@@ -576,7 +581,7 @@ export default function QuienesSomos() {
 
                 {/* Other Team Members - 2 Columns */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-                    {team.slice(1).map((member, index) => (
+                    {team.slice(1).map((member: any, index) => (
                         <div
                             key={index}
                             className={`fade-in-up bg-card p-8 md:p-10 rounded-[2.5rem] border border-foreground/10 shadow-lg hover:shadow-2xl transition-all duration-500 group stagger-${index + 1} ${isInView ? 'is-visible' : ''}`}
@@ -589,21 +594,43 @@ export default function QuienesSomos() {
                                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                                     />
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 flex flex-col">
                                     <h4 className="text-2xl font-black text-foreground mb-2 font-montserrat">{member.name}</h4>
                                     <div className="text-accent font-bold text-sm uppercase tracking-wider mb-6">{member.role}</div>
                                     <p className="text-foreground/70 text-sm md:text-base leading-relaxed mb-8">
                                         {member.bio}
                                     </p>
-                                    <a
-                                        href={member.linkedin}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors"
-                                    >
-                                        <Linkedin size={20} />
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Ver Perfil</span>
-                                    </a>
+
+                                    {/* Footer: LinkedIn + (optional) marca personal */}
+                                    <div className="mt-auto flex items-center justify-between gap-4 pt-6 border-t border-foreground/5">
+                                        <a
+                                            href={member.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors"
+                                        >
+                                            <Linkedin size={20} />
+                                            <span className="text-[10px] font-black uppercase tracking-widest">Ver Perfil</span>
+                                        </a>
+
+                                        {member.personalBrand && (
+                                            <div className="flex items-center gap-3" title="Marca personal del abogado">
+                                                <span className="hidden sm:inline text-[9px] font-black uppercase tracking-[0.2em] text-foreground/30">
+                                                    Marca personal
+                                                </span>
+                                                <img
+                                                    src={member.personalBrand.logoLight}
+                                                    alt={member.personalBrand.alt}
+                                                    className="h-7 md:h-8 w-auto opacity-60 group-hover:opacity-100 transition-opacity dark:hidden"
+                                                />
+                                                <img
+                                                    src={member.personalBrand.logoDark}
+                                                    alt={member.personalBrand.alt}
+                                                    className="h-7 md:h-8 w-auto opacity-60 group-hover:opacity-100 transition-opacity hidden dark:block"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
