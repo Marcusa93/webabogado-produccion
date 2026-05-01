@@ -1,21 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
-import { createHash } from 'node:crypto';
 import { contactSchema } from '../src/lib/contactSchema';
 
 // =====================================================
 // Vercel Function: /api/contact
-// Recibe el form de contacto, valida con Zod,
-// guarda en contact_requests (Supabase) y manda mail
-// vía Resend al estudio.
+// Recibe el form de contacto, valida con Zod y manda
+// mail vía Resend al estudio. Sin DB — los leads viven
+// en el inbox.
 //
 // ENV vars requeridas (cargar en Vercel + .env.local):
-//   SUPABASE_SERVICE_ROLE_KEY   (server-only — NUNCA prefijar con VITE_)
-//   RESEND_API_KEY
-//   CONTACT_INBOX               (ej: estudio@marcorossi.com.ar)
-//   CONTACT_IP_SALT             (string aleatorio para hashear IPs)
-//
-// Reusa VITE_SUPABASE_URL del cliente (la URL no es secreta).
+//   RESEND_API_KEY      Key de Resend (re_...)
+//   CONTACT_INBOX       Mail destino (ej: estudio@marcorossi.com.ar)
 // =====================================================
 
 const ALLOWED_ORIGINS = new Set([
@@ -23,23 +17,23 @@ const ALLOWED_ORIGINS = new Set([
   'https://marcorossi.com.ar',
 ]);
 
-// Rate limiting básico en memoria. Best-effort: serverless puede no
-// compartir memoria entre invocaciones, pero igual ayuda contra
-// ráfagas dentro del mismo lambda warm.
+// Rate limit en memoria. Best-effort: serverless puede no compartir
+// memoria entre invocaciones, pero protege contra ráfagas dentro del
+// mismo lambda warm.
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 3;
 const recentRequests = new Map<string, number[]>();
 
-function isRateLimited(ipHash: string): boolean {
+function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const cutoff = now - RATE_LIMIT_WINDOW_MS;
-  const prev = (recentRequests.get(ipHash) || []).filter((t) => t > cutoff);
+  const prev = (recentRequests.get(ip) || []).filter((t) => t > cutoff);
   if (prev.length >= RATE_LIMIT_MAX) {
-    recentRequests.set(ipHash, prev);
+    recentRequests.set(ip, prev);
     return true;
   }
   prev.push(now);
-  recentRequests.set(ipHash, prev);
+  recentRequests.set(ip, prev);
   return false;
 }
 
@@ -64,10 +58,6 @@ function getClientIp(req: any): string {
     return String(xff[0]).split(',')[0]!.trim();
   }
   return req.headers?.['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
-}
-
-function hashIp(ip: string, salt: string): string {
-  return createHash('sha256').update(`${salt}:${ip}`).digest('hex');
 }
 
 function escapeHtml(s: string): string {
@@ -148,28 +138,20 @@ export default async function handler(req: any, res: any) {
   }
 
   // --- ENV vars ---
-  const supabaseUrl = process.env.VITE_SUPABASE_URL?.trim();
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   const resendKey = process.env.RESEND_API_KEY?.trim();
   const inbox = process.env.CONTACT_INBOX?.trim() || 'dr.marcorossi9@gmail.com';
-  const ipSalt = process.env.CONTACT_IP_SALT?.trim() || 'fallback-dev-salt-change-me';
 
-  if (!supabaseUrl || !supabaseServiceKey || !resendKey) {
-    console.error('[contact] Missing required env vars', {
-      hasSupabaseUrl: !!supabaseUrl,
-      hasServiceKey: !!supabaseServiceKey,
-      hasResendKey: !!resendKey,
-    });
+  if (!resendKey) {
+    console.error('[contact] Missing RESEND_API_KEY');
     return res.status(500).json({
       ok: false,
       error: 'Configuración del servidor incompleta. Probá por WhatsApp.',
     });
   }
 
-  // --- Rate limit por IP hasheada ---
+  // --- Rate limit por IP ---
   const clientIp = getClientIp(req);
-  const ipHash = hashIp(clientIp, ipSalt);
-  if (isRateLimited(ipHash)) {
+  if (isRateLimited(clientIp)) {
     return res.status(429).json({
       ok: false,
       error: 'Demasiados intentos. Esperá un minuto antes de reintentar.',
@@ -192,10 +174,10 @@ export default async function handler(req: any, res: any) {
 
   const data = parsed.data;
 
-  // --- Honeypot: si vino algo en `website`, fingir éxito sin guardar/mandar ---
+  // --- Honeypot: si vino algo en `website`, fingir éxito sin mandar nada ---
   if (data.website && data.website.length > 0) {
     console.warn('[contact] Honeypot triggered, ignoring submission');
-    return res.status(200).json({ ok: true, id: 'spam-ignored' });
+    return res.status(200).json({ ok: true });
   }
 
   const fechaStr = new Date().toLocaleString('es-AR', {
@@ -204,42 +186,11 @@ export default async function handler(req: any, res: any) {
     timeStyle: 'short',
   });
 
-  const userAgent = String(req.headers?.['user-agent'] || '').slice(0, 500);
-
-  // --- Insert en Supabase (no bloquea el mail si falla) ---
-  let savedId: string | null = null;
-  try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
-
-    const { data: inserted, error } = await supabase
-      .from('contact_requests')
-      .insert({
-        nombre: data.nombre,
-        email: data.email,
-        telefono: data.telefono || null,
-        mensaje: data.mensaje,
-        ip_hash: ipHash,
-        user_agent: userAgent,
-      })
-      .select('id')
-      .single();
-
-    if (error) {
-      console.error('[contact] Supabase insert error:', error.message);
-    } else {
-      savedId = inserted?.id || null;
-    }
-  } catch (e: any) {
-    console.error('[contact] Supabase exception:', e?.message || e);
-  }
-
   // --- Enviar mail vía Resend ---
   // From: web@ del dominio apex. Resend está verificado en el apex
-  // (DKIM apunta a `resend._domainkey.marcorossi.com.ar`), y los records
-  // de SPF/MX viven en el subdominio `send.` solo para el envelope de
-  // bounces — esto evita conflicto con el SPF de Workspace en el apex.
+  // (DKIM en `resend._domainkey.marcorossi.com.ar`); SPF/MX viven en
+  // el subdominio `send.` solo para el envelope de bounces, sin
+  // chocar con el SPF de Workspace en el apex.
   // Reply-To apunta al consultante para responder con un click.
   const resend = new Resend(resendKey);
   const subject = `Nueva consulta web: ${data.nombre.slice(0, 60)}`;
@@ -281,5 +232,5 @@ export default async function handler(req: any, res: any) {
     });
   }
 
-  return res.status(200).json({ ok: true, id: savedId });
+  return res.status(200).json({ ok: true });
 }
