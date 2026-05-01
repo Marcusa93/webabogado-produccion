@@ -6,6 +6,7 @@ import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
 import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 import { contactSchema, type ContactInput } from '@/lib/contactSchema';
+import BookingButton from './BookingButton';
 import StaggeredTitle from './StaggeredTitle';
 
 const SUBMIT_COOLDOWN_MS = 15_000;
@@ -162,7 +163,21 @@ export default function Contacto() {
               ))}
             </div>
 
-            {/* Direct WhatsApp CTA */}
+            {/* Primary CTA — Agendar consulta (Cal.com) */}
+            <div className="flex flex-col gap-3 mb-4">
+              <BookingButton
+                source="contacto"
+                label="Agendar consulta sin cargo"
+                variant="primary"
+                className="btn-interactive group relative flex items-center justify-center gap-4 px-10 py-6 bg-foreground text-background font-black rounded-[2rem] transition-all duration-500 hover:bg-accent hover:text-white hover:shadow-[0_20px_40px_rgba(10,25,41,0.3)] w-full sm:w-auto"
+                icon={true}
+              />
+              <p className="text-xs text-foreground/50 font-medium ml-2">
+                Reservá un horario directamente · Confirmación inmediata por mail
+              </p>
+            </div>
+
+            {/* Secondary CTA — WhatsApp */}
             <button
               onClick={handleWhatsApp}
               className="btn-interactive group relative flex items-center gap-4 px-10 py-6 text-white font-black rounded-[2rem] transition-all duration-500 hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] w-full sm:w-auto overflow-hidden"

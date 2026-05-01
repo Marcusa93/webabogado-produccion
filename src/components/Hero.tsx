@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { MessageCircle, Scale, ChevronDown } from 'lucide-react';
+import { MessageCircle, Scale } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
 import ThreeBackground from './ThreeBackground';
 import Magnetic from './Magnetic';
+import BookingButton from './BookingButton';
 
 export default function Hero() {
   const [terminalDone, setTerminalDone] = useState(false);
@@ -114,15 +115,13 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
-              {/* Primary Button */}
+              {/* Primary Button — opens Cal.com booking modal */}
               <Magnetic>
-                <button
-                  onClick={() => scrollToSection('#contacto')}
-                  className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
-                >
-                  <MessageCircle size={20} className="group-hover:rotate-12 transition-transform" />
-                  Agendar consulta
-                </button>
+                <BookingButton
+                  source="hero"
+                  label="Agendar consulta"
+                  variant="primary"
+                />
               </Magnetic>
 
               {/* Secondary Button */}

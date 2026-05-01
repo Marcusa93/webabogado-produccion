@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Magnetic from './Magnetic';
 import UserProfileDropdown from './UserProfileDropdown';
+import BookingButton from './BookingButton';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
 
@@ -167,18 +167,12 @@ export default function Navigation() {
               {user && <UserProfileDropdown />}
 
               <Magnetic strength={0.2}>
-                <a
-                  href="#contacto"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection('#contacto');
-                  }}
-                  className={`btn-interactive inline-flex items-center rounded-xl text-xs font-black transition-all duration-500 ${isScrolled
-                    ? 'px-5 py-2.5 bg-accent text-white hover:bg-accent-light'
-                    : 'px-6 py-3 bg-foreground text-background hover:bg-accent hover:text-white shadow-lg'}`}
-                >
-                  Consultar
-                </a>
+                <BookingButton
+                  source="nav"
+                  label="Agendar"
+                  variant={isScrolled ? 'navCompact' : 'navHero'}
+                  icon={false}
+                />
               </Magnetic>
             </div>
 
@@ -247,16 +241,12 @@ export default function Navigation() {
                 )}
               </button>
 
-              <a
-                href="#contacto"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection('#contacto');
-                }}
-                className="inline-flex items-center justify-center w-full px-8 py-4 bg-accent text-white font-black rounded-xl text-lg shadow-glow active:scale-95"
-              >
-                Agendar consulta
-              </a>
+              <BookingButton
+                source="nav_mobile"
+                label="Agendar consulta"
+                variant="mobile"
+                icon={false}
+              />
             </li>
           </ul>
         </nav>

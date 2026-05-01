@@ -151,6 +151,31 @@ export const trackConsultationRequest = () => {
   });
 };
 
+// Booking modal opened (someone clicked "Agendar consulta")
+export const trackBookingModalOpened = (source: string) => {
+  trackEvent('booking_modal_opened', {
+    source, // 'hero', 'contacto', 'nav', 'agendar_page'
+    category: 'engagement',
+  });
+};
+
+// Booking completed (Cal.com confirmed a reservation)
+export const trackBookingCompleted = (source: string, eventType: string) => {
+  trackEvent('booking_completed', {
+    source,
+    event_type: eventType,
+    category: 'conversion',
+    value: 1,
+  });
+};
+
+// Agendar page view
+export const trackAgendarPageViewed = () => {
+  trackEvent('agendar_page_view', {
+    category: 'navigation',
+  });
+};
+
 // Video/media interaction
 export const trackMediaInteraction = (mediaType: string, mediaTitle: string) => {
   trackEvent('media_interaction', {

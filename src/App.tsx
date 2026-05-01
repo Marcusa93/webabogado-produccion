@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Cotio from "./pages/Cotio";
 import AuthCallback from "./pages/AuthCallback";
 import AdminUsers from "./pages/AdminUsers";
+import Agendar from "./pages/Agendar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => {
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/agendar" element={<Agendar />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route
                 path="/herramientas/cotio"
