@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MessageCircle, Scale } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
-import ThreeBackground from './ThreeBackground';
+import ThreeBackground from './ThreeBackgroundLazy';
 import Magnetic from './Magnetic';
 import BookingButton from './BookingButton';
 

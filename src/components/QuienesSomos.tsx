@@ -8,14 +8,14 @@ const team = [
     {
         name: "Marco Rossi",
         role: "Abogado -socio – Especialista en procesos judiciales y prueba electrónica",
-        image: "/team/marco.jpg",
+        image: "/team/marco.webp",
         bio: "Lidera la defensa estratégica en casos de alta complejidad. Fue funcionario y relator de Juez  en la Justicia, combina su formación jurídica con una profunda comprensión de la infraestructura digital.",
         isPrincipal: true
     },
     {
         name: "Facundo Castillo",
         role: "Abogado asociado",
-        image: "/team/facundo.jpg",
+        image: "/team/facundo.webp",
         bio: "Especialista en Derecho Laboral con enfoque en litigación estratégica contra ART. Participa activamente en la gestión de expedientes y defensa de empresas y particulares.",
         linkedin: "https://ar.linkedin.com/in/facundo-castillo-947b1b222",
         personalBrand: {
@@ -27,7 +27,7 @@ const team = [
     {
         name: "Vancis Roda",
         role: "Asesor auxiliar y perito de parte",
-        image: "/team/vancis.jpg",
+        image: "/team/vancis.webp",
         bio: "Experto en análisis de evidencia informática y peritajes técnicos. Brinda el soporte científico necesario para la validación de pruebas en entornos digitales complejos.",
         linkedin: "https://twitter.com/vancishacks" // Twitter as placeholder if linkedin unknown, or just use #
     }
@@ -111,7 +111,7 @@ const multimedia = {
             type: "Video",
             source: "LA GACETA TV",
             url: "https://www.youtube.com/watch?v=PbbiO69oV9w&t=5s",
-            image: "/content/media/la-gaceta-ia-sustentabilidad.png",
+            image: "/content/media/la-gaceta-ia-sustentabilidad.webp",
             badgeColor: "bg-red-600"
         },
         {
@@ -120,7 +120,7 @@ const multimedia = {
             type: "Artículo",
             source: "Show Online",
             url: "https://showonline.com.ar/contenido/11110/quien-es-marco-rossi-el-abogado-que-pone-a-tucuman-en-el-mapa-de-la-mano-de-la-i",
-            image: "/content/media/show-online-tucuman-ia.png",
+            image: "/content/media/show-online-tucuman-ia.webp",
             date: "Nov 2024",
             badgeColor: "bg-indigo-600"
         },
@@ -138,7 +138,7 @@ const multimedia = {
             type: "Artículo",
             source: "La Gaceta",
             url: "https://www.lagaceta.com.ar/nota/amp/1088664/sociedad/marco-rossi-justicia-tambien-puede-innovar-humanizar.html",
-            image: "/content/media/la-gaceta-innovar.png",
+            image: "/content/media/la-gaceta-innovar.webp",
             date: "Nov 2024",
             badgeColor: "bg-blue-600"
         },
@@ -148,7 +148,7 @@ const multimedia = {
             type: "Radio",
             source: "LV12",
             url: "https://www.lv12.com.ar/inteligencia-artificial/la-inteligencia-artificial-aplicada-beneficio-los-tucumanos-n167419",
-            image: "/content/media/lv12-beneficio.png",
+            image: "/content/media/lv12-beneficio.webp",
             date: "Oct 2024",
             badgeColor: "bg-orange-500"
         },
@@ -158,7 +158,7 @@ const multimedia = {
             type: "Artículo",
             source: "ENTERATE",
             url: "https://www.enteratenoticias.com.ar/actualidad/marco-rossi-hoy-todos-somos-informaticos/",
-            image: "/content/media/enterate-noticias.png",
+            image: "/content/media/enterate-noticias.webp",
             badgeColor: "bg-amber-500"
         },
         {
@@ -167,7 +167,7 @@ const multimedia = {
             type: "Video",
             source: "PANEL",
             url: "https://www.youtube.com/watch?v=l-EeDpqTX-I",
-            image: "/content/media/debate-ia-mexico.png",
+            image: "/content/media/debate-ia-mexico.webp",
             badgeColor: "bg-red-500"
         }
     ],
@@ -177,7 +177,7 @@ const multimedia = {
             url: "https://open.spotify.com/episode/2NCJg4x36jJFSZJ5h14JZ0?si=SIlxfJu2QHuYQdwupOGh_w&t=0&pi=-Tt-piIDQ2em7",
             duration: "45 min",
             source: "Spotify",
-            image: "/content/media/derecho-y-codigo.jpg"
+            image: "/content/media/derecho-y-codigo.webp"
         },
         {
             title: "Justicia 4.0 - Transformación Digital",
@@ -195,7 +195,7 @@ const multimedia = {
         {
             title: "Legal Tech Talk",
             duration: "50 min",
-            image: "/content/podcasts/legal-tech-talk.jpg",
+            image: "/content/podcasts/legal-tech-talk.webp",
             source: "Podcast"
         }
     ]
@@ -204,28 +204,28 @@ const multimedia = {
 const books = [
     {
         title: "Impacto de la Inteligencia Artificial en el ámbito legal",
-        image: "/books/impacto-ia.png",
+        image: "/books/impacto-ia.webp",
         publisher: "Editorial Hammurabi",
         year: "2025",
         link: null
     },
     {
         title: "Justicia Algorítmica",
-        image: "/content/books/justicia-algoritmica.jpg",
+        image: "/content/books/justicia-algoritmica.webp",
         publisher: "Editorial IADPI",
         year: "2024",
         link: "https://ebook.iadpi.com.ar/shop/detalle/16"
     },
     {
         title: "Metaverso y Resolución de Conflictos",
-        image: "/content/books/metaverso-conflictos.jpg",
+        image: "/content/books/metaverso-conflictos.webp",
         publisher: "elDial.com",
         year: "2024",
         link: "https://tienda.eldial.com/productos/e-book-metaverso-y-resolucion-de-conflictos/"
     },
     {
         title: "¿Qué me hace especIAl? La conflictiva relación entre la ficción y la realidad",
-        image: "/content/books/que-me-hace-especial.jpg",
+        image: "/content/books/que-me-hace-especial.webp",
         publisher: "Editorial Bibliotex",
         year: "2024",
         link: "https://bibliotexlibros.mitiendanube.com/productos/rossi-maidana-que-me-hace-especial-gc5ni/"
