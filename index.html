@@ -35,7 +35,7 @@
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
   <!-- Preload critical assets -->
-  <link rel="preload" href="/team/marco.jpg" as="image" type="image/jpeg" />
+  <link rel="preload" href="/team/marco.webp" as="image" type="image/webp" />
 
   <!-- Resource hints for performance -->
   <meta http-equiv="x-dns-prefetch-control" content="on" />
@@ -85,8 +85,8 @@
       "description": "Abogado especialista en derecho digital e inteligencia artificial. Asesoramiento legal para influencers y empresas tech en Tucumán, Argentina.",
       "url": "https://www.marcorossi.com.ar/",
       "telephone": "+54-9-381-300-7791",
-      "email": "dr.marcorossi9@gmail.com",
-      "image": "https://www.marcorossi.com.ar/team/marco.jpg",
+      "email": "estudio@marcorossi.com.ar",
+      "image": "https://www.marcorossi.com.ar/team/marco.webp",
       "logo": "https://www.marcorossi.com.ar/favicon.svg",
       "priceRange": "$$",
       "address": {
@@ -206,11 +206,27 @@
         "name": "Marco Rossi",
         "jobTitle": "Abogado especialista en Derecho Digital e Inteligencia Artificial",
         "description": "Ex-funcionario judicial con 8+ años de experiencia. Especialista en derecho digital, prueba electrónica e inteligencia artificial.",
-        "image": "https://www.marcorossi.com.ar/team/marco.jpg",
+        "image": "https://www.marcorossi.com.ar/team/marco.webp",
         "sameAs": [
           "https://ar.linkedin.com/in/marcorossi9",
           "https://www.instagram.com/marquitorossi/"
         ]
+      },
+      "potentialAction": {
+        "@type": "ReserveAction",
+        "name": "Agendar consulta inicial",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.marcorossi.com.ar/agendar",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "result": {
+          "@type": "Reservation",
+          "name": "Consulta inicial estratégica"
+        }
       }
     }
     </script>

@@ -177,6 +177,7 @@ export default function Chatbot() {
                     </div>
                     <button
                         onClick={() => setIsOpen(false)}
+                        aria-label="Cerrar asistente virtual"
                         className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
                     >
                         <X size={18} />
