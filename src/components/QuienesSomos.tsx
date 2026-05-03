@@ -7,9 +7,9 @@ import StaggeredTitle from './StaggeredTitle';
 const team = [
     {
         name: "Marco Rossi",
-        role: "Abogado -socio – Especialista en procesos judiciales y prueba electrónica",
+        role: "Abogado · Especialista en Derecho Procesal Civil · Director de DYNTEC (UNT)",
         image: "/team/marco.webp",
-        bio: "Lidera la defensa estratégica en casos de alta complejidad. Fue funcionario y relator de Juez  en la Justicia, combina su formación jurídica con una profunda comprensión de la infraestructura digital.",
+        bio: "Doctor Honoris Causa por la Federación Iberoamericana de Abogados. Ex Relator y Funcionario Judicial. Primer Director de IA en un Municipio en Argentina. Lidera la defensa estratégica en casos de alta complejidad combinando experiencia judicial con dominio profundo de la tecnología.",
         isPrincipal: true
     },
     {
@@ -429,10 +429,13 @@ export default function QuienesSomos() {
 
                         <ul className="space-y-4 relative z-10">
                             {[
-                                { text: "8+ años como funcionario en la Justicia", icon: Award },
-                                { text: "Docente en universidades de Argentina y LATAM", icon: Lightbulb },
-                                { text: "Especialista certificado en Inteligencia Artificial", icon: Terminal },
-                                { text: "+70 acreditaciones de formación académica", icon: Award }
+                                { text: "Doctor Honoris Causa — Federación Iberoamericana de Abogados", icon: Award },
+                                { text: "Director de DYNTEC (UNT) — Laboratorio de IA, Innovación y Transformación Digital", icon: Terminal },
+                                { text: "Primer Director de IA en un Municipio en Argentina (San Miguel de Tucumán)", icon: Lightbulb },
+                                { text: "Posgrado UBA en Metaverso, Gaming y Web 3.0", icon: BookOpen },
+                                { text: "Especialista en Derecho Procesal Civil — Ex Relator y Funcionario Judicial", icon: Scale },
+                                { text: "Docente UNT en Derechos de las Nuevas Tecnologías", icon: Lightbulb },
+                                { text: "Coautor de 5+ libros sobre tecnologías emergentes", icon: BookOpen },
                             ].map((cred, i) => (
                                 <li key={i} className="flex items-start gap-4 p-3 bg-card rounded-xl shadow-sm border border-foreground/5 transition-transform hover:scale-[1.02]">
                                     <div className="p-2 bg-accent/10 rounded-lg text-accent shrink-0">

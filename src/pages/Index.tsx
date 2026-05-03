@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
+import TrustStrip from '@/components/TrustStrip';
 import QueHago from '@/components/QueHago';
 import QueEsperar from '@/components/QueEsperar';
 import Servicios from '@/components/Servicios';
@@ -20,6 +21,7 @@ export default function Index() {
       <Navigation />
       <main>
         <Hero />
+        <TrustStrip />
         <QueHago />
         <QueEsperar />
         <Servicios />
