@@ -204,7 +204,7 @@ export default function Navigation() {
               <Magnetic strength={0.2}>
                 <BookingButton
                   source="nav"
-                  label="Agendar"
+                  label="Reservar 30 min gratis"
                   variant={isScrolled ? 'navCompact' : 'navHero'}
                   icon={false}
                 />
@@ -283,7 +283,7 @@ export default function Navigation() {
 
               <BookingButton
                 source="nav_mobile"
-                label="Agendar consulta"
+                label="Reservar diagnóstico gratuito"
                 variant="mobile"
                 icon={false}
               />

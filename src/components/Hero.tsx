@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MessageCircle, Scale } from 'lucide-react';
+import { MessageCircle, Scale, Calendar } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
 import ThreeBackground from './ThreeBackgroundLazy';
@@ -9,7 +9,9 @@ import BookingButton from './BookingButton';
 export default function Hero() {
   const [terminalDone, setTerminalDone] = useState(false);
   const [explodeParticles, setExplodeParticles] = useState(false);
-  const [showWhatsApp, setShowWhatsApp] = useState(false);
+  // Sticky CTA bar aparece después de scrollear el primer viewport — combina
+  // Reservar (CTA primario) + WhatsApp (acción rápida secundaria).
+  const [showStickyCta, setShowStickyCta] = useState(false);
 
   const handleTerminalComplete = () => {
     // Trigger explosion first
@@ -27,15 +29,11 @@ export default function Hero() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show WhatsApp button after scrolling past 100vh
-      if (window.scrollY > window.innerHeight) {
-        setShowWhatsApp(true);
-      } else {
-        setShowWhatsApp(false);
-      }
+      // Mostrar el sticky CTA bar después del primer viewport.
+      setShowStickyCta(window.scrollY > window.innerHeight);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -47,29 +45,35 @@ export default function Hero() {
       {/* 3D Background Resource */}
       <ThreeBackground />
 
-      {/* Floating WhatsApp Button (Fixed) */}
-      <a
-        href="https://wa.me/5493813007791"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-[100] flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-2xl transition-all duration-500 hover:scale-110 group ${showWhatsApp ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-          }`}
-        style={{
-          backgroundColor: 'var(--whatsapp-green)',
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)'}
-        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green)'}
-        aria-label="Consulta rápida por WhatsApp"
+      {/* Sticky CTA Bar (post-scroll)
+          Mobile: full-width fija al fondo, dos elementos.
+          Desktop: cluster compacto bottom-right con Reservar + WhatsApp.
+          La idea: que la acción dominante post-scroll sea reservar, no chatear. */}
+      <div
+        className={`fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-[100] flex items-center gap-2 transition-all duration-500 ${
+          showStickyCta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
       >
-        <div className="absolute inset-0 rounded-full animate-[pulse_2s_infinite] opacity-30 z-[-1]"
-          style={{ backgroundColor: 'var(--whatsapp-green)' }} />
-        <MessageCircle size={32} className="text-white fill-white" />
-
-        {/* Tooltip on hover */}
-        <div className="absolute right-full mr-4 px-3 py-1 bg-card text-foreground text-xs font-bold rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-foreground/10">
-          Consulta rápida
-        </div>
-      </a>
+        <BookingButton
+          source="sticky"
+          label="Reservar 30 min sin cargo"
+          variant="primary"
+          icon={true}
+          className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3.5 bg-foreground text-background font-black rounded-2xl text-sm sm:text-base shadow-2xl hover:bg-accent hover:text-white transition-all duration-300 ring-1 ring-black/5 dark:ring-white/10"
+        />
+        <a
+          href="https://wa.me/5493813007791"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 flex items-center justify-center w-[52px] h-[52px] sm:w-[54px] sm:h-[54px] rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105 ring-1 ring-black/5"
+          style={{ backgroundColor: 'var(--whatsapp-green)' }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--whatsapp-green)')}
+          aria-label="Pregunta rápida por WhatsApp"
+        >
+          <MessageCircle size={24} className="text-white fill-white" />
+        </a>
+      </div>
 
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background z-[1]" />
@@ -122,7 +126,7 @@ export default function Hero() {
               <Magnetic>
                 <BookingButton
                   source="hero"
-                  label="Agendar consulta"
+                  label="Reservar diagnóstico gratuito · 30 min"
                   variant="primary"
                 />
               </Magnetic>
@@ -138,6 +142,11 @@ export default function Hero() {
                 </button>
               </Magnetic>
             </div>
+
+            {/* Reassurance microcopy — mata las 3 objeciones top antes de que aparezcan */}
+            <p className="mt-5 text-xs md:text-sm text-foreground/50 font-medium leading-relaxed text-center lg:text-left max-w-md mx-auto lg:mx-0 opacity-0 animate-fade-in animation-delay-500">
+              Sin compromiso · Confirmás antes de avanzar · Te llega link de Meet por mail
+            </p>
           </div>
 
           {/* Right: Hybrid Hero (Terminal + Particles) */}

@@ -164,35 +164,28 @@ export default function Contacto() {
             </div>
 
             {/* Primary CTA — Agendar consulta (Cal.com) */}
-            <div className="flex flex-col gap-3 mb-4">
+            <div className="flex flex-col gap-3 mb-5">
               <BookingButton
                 source="contacto"
-                label="Agendar consulta sin cargo"
+                label="Reservar diagnóstico gratuito · 30 min"
                 variant="primary"
                 className="btn-interactive group relative flex items-center justify-center gap-4 px-10 py-6 bg-foreground text-background font-black rounded-[2rem] transition-all duration-500 hover:bg-accent hover:text-white hover:shadow-[0_20px_40px_rgba(10,25,41,0.3)] w-full sm:w-auto"
                 icon={true}
               />
-              <p className="text-xs text-foreground/50 font-medium ml-2">
-                Reservá un horario directamente · Confirmación inmediata por mail
+              <p className="text-xs text-foreground/55 font-medium ml-1">
+                Sin compromiso · Confirmás antes de avanzar · Te llega link de Meet por mail
               </p>
             </div>
 
-            {/* Secondary CTA — WhatsApp */}
+            {/* Secondary CTA — WhatsApp como acción rápida (no peer del booking) */}
             <button
               onClick={handleWhatsApp}
-              className="btn-interactive group relative flex items-center gap-4 px-10 py-6 text-white font-black rounded-[2rem] transition-all duration-500 hover:shadow-[0_20px_40px_rgba(37,211,102,0.3)] w-full sm:w-auto overflow-hidden"
-              style={{
-                backgroundColor: 'var(--whatsapp-green)',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--whatsapp-green)'}
+              className="group inline-flex items-center gap-2.5 text-sm md:text-base font-bold text-foreground/70 hover:text-[var(--whatsapp-green)] transition-colors py-2"
             >
-              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              <MessageCircle size={28} className="relative z-10" />
-              <div className="relative z-10 text-left">
-                <span className="block text-xs opacity-80 uppercase tracking-widest font-bold">Vía Directa</span>
-                <span className="text-lg">Contactar por WhatsApp</span>
-              </div>
+              <span className="flex items-center justify-center w-9 h-9 rounded-full transition-colors" style={{ backgroundColor: 'var(--whatsapp-green)' }}>
+                <MessageCircle size={18} className="text-white fill-white" />
+              </span>
+              <span>¿Pregunta rápida? Escribime por WhatsApp →</span>
             </button>
           </div>
 
