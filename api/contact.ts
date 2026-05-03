@@ -1,6 +1,8 @@
 import { Resend } from 'resend';
-import { contactSchema } from '../src/lib/contactSchema';
-import { sendTelegramMessage, tgEscape } from '../src/lib/telegram';
+// Node ESM en Vercel exige extensión `.js` explícita en imports relativos
+// (aunque el source sea .ts). Sin esto, ERR_MODULE_NOT_FOUND.
+import { contactSchema } from '../src/lib/contactSchema.js';
+import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
 
 // =====================================================
 // Vercel Function: /api/contact

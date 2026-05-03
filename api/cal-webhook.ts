@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { sendTelegramMessage, tgEscape } from '../src/lib/telegram';
+// Node ESM en Vercel exige extensión `.js` explícita en imports relativos.
+import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
 
 // =====================================================
 // Vercel Function: /api/cal-webhook
