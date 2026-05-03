@@ -1,6 +1,40 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, Check, ArrowRight, MousePointer2 } from 'lucide-react';
+import { Network, Briefcase, Scale, ShieldCheck, Fingerprint, Check, ArrowRight, MousePointer2, ClipboardCheck, DollarSign, MessageCircle, Heart } from 'lucide-react';
+import { useInView } from '@/hooks/useInView';
 import AnimatedUnderline from './AnimatedUnderline';
+
+// 4 etapas del proceso de trabajo (consolidado desde el ex-componente QueEsperar).
+// Vive como subsección "Cómo trabajamos" debajo de las áreas de especialidad.
+const processSteps = [
+  {
+    number: '01',
+    title: 'Consulta inicial estratégica',
+    description: 'Reunión de diagnóstico para evaluar la viabilidad de tu caso. No tomamos casos sin análisis previo.',
+    icon: MessageCircle,
+    color: 'text-blue-500',
+  },
+  {
+    number: '02',
+    title: 'Propuesta clara y transparente',
+    description: 'Un plan de acción detallado con costos definidos desde el primer día. Sin sorpresas ni letra chica.',
+    icon: DollarSign,
+    color: 'text-emerald-500',
+  },
+  {
+    number: '03',
+    title: 'Ejecución técnica rigurosa',
+    description: 'Implementamos la estrategia jurídica validada, con reportes periódicos de avance.',
+    icon: ClipboardCheck,
+    color: 'text-amber-500',
+  },
+  {
+    number: '04',
+    title: 'Compromiso social',
+    description: 'Reservamos un cupo mensual para casos pro bono de alto impacto social o vulnerabilidad.',
+    icon: Heart,
+    color: 'text-rose-500',
+  },
+];
 
 const specialties = [
   {
@@ -71,6 +105,7 @@ export default function QueHago() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mobileActiveIndex, setMobileActiveIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const { ref: processRef, isInView: isProcessInView } = useInView({ threshold: 0.1 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -116,7 +151,7 @@ export default function QueHago() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-24 md:mb-32">
           {specialties.map((item, index) => {
             const isActive = mobileActiveIndex === index;
 
@@ -205,6 +240,65 @@ export default function QueHago() {
               </div>
             );
           })}
+        </div>
+
+        {/* ============================
+            Subsección "Cómo trabajamos"
+            (consolidada desde QueEsperar.tsx)
+            ============================ */}
+        <div ref={processRef} className="relative pt-12 md:pt-16 border-t border-foreground/10">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6">
+              <span className="text-[10px] font-bold tracking-widest text-accent uppercase font-montserrat">
+                Metodología
+              </span>
+            </div>
+
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-5 font-montserrat leading-tight">
+              Cómo <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">trabajamos</span>.
+            </h2>
+
+            <p className="text-base md:text-lg text-foreground/70 leading-relaxed font-medium">
+              Transparencia, orden y rigor técnico en cada etapa del camino.
+            </p>
+          </div>
+
+          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+            {/* Connecting line, desktop only */}
+            <div className="hidden lg:block absolute top-[24px] left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-transparent via-accent/30 to-transparent z-0" />
+
+            {processSteps.map((step, index) => (
+              <div
+                key={step.number}
+                className={`relative z-10 flex flex-col items-center text-center transition-all duration-700 ${
+                  isProcessInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {/* Number badge */}
+                <div className="mb-6 relative">
+                  <div className="w-12 h-12 rounded-full bg-card border-4 border-background flex items-center justify-center text-sm font-black text-foreground shadow-lg relative z-10">
+                    {step.number}
+                  </div>
+                </div>
+
+                {/* Content card */}
+                <div className="w-full bg-card/60 backdrop-blur-sm border border-foreground/5 rounded-2xl p-6 hover:bg-card hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group/step">
+                  <div className="w-11 h-11 mx-auto mb-4 rounded-xl bg-foreground/5 flex items-center justify-center group-hover/step:scale-110 transition-transform">
+                    <step.icon size={22} className={step.color} />
+                  </div>
+
+                  <h3 className="text-base md:text-lg font-black text-foreground mb-2 font-montserrat leading-tight">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-foreground/65 text-sm leading-relaxed font-medium">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
