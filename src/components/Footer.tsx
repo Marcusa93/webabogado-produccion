@@ -1,4 +1,5 @@
 import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
 import StaggeredTitle from './StaggeredTitle';
@@ -104,8 +105,8 @@ export default function Footer() {
             <ul className="flex flex-col items-center md:items-start gap-4 space-y-2">
               {[
                 { label: 'Especialidades', href: '#especialidades' },
-                { label: 'Nuestro Estudio', href: '#que-esperar' },
-                { label: 'Casos en Prensa', href: '#casos-prensa' },
+                { label: 'Servicios', href: '#servicios' },
+                { label: 'En los medios', href: '#casos-prensa' },
                 { label: 'Equipo Profesional', href: '#quienes-somos' },
                 { label: 'Contacto', href: '#contacto' }
               ].map((link) => (
@@ -147,9 +148,17 @@ export default function Footer() {
 
         {/* Divider Line */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest">
-            © {currentYear} Marco Rossi. Todos los derechos reservados.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6 text-center md:text-left">
+            <p className="text-white/30 text-[10px] font-bold uppercase tracking-widest">
+              © {currentYear} Marco Rossi. Todos los derechos reservados.
+            </p>
+            <Link
+              to="/privacidad"
+              className="text-white/40 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors underline-offset-4 hover:underline"
+            >
+              Política de privacidad
+            </Link>
+          </div>
           <button
             onClick={scrollToTop}
             className="group flex items-center gap-2 text-white/30 hover:text-white transition-colors"

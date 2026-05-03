@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom';
 import { MessageCircle, Send, Mail, Clock, CheckCircle, Shield, Zap, AlertCircle } from 'lucide-react';
 import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
@@ -370,6 +371,13 @@ export default function Contacto() {
                     {/* Microcopy */}
                     <p className="text-center text-[10px] md:text-xs text-foreground/60 font-medium">
                       ⚡ Respuesta en menos de 24hs. <span className="mx-1">·</span> 🔒 Confidencialidad garantizada.
+                    </p>
+                    <p className="text-center text-[10px] text-foreground/40 font-medium mt-2">
+                      Al enviar aceptás nuestra{' '}
+                      <Link to="/privacidad" className="underline underline-offset-2 hover:text-accent transition-colors">
+                        política de privacidad
+                      </Link>
+                      .
                     </p>
                   </div>
                 </div>

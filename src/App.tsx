@@ -21,6 +21,7 @@ import Index from "./pages/Index";
 const Agendar = lazy(() => import("./pages/Agendar"));
 const Herramientas = lazy(() => import("./pages/Herramientas"));
 const SobreMi = lazy(() => import("./pages/SobreMi"));
+const Privacidad = lazy(() => import("./pages/Privacidad"));
 const Cotio = lazy(() => import("./pages/Cotio"));
 const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -59,6 +60,7 @@ const App = () => {
                 <Route path="/agendar" element={<Agendar />} />
                 <Route path="/herramientas" element={<Herramientas />} />
                 <Route path="/sobre-mi" element={<SobreMi />} />
+                <Route path="/privacidad" element={<Privacidad />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route
                   path="/herramientas/cotio"
