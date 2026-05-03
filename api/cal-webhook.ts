@@ -1,6 +1,12 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import { Resend } from 'resend';
 // Node ESM en Vercel exige extensión `.js` explícita en imports relativos.
 import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
+import {
+  buildWelcomeEmail,
+  buildFollowUpEmail,
+  followUpScheduledAt,
+} from '../src/lib/bookingEmails.js';
 
 // =====================================================
 // Vercel Function: /api/cal-webhook
@@ -189,17 +195,94 @@ export default async function handler(req: any, res: any) {
     `🕒 ${tgEscape(formatDateAR(startTime))}`,
   ].join('\n') + customSection;
 
-  // 8) Send (best-effort — no devolvemos error a Cal.com si Telegram falla,
-  //    porque Cal.com reintentaría innecesariamente).
+  // 8) Send Telegram (best-effort — no devolvemos error a Cal.com si Telegram
+  //    falla, porque Cal.com reintentaría innecesariamente).
+  let telegramOk = false;
   try {
     const tg = await sendTelegramMessage(text);
     if (!tg.ok) {
       console.error('[cal-webhook] Telegram failed:', tg.error);
-      return res.status(200).json({ ok: true, telegram: false });
+    } else {
+      telegramOk = true;
     }
-    return res.status(200).json({ ok: true, telegram: true });
   } catch (e: any) {
     console.error('[cal-webhook] Telegram exception:', e?.message || e);
-    return res.status(200).json({ ok: true, telegram: false });
   }
+
+  // 9) Lead nurture: solo en BOOKING_CREATED disparamos welcome inmediato +
+  //    schedule del follow-up. RESCHEDULED y CANCELLED no tocan estos mails
+  //    (Cal.com manda sus propias notificaciones de cambio de estado).
+  let welcomeOk = false;
+  let followUpScheduledId: string | null = null;
+
+  if (triggerEvent === 'BOOKING_CREATED' && email && email !== 'sin-email') {
+    const resendKey = process.env.RESEND_API_KEY?.trim();
+    if (!resendKey) {
+      console.warn('[cal-webhook] RESEND_API_KEY not set — skipping welcome/follow-up emails');
+    } else {
+      const resend = new Resend(resendKey);
+
+      // 9a) Welcome inmediato
+      try {
+        const welcome = buildWelcomeEmail(payload);
+        if (welcome) {
+          const { error: wErr } = await resend.emails.send({
+            from: 'Estudio Marco Rossi <estudio@marcorossi.com.ar>',
+            to: [email],
+            replyTo: 'estudio@marcorossi.com.ar',
+            subject: welcome.subject,
+            html: welcome.html,
+            text: welcome.text,
+          });
+          if (wErr) {
+            console.error('[cal-webhook] Welcome email failed:', wErr);
+          } else {
+            welcomeOk = true;
+          }
+        }
+      } catch (e: any) {
+        console.error('[cal-webhook] Welcome exception:', e?.message || e);
+      }
+
+      // 9b) Follow-up programado para 24h post-evento.
+      // Usamos `scheduled_at` de Resend (ISO 8601). Soporta hasta 30 días en
+      // el futuro. Una consulta de 30 min cabe holgadamente dentro de eso.
+      try {
+        const scheduledAt = followUpScheduledAt(payload?.endTime);
+        const followUp = buildFollowUpEmail(payload);
+        if (scheduledAt && followUp) {
+          const { data: fData, error: fErr } = await resend.emails.send({
+            from: 'Estudio Marco Rossi <estudio@marcorossi.com.ar>',
+            to: [email],
+            replyTo: 'estudio@marcorossi.com.ar',
+            subject: followUp.subject,
+            html: followUp.html,
+            text: followUp.text,
+            scheduledAt,
+          });
+          if (fErr) {
+            console.error('[cal-webhook] Follow-up scheduling failed:', fErr);
+          } else {
+            followUpScheduledId = fData?.id || null;
+            console.log(
+              `[cal-webhook] Follow-up scheduled for ${scheduledAt} (id: ${followUpScheduledId})`,
+            );
+          }
+        } else {
+          console.warn(
+            '[cal-webhook] Skipping follow-up: missing endTime or could not build email',
+          );
+        }
+      } catch (e: any) {
+        console.error('[cal-webhook] Follow-up exception:', e?.message || e);
+      }
+    }
+  }
+
+  return res.status(200).json({
+    ok: true,
+    telegram: telegramOk,
+    welcomeEmail: welcomeOk,
+    followUpScheduled: !!followUpScheduledId,
+  });
 }
