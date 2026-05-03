@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 import { contactSchema, type ContactInput } from '@/lib/contactSchema';
 import BookingButton from './BookingButton';
+import BookingPreview from './BookingPreview';
 import StaggeredTitle from './StaggeredTitle';
 
 const SUBMIT_COOLDOWN_MS = 15_000;
@@ -164,11 +165,17 @@ export default function Contacto() {
               ))}
             </div>
 
+            {/* Inline preview de los próximos 3 slots — reduce friction
+                mostrando disponibilidad real arriba del CTA tradicional.
+                Si Cal.com API falla / sin slots → BookingPreview retorna null
+                y solo se ve el CTA principal de abajo. */}
+            <BookingPreview />
+
             {/* Primary CTA — Agendar consulta (Cal.com) */}
             <div className="flex flex-col gap-3 mb-5">
               <BookingButton
                 source="contacto"
-                label="Reservar diagnóstico gratuito · 30 min"
+                label="Ver todos los turnos"
                 variant="primary"
                 className="btn-interactive group relative flex items-center justify-center gap-4 px-10 py-6 bg-foreground text-background font-black rounded-[2rem] transition-all duration-500 hover:bg-accent hover:text-white hover:shadow-[0_20px_40px_rgba(10,25,41,0.3)] w-full sm:w-auto"
                 icon={true}

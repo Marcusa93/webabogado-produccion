@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ReactNode } from 'react';
 import Cal, { getCalApi } from '@calcom/embed-react';
 import { Calendar, X } from 'lucide-react';
 import {
@@ -24,6 +24,19 @@ type BookingButtonProps = {
   variant?: Variant;
   className?: string;
   icon?: boolean;
+  /**
+   * Slot ISO 8601 (ej. "2026-05-06T10:30:00.000Z") para deep-link.
+   * Si se pasa, Cal.com abre el modal directo en la confirmación de ese
+   * slot (saltea el paso de elegir día y horario en el calendario).
+   * Usado por BookingPreview cuando el visitante click en un slot inline.
+   */
+  slotIso?: string;
+  /**
+   * Si se pasa, ignora `label` y `icon` y renderiza children dentro del
+   * <button>. Útil cuando el botón necesita layout custom (ej. cards
+   * de slots con icono + fecha + flecha).
+   */
+  children?: ReactNode;
 };
 
 const variantClasses: Record<Variant, string> = {
@@ -46,10 +59,20 @@ export default function BookingButton({
   variant = 'primary',
   className,
   icon = true,
+  slotIso,
+  children,
 }: BookingButtonProps) {
   const [open, setOpen] = useState(false);
   const slug = eventSlug || CALCOM_INITIAL_EVENT;
-  const calNamespace = `${source}-${slug}`;
+  // Si tenemos slotIso, hacemos deep-link incluyéndolo en la calLink.
+  // Cal.com hosted reconoce el path /YYYY-MM-DDTHH:mm:ss.sssZ y abre la
+  // pantalla de confirmación con ese slot pre-seleccionado.
+  const calLink = slotIso
+    ? `${CALCOM_USERNAME}/${slug}/${encodeURIComponent(slotIso)}`
+    : `${CALCOM_USERNAME}/${slug}`;
+  // Namespace único por fuente y por slot para que cada modal tenga su propia
+  // instancia (evita que slots distintos compartan estado).
+  const calNamespace = `${source}-${slug}${slotIso ? `-${slotIso.slice(0, 16)}` : ''}`;
   const completedRef = useRef(false);
 
   useEffect(() => {
@@ -112,8 +135,12 @@ export default function BookingButton({
         }}
         className={className || variantClasses[variant]}
       >
-        {icon && <Calendar size={18} className="group-hover:rotate-6 transition-transform" />}
-        {label}
+        {children ?? (
+          <>
+            {icon && <Calendar size={18} className="group-hover:rotate-6 transition-transform" />}
+            {label}
+          </>
+        )}
       </a>
     );
   }
@@ -126,8 +153,12 @@ export default function BookingButton({
         className={className || variantClasses[variant]}
         aria-haspopup="dialog"
       >
-        {icon && <Calendar size={18} className="group-hover:rotate-6 transition-transform" />}
-        {label}
+        {children ?? (
+          <>
+            {icon && <Calendar size={18} className="group-hover:rotate-6 transition-transform" />}
+            {label}
+          </>
+        )}
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -150,7 +181,7 @@ export default function BookingButton({
             <Cal
               key={calNamespace}
               namespace={calNamespace}
-              calLink={`${CALCOM_USERNAME}/${slug}`}
+              calLink={calLink}
               style={{ width: '100%', height: '100%', minHeight: '600px', overflow: 'auto' }}
               config={{
                 layout: 'month_view',
