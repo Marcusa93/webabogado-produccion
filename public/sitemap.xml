@@ -18,15 +18,31 @@
   <!-- Agendar consulta -->
   <url>
     <loc>https://www.marcorossi.com.ar/agendar</loc>
-    <lastmod>2026-05-01</lastmod>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <!-- Herramientas — hub de utilidades para clientes -->
+  <url>
+    <loc>https://www.marcorossi.com.ar/herramientas</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Sobre mí — trayectoria, libros, presencia en medios -->
+  <url>
+    <loc>https://www.marcorossi.com.ar/sobre-mi</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- COTIO — Herramienta de prompts jurídicos -->
   <url>
     <loc>https://www.marcorossi.com.ar/herramientas/cotio</loc>
-    <lastmod>2026-05-01</lastmod>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

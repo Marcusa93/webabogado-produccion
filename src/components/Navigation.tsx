@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Magnetic from './Magnetic';
 import UserProfileDropdown from './UserProfileDropdown';
@@ -7,18 +8,23 @@ import BookingButton from './BookingButton';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
 
+const isAnchor = (href: string) => href.startsWith('#');
+
+// Cada link puede ser un anchor del home (`#section`) o una ruta absoluta (`/path`).
+// El handler en `scrollToSection` discrimina y usa router en lugar de scroll cuando es ruta.
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#especialidades', label: 'Especialidades' },
-  { href: '#que-esperar', label: 'Nuestro estudio' },
   { href: '#servicios', label: 'Servicios' },
-  { href: '#toolkit', label: 'Kit para clientes' },
-  { label: 'Nuestro Equipo', href: '#quienes-somos' },
+  { href: '/herramientas', label: 'Herramientas' },
+  { href: '#quienes-somos', label: 'Nuestro Equipo' },
   { href: '#contacto', label: 'Contacto' },
 ];
 
 export default function Navigation() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
@@ -55,13 +61,15 @@ export default function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Active section detection
-      const sections = navLinks.map(link => link.href.substring(1));
-      const currentSection = sections.find(section => {
+      // Active section detection — solo aplicable para anchors del home (#section).
+      // Las rutas absolutas (`/herramientas`) se marcan activas por location.pathname.
+      const sections = navLinks
+        .filter((link) => isAnchor(link.href))
+        .map((link) => link.href.substring(1));
+      const currentSection = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Adjust threshold for detection
           return rect.top <= 100 && rect.bottom >= 100;
         }
         return false;
@@ -83,14 +91,39 @@ export default function Navigation() {
     }
   }, [isMobileMenuOpen]);
 
-  const scrollToSection = (href: string) => {
+  // Maneja anchors (#section) y rutas absolutas (/path) de forma transparente.
+  // Si estamos en una ruta != "/" y el link es un anchor, navegamos primero al
+  // home y después scrolleamos.
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+
+    if (!isAnchor(href)) {
+      navigate(href);
+      return;
+    }
+
+    if (location.pathname !== '/') {
+      // Vamos al home y delegamos el scroll a un microtask después del navigate.
+      navigate('/');
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }, 100);
+      return;
+    }
+
     const element = document.querySelector(href);
     if (element) {
       const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
       window.scrollTo({ top, behavior: 'smooth' });
     }
-    setIsMobileMenuOpen(false);
   };
+
+  // Alias para mantener compatibilidad con call sites previos.
+  const scrollToSection = handleNavClick;
 
   return (
     <>
@@ -125,7 +158,9 @@ export default function Navigation() {
             {/* Desktop Navigation */}
             <ul className="hidden lg:flex items-center gap-6 xl:gap-8 mx-auto">
               {navLinks.map((link) => {
-                const isActive = activeSection === link.href.substring(1);
+                const isActive = isAnchor(link.href)
+                  ? location.pathname === '/' && activeSection === link.href.substring(1)
+                  : location.pathname === link.href;
                 const isDark = theme === 'dark';
 
                 return (
@@ -214,10 +249,15 @@ export default function Navigation() {
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToSection(link.href);
+                    handleNavClick(link.href);
                   }}
-                  className={`block py-1.5 text-xl font-black transition-colors ${activeSection === link.href.substring(1) ? 'text-accent' : 'text-foreground/90 dark:text-white/90 hover:text-accent'
-                    }`}
+                  className={`block py-1.5 text-xl font-black transition-colors ${
+                    (isAnchor(link.href)
+                      ? location.pathname === '/' && activeSection === link.href.substring(1)
+                      : location.pathname === link.href)
+                      ? 'text-accent'
+                      : 'text-foreground/90 dark:text-white/90 hover:text-accent'
+                  }`}
                 >
                   {link.label}
                 </a>
