@@ -36,7 +36,8 @@ const CLIENTS: Client[] = [
     name: 'La Vieja Escuela',
     logo: '/clients/la-vieja-escuela.webp',
     treatment: 'darkOnLight',
-    className: 'h-10 md:h-12',
+    // El logo trae mucho whitespace interno, necesita más altura para igualar visualmente al resto.
+    className: 'h-16 md:h-20',
   },
   {
     name: 'Countrify',
