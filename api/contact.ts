@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { contactSchema } from '../src/lib/contactSchema';
+import { sendTelegramMessage, tgEscape } from '../src/lib/telegram';
 
 // =====================================================
 // Vercel Function: /api/contact
@@ -308,6 +309,31 @@ export default async function handler(req: any, res: any) {
       ok: false,
       error: 'No se pudo enviar el mail. Probá por WhatsApp.',
     });
+  }
+
+  // --- Notificación a Telegram (best-effort, no bloquea) ---
+  // Push push al celular del estudio en cuanto entra el lead. Si Telegram
+  // falla (no configurado / API caída), seguimos: el mail ya viajó al inbox.
+  try {
+    const telSection = data.telefono?.trim() ? `\n📱 ${tgEscape(data.telefono)}` : '';
+    const mensajePreview = data.mensaje.length > 600 ? data.mensaje.slice(0, 600) + '...' : data.mensaje;
+    const tgText = [
+      '<b>📩 Nueva consulta web</b>',
+      '',
+      `<b>${tgEscape(data.nombre)}</b>`,
+      `📧 ${tgEscape(data.email)}${telSection}`,
+      '',
+      `<i>${tgEscape(mensajePreview)}</i>`,
+      '',
+      `<i>Recibido ${tgEscape(fechaStr)}</i>`,
+    ].join('\n');
+
+    const tgResult = await sendTelegramMessage(tgText);
+    if (!tgResult.ok) {
+      console.warn('[contact] Telegram notify failed (non-blocking):', tgResult.error);
+    }
+  } catch (e: any) {
+    console.warn('[contact] Telegram exception (non-blocking):', e?.message || e);
   }
 
   // --- Auto-reply al consultante (best-effort) ---
