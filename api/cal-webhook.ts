@@ -4,7 +4,12 @@ import { Resend } from 'resend';
 import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
 import {
   buildWelcomeEmail,
+  buildReminder24hEmail,
+  buildReminder1hEmail,
   buildFollowUpEmail,
+  buildCancellationEmail,
+  reminder24hScheduledAt,
+  reminder1hScheduledAt,
   followUpScheduledAt,
 } from '../src/lib/bookingEmails.js';
 
@@ -209,72 +214,98 @@ export default async function handler(req: any, res: any) {
     console.error('[cal-webhook] Telegram exception:', e?.message || e);
   }
 
-  // 9) Lead nurture: solo en BOOKING_CREATED disparamos welcome inmediato +
-  //    schedule del follow-up. RESCHEDULED y CANCELLED no tocan estos mails
-  //    (Cal.com manda sus propias notificaciones de cambio de estado).
-  let welcomeOk = false;
-  let followUpScheduledId: string | null = null;
+  // 9) Lead nurture sequence — solo si tenemos Resend + email del attendee.
+  //    BOOKING_CREATED:   welcome (now) + reminder24h + reminder1h + follow-up (scheduled)
+  //    BOOKING_CANCELLED: cancellation email (now), avisando del posible mail "fantasma"
+  //    RESCHEDULED y otros: nada custom (Cal.com manda sus propias notificaciones)
+  const nurtureResults = {
+    welcomeEmail: false,
+    reminder24hScheduled: false,
+    reminder1hScheduled: false,
+    followUpScheduled: false,
+    cancellationEmail: false,
+  };
 
-  if (triggerEvent === 'BOOKING_CREATED' && email && email !== 'sin-email') {
+  if ((triggerEvent === 'BOOKING_CREATED' || triggerEvent === 'BOOKING_CANCELLED') && email && email !== 'sin-email') {
     const resendKey = process.env.RESEND_API_KEY?.trim();
     if (!resendKey) {
-      console.warn('[cal-webhook] RESEND_API_KEY not set — skipping welcome/follow-up emails');
+      console.warn('[cal-webhook] RESEND_API_KEY not set — skipping nurture emails');
     } else {
       const resend = new Resend(resendKey);
+      const FROM = 'Estudio Marco Rossi <estudio@marcorossi.com.ar>';
+      const REPLY_TO = 'estudio@marcorossi.com.ar';
 
-      // 9a) Welcome inmediato
-      try {
-        const welcome = buildWelcomeEmail(payload);
-        if (welcome) {
-          const { error: wErr } = await resend.emails.send({
-            from: 'Estudio Marco Rossi <estudio@marcorossi.com.ar>',
-            to: [email],
-            replyTo: 'estudio@marcorossi.com.ar',
-            subject: welcome.subject,
-            html: welcome.html,
-            text: welcome.text,
-          });
-          if (wErr) {
-            console.error('[cal-webhook] Welcome email failed:', wErr);
-          } else {
-            welcomeOk = true;
-          }
+      // Helper local para mandar un mail con manejo de error consistente.
+      const sendMail = async (
+        label: string,
+        builderResult: { subject: string; html: string; text: string } | null,
+        scheduledAt?: string | null,
+      ): Promise<boolean> => {
+        if (!builderResult) {
+          console.warn(`[cal-webhook] ${label}: builder returned null, skipping`);
+          return false;
         }
-      } catch (e: any) {
-        console.error('[cal-webhook] Welcome exception:', e?.message || e);
-      }
-
-      // 9b) Follow-up programado para 24h post-evento.
-      // Usamos `scheduled_at` de Resend (ISO 8601). Soporta hasta 30 días en
-      // el futuro. Una consulta de 30 min cabe holgadamente dentro de eso.
-      try {
-        const scheduledAt = followUpScheduledAt(payload?.endTime);
-        const followUp = buildFollowUpEmail(payload);
-        if (scheduledAt && followUp) {
-          const { data: fData, error: fErr } = await resend.emails.send({
-            from: 'Estudio Marco Rossi <estudio@marcorossi.com.ar>',
+        if (scheduledAt === null) {
+          // null explícito = no programar (ej. event a <1h, ya pasó la ventana)
+          console.log(`[cal-webhook] ${label}: too close to event, skipping schedule`);
+          return false;
+        }
+        try {
+          const { data, error } = await resend.emails.send({
+            from: FROM,
             to: [email],
-            replyTo: 'estudio@marcorossi.com.ar',
-            subject: followUp.subject,
-            html: followUp.html,
-            text: followUp.text,
-            scheduledAt,
+            replyTo: REPLY_TO,
+            subject: builderResult.subject,
+            html: builderResult.html,
+            text: builderResult.text,
+            ...(scheduledAt ? { scheduledAt } : {}),
           });
-          if (fErr) {
-            console.error('[cal-webhook] Follow-up scheduling failed:', fErr);
-          } else {
-            followUpScheduledId = fData?.id || null;
-            console.log(
-              `[cal-webhook] Follow-up scheduled for ${scheduledAt} (id: ${followUpScheduledId})`,
-            );
+          if (error) {
+            console.error(`[cal-webhook] ${label} send failed:`, error);
+            return false;
           }
-        } else {
-          console.warn(
-            '[cal-webhook] Skipping follow-up: missing endTime or could not build email',
+          console.log(
+            `[cal-webhook] ${label} ok${scheduledAt ? ` (scheduled ${scheduledAt})` : ' (immediate)'} (id: ${data?.id})`,
           );
+          return true;
+        } catch (e: any) {
+          console.error(`[cal-webhook] ${label} exception:`, e?.message || e);
+          return false;
         }
-      } catch (e: any) {
-        console.error('[cal-webhook] Follow-up exception:', e?.message || e);
+      };
+
+      if (triggerEvent === 'BOOKING_CREATED') {
+        // 9a) Welcome inmediato
+        nurtureResults.welcomeEmail = await sendMail('welcome', buildWelcomeEmail(payload));
+
+        // 9b) Recordatorio 24h antes
+        nurtureResults.reminder24hScheduled = await sendMail(
+          'reminder-24h',
+          buildReminder24hEmail(payload),
+          reminder24hScheduledAt(payload?.startTime),
+        );
+
+        // 9c) Recordatorio 1h antes
+        nurtureResults.reminder1hScheduled = await sendMail(
+          'reminder-1h',
+          buildReminder1hEmail(payload),
+          reminder1hScheduledAt(payload?.startTime),
+        );
+
+        // 9d) Follow-up 24h post-evento
+        nurtureResults.followUpScheduled = await sendMail(
+          'follow-up',
+          buildFollowUpEmail(payload),
+          followUpScheduledAt(payload?.endTime),
+        );
+      } else if (triggerEvent === 'BOOKING_CANCELLED') {
+        // 9e) Confirmación de cancelación. Avisa que pueden llegar mails ya
+        //     en cola (recordatorios + follow-up) — no podemos cancelarlos
+        //     sin DB para almacenar IDs.
+        nurtureResults.cancellationEmail = await sendMail(
+          'cancellation',
+          buildCancellationEmail(payload),
+        );
       }
     }
   }
@@ -282,7 +313,6 @@ export default async function handler(req: any, res: any) {
   return res.status(200).json({
     ok: true,
     telegram: telegramOk,
-    welcomeEmail: welcomeOk,
-    followUpScheduled: !!followUpScheduledId,
+    ...nurtureResults,
   });
 }
