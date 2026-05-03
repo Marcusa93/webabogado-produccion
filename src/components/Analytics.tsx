@@ -1,19 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { initGA, trackScrollDepth } from '@/lib/analytics';
+import { initClarity } from '@/lib/clarity';
 
 /**
- * Google Analytics Component
+ * Analytics Component
  *
- * Inicializa GA4 una sola vez en App y trackea scroll depth.
+ * Inicializa GA4 + Microsoft Clarity una sola vez en App y trackea scroll depth.
  * Skip en development para no contaminar la data con visitas locales.
  *
- * Para cambiar la propiedad: editar la constante o setear VITE_GA4_MEASUREMENT_ID
- * en Vercel (la env var tiene precedencia).
+ * Env vars:
+ *   VITE_GA4_MEASUREMENT_ID    — opcional, default G-T1TNJFDYJF (hardcoded)
+ *   VITE_CLARITY_PROJECT_ID    — opcional, si no está, Clarity no carga
  */
 
 const MEASUREMENT_ID =
   (import.meta.env.VITE_GA4_MEASUREMENT_ID as string | undefined)?.trim() ||
   'G-T1TNJFDYJF';
+
+const CLARITY_ID = (import.meta.env.VITE_CLARITY_PROJECT_ID as string | undefined)?.trim() || '';
 
 // Guard contra olvidos: si alguien dejó el placeholder histórico, no inicializamos.
 const isPlaceholder = /^G-X+$/i.test(MEASUREMENT_ID);
@@ -36,6 +40,12 @@ export default function Analytics() {
 
     // Initialize Google Analytics
     initGA(MEASUREMENT_ID);
+
+    // Initialize Microsoft Clarity (heatmaps + session recordings).
+    // Si VITE_CLARITY_PROJECT_ID no está seteado, initClarity es no-op.
+    if (CLARITY_ID) {
+      initClarity(CLARITY_ID);
+    }
 
     // Track scroll depth
     const handleScroll = () => {
