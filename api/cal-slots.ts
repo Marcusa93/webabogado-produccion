@@ -31,22 +31,20 @@ function setCorsHeaders(req: any, res: any) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-// Cal.com v2 devuelve { data: { slots: { "YYYY-MM-DD": [{time}, ...], ... } } }
-// La v1 vieja devolvía { slots: { ... } }. Manejamos ambos shapes para futuro-proof.
+// Cal.com v2 devuelve { status: "success", data: { "YYYY-MM-DD": [{ start: "ISO" }, ...] } }
+// Traducimos a { time: ISO } para mantener estable el contrato con el frontend.
 function extractSlotsFromResponse(data: any): Slot[] {
-  const root = data?.data?.slots ?? data?.slots ?? {};
+  const root = data?.data ?? {};
   if (!root || typeof root !== 'object') return [];
 
   const out: Slot[] = [];
-  // Ordenamos las fechas crescente para que devolvamos los slots más cercanos primero.
   const dates = Object.keys(root).sort();
   for (const date of dates) {
     const day = root[date];
     if (!Array.isArray(day)) continue;
     for (const s of day) {
-      // Cada item puede ser { time: "..." } o un string ISO directamente
-      if (typeof s === 'string') out.push({ time: s });
-      else if (s?.time) out.push({ time: s.time });
+      const iso = typeof s === 'string' ? s : s?.start ?? s?.time;
+      if (iso) out.push({ time: iso });
       if (out.length >= SLOTS_TO_RETURN) return out;
     }
   }
@@ -79,8 +77,8 @@ export default async function handler(req: any, res: any) {
 
   const url = new URL('https://api.cal.com/v2/slots');
   url.searchParams.set('eventTypeId', String(eventTypeId));
-  url.searchParams.set('startTime', startTime);
-  url.searchParams.set('endTime', endTime);
+  url.searchParams.set('start', startTime);
+  url.searchParams.set('end', endTime);
   url.searchParams.set('timeZone', TIMEZONE);
 
   try {
@@ -88,8 +86,8 @@ export default async function handler(req: any, res: any) {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         // Cal.com v2 exige header con la versión que querés consumir.
-        // 2024-09-04 es estable y soporta el shape que usamos.
-        'cal-api-version': '2024-09-04',
+        // 2024-08-13 es la versión estable documentada para /v2/slots.
+        'cal-api-version': '2024-08-13',
       },
     });
 
