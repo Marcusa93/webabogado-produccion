@@ -14,8 +14,7 @@ const isAnchor = (href: string) => href.startsWith('#');
 // El handler en `scrollToSection` discrimina y usa router en lugar de scroll cuando es ruta.
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
-  { href: '#especialidades', label: 'Especialidades' },
-  { href: '#servicios', label: 'Servicios' },
+  { href: '#especialidades', label: 'Casos típicos' },
   { href: '/herramientas', label: 'Herramientas' },
   { href: '#quienes-somos', label: 'Nuestro Equipo' },
   { href: '#contacto', label: 'Contacto' },

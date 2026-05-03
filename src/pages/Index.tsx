@@ -1,14 +1,12 @@
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import TrustStrip from '@/components/TrustStrip';
-import QueHago from '@/components/QueHago';
-import Servicios from '@/components/Servicios';
+import CasosTipicos from '@/components/CasosTipicos';
 import CasosEnMedios from '@/components/CasosEnMedios';
 import ToolkitTeaser from '@/components/ToolkitTeaser';
 import QuienesSomos from '@/components/QuienesSomos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
-import Chatbot from '@/components/Chatbot';
 
 import CustomCursor from '@/components/CustomCursor';
 
@@ -21,15 +19,13 @@ export default function Index() {
       <main>
         <Hero />
         <TrustStrip />
-        <QueHago />
-        <Servicios />
+        <CasosTipicos />
         <CasosEnMedios />
         <ToolkitTeaser />
         <QuienesSomos />
         <Contacto />
       </main>
       <Footer />
-      <Chatbot />
     </div>
   );
 }
