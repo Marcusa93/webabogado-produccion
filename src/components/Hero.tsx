@@ -87,30 +87,33 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
               <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent uppercase">
-                IA · Prueba digital · Proceso judicial
+                Derecho · Tecnología · Tribunales
               </span>
             </div>
 
             {/* Main Headline - Cinematic Staggered Reveal */}
             <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-8 md:mb-10 max-w-4xl flex flex-wrap gap-x-3 justify-center lg:justify-start">
-              {"Marco Rossi. Especialistas en IA · prueba digital · proceso judicial.".split(" ").map((word, i) => (
-                <span
-                  key={i}
-                  className={`inline-block opacity-0 animate-fade-in-up`}
-                  style={{ animationDelay: `${200 + (i * 50)}ms` }}
-                >
-                  {word === "IA" ? (
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">{word}</span>
-                  ) : (
-                    word
-                  )}
-                </span>
-              ))}
+              {"Tu caso involucra tecnología. Nosotros la entendemos — y sabemos cómo defenderla en tribunales.".split(" ").map((word, i) => {
+                const isHighlight = word === "tecnología." || word === "tribunales.";
+                return (
+                  <span
+                    key={i}
+                    className="inline-block opacity-0 animate-fade-in-up"
+                    style={{ animationDelay: `${200 + (i * 50)}ms` }}
+                  >
+                    {isHighlight ? (
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">{word}</span>
+                    ) : (
+                      word
+                    )}
+                  </span>
+                );
+              })}
             </h1>
 
             {/* Subheadline */}
             <p className="text-base md:text-lg lg:text-xl text-foreground/70 max-w-2xl mb-10 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-normal">
-              Defensa estratégica para <strong className="text-foreground/90 font-bold">influencers, empresas y startups</strong>. También intervenimos en derecho del consumidor, civil, administrativo, daños y penal — combinando experiencia judicial con dominio de la tecnología para construir defensas invulnerables en entornos digitales complejos.
+              Estudio jurídico especializado en <strong className="text-foreground/90 font-bold">derecho digital, prueba electrónica e inteligencia artificial</strong>. Litigamos todo tipo de casos poniendo el foco en una estrategia blindada en datos y tecnología.
             </p>
 
             {/* CTA Buttons */}
