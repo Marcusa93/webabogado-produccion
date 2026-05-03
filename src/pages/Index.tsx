@@ -4,7 +4,7 @@ import TrustStrip from '@/components/TrustStrip';
 import QueHago from '@/components/QueHago';
 import Servicios from '@/components/Servicios';
 import CasosEnMedios from '@/components/CasosEnMedios';
-import Toolkit from '@/components/Toolkit';
+import ToolkitTeaser from '@/components/ToolkitTeaser';
 import QuienesSomos from '@/components/QuienesSomos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
@@ -24,7 +24,7 @@ export default function Index() {
         <QueHago />
         <Servicios />
         <CasosEnMedios />
-        <Toolkit />
+        <ToolkitTeaser />
         <QuienesSomos />
         <Contacto />
       </main>

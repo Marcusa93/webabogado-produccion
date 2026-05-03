@@ -13,6 +13,7 @@ import Cotio from "./pages/Cotio";
 import AuthCallback from "./pages/AuthCallback";
 import AdminUsers from "./pages/AdminUsers";
 import Agendar from "./pages/Agendar";
+import Herramientas from "./pages/Herramientas";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/agendar" element={<Agendar />} />
+              <Route path="/herramientas" element={<Herramientas />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route
                 path="/herramientas/cotio"
