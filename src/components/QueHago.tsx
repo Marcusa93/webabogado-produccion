@@ -147,7 +147,7 @@ export default function QueHago() {
           />
 
           <p className="text-lg md:text-xl text-foreground/70 max-w-2xl leading-relaxed font-medium">
-            Nuestra práctica se especializa en la intersección entre el derecho tradicional y las nuevas tecnologías.
+            Llevamos casos en todas las áreas del derecho. El hilo conductor: <strong className="text-foreground/90 font-bold">estrategia procesal rigurosa</strong> y <strong className="text-foreground/90 font-bold">dominio de la prueba tecnológica</strong> cuando el caso lo requiere.
           </p>
         </div>
 
