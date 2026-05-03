@@ -215,7 +215,7 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-black text-foreground">Envío Seguro</h3>
-                    <p className="text-sm text-foreground/40 font-bold uppercase tracking-tighter">estudio@marcorossi.com.ar</p>
+                    <p className="text-sm text-foreground/40 font-bold uppercase tracking-tighter">Confidencial · Respuesta directa</p>
                   </div>
                 </div>
 

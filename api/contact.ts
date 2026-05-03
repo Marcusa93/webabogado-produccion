@@ -9,7 +9,10 @@ import { contactSchema } from '../src/lib/contactSchema';
 //
 // ENV vars requeridas (cargar en Vercel + .env.local):
 //   RESEND_API_KEY      Key de Resend (re_...)
-//   CONTACT_INBOX       Mail destino (ej: estudio@marcorossi.com.ar)
+//   CONTACT_INBOX       Mail(s) destino. Puede ser uno solo o lista
+//                       separada por comas. Ej:
+//                         "dr.marcorossi9@gmail.com"
+//                         "dr.marcorossi9@gmail.com, admin@marcorossi.com.ar"
 // =====================================================
 
 const ALLOWED_ORIGINS = new Set([
@@ -206,7 +209,15 @@ export default async function handler(req: any, res: any) {
 
   // --- ENV vars ---
   const resendKey = process.env.RESEND_API_KEY?.trim();
-  const inbox = process.env.CONTACT_INBOX?.trim() || 'dr.marcorossi9@gmail.com';
+
+  // CONTACT_INBOX puede ser una sola dirección o una lista separada por comas.
+  // Resend acepta `to: string[]` y manda una copia a cada uno (no es BCC, todos
+  // ven la lista — perfecto para que socios/asistentes reciban el mismo lead).
+  const inboxRaw = process.env.CONTACT_INBOX?.trim() || 'dr.marcorossi9@gmail.com';
+  const inbox = inboxRaw
+    .split(',')
+    .map((e) => e.trim())
+    .filter(Boolean);
 
   if (!resendKey) {
     console.error('[contact] Missing RESEND_API_KEY');
@@ -265,7 +276,7 @@ export default async function handler(req: any, res: any) {
   try {
     const { error } = await resend.emails.send({
       from: 'Formulario web <web@marcorossi.com.ar>',
-      to: [inbox],
+      to: inbox,
       replyTo: data.email,
       subject,
       html: buildEmailHtml({
