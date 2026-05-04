@@ -86,8 +86,8 @@ export default async function handler(req: any, res: any) {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         // Cal.com v2 exige header con la versión que querés consumir.
-        // 2024-08-13 es la versión estable documentada para /v2/slots.
-        'cal-api-version': '2024-08-13',
+        // 2024-09-04 es la versión actual de /v2/slots (curl example oficial).
+        'cal-api-version': '2024-09-04',
       },
     });
 
