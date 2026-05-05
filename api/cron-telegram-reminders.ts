@@ -119,9 +119,14 @@ async function handleInternal(req: any, res: any) {
   url.searchParams.set('beforeEnd', beforeEnd);
   url.searchParams.set('status', 'accepted');
 
+  // Timeout corto: Vercel Hobby mata funciones a los 10s, así que cortamos
+  // a 6s para que nos quede margen para responder con error claro.
   let bookings: any[];
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
   try {
     const resp = await fetch(url.toString(), {
+      signal: ctrl.signal,
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'cal-api-version': CALCOM_API_VERSION,
@@ -130,13 +135,26 @@ async function handleInternal(req: any, res: any) {
     if (!resp.ok) {
       const errBody = await resp.text();
       console.error(`[cron-tg-reminders] Cal.com ${resp.status}:`, errBody.slice(0, 500));
-      return res.status(502).json({ ok: false, error: `cal.com ${resp.status}` });
+      return res.status(502).json({
+        ok: false,
+        error: `cal.com ${resp.status}`,
+        detail: errBody.slice(0, 500),
+        url: url.toString(),
+      });
     }
     const data = await resp.json();
     bookings = Array.isArray(data?.data) ? data.data : [];
   } catch (e: any) {
-    console.error('[cron-tg-reminders] Fetch failed:', e?.message || e);
-    return res.status(502).json({ ok: false, error: 'fetch failed' });
+    const aborted = e?.name === 'AbortError';
+    console.error('[cron-tg-reminders] Fetch failed:', e?.message || e, 'aborted:', aborted);
+    return res.status(502).json({
+      ok: false,
+      error: aborted ? 'cal.com timeout' : 'fetch failed',
+      detail: e?.message || String(e),
+      url: url.toString(),
+    });
+  } finally {
+    clearTimeout(timer);
   }
 
   // Ventanas de matching (relativas a "now"). Cron corre cada hora en :00,
