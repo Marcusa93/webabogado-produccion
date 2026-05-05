@@ -83,6 +83,17 @@ function extractCustomAnswers(responses: any): { label: string; value: string }[
 }
 
 export default async function handler(req: any, res: any) {
+  try {
+    return await handleInternal(req, res);
+  } catch (e: any) {
+    // Last-resort catch — exponer el error en lugar de tirar 502 opaco de Vercel.
+    const msg = e?.stack || e?.message || String(e);
+    console.error('[cron-tg-reminders] Uncaught:', msg);
+    return res.status(500).json({ ok: false, error: 'uncaught', detail: msg.slice(0, 1500) });
+  }
+}
+
+async function handleInternal(req: any, res: any) {
   if (!isAuthorizedCron(req)) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' });
   }
