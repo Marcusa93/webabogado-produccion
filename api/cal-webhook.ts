@@ -214,6 +214,96 @@ export default async function handler(req: any, res: any) {
     console.error('[cal-webhook] Telegram exception:', e?.message || e);
   }
 
+  // 8b) Notificación interna al estudio (mismos triggers que Telegram).
+  //     Mail a los 3 destinatarios con los datos clave de la reserva.
+  //     Reply-To = email del cliente, así un click en Responder contesta al cliente.
+  const OWNER_NOTIFICATION_EMAILS = [
+    'dr.marcorossi9@gmail.com',
+    'estudio@marcorossi.com.ar',
+    'dr.castillo@marcorossi.com.ar',
+  ];
+  let ownerEmailSent = false;
+  const resendKeyForOwner = process.env.RESEND_API_KEY?.trim();
+  if (
+    resendKeyForOwner &&
+    (triggerEvent === 'BOOKING_CREATED' ||
+      triggerEvent === 'BOOKING_RESCHEDULED' ||
+      triggerEvent === 'BOOKING_CANCELLED' ||
+      triggerEvent === 'BOOKING_REJECTED' ||
+      triggerEvent === 'BOOKING_REQUESTED')
+  ) {
+    try {
+      const resend = new Resend(resendKeyForOwner);
+      const dateFormatted = formatDateAR(startTime);
+      const subject = `${icon} ${label}: ${name} · ${dateFormatted}`;
+
+      // HTML body — formato simple, legible en cliente de mail y mobile.
+      const escape = tgEscape; // mismas reglas (&,<,>) que para Telegram, son HTML-safe
+      const customRowsHtml = customAnswers.length > 0
+        ? customAnswers
+            .map(
+              (a) =>
+                `<tr><td style="padding:8px 12px 0 0;color:#666;font-size:13px;vertical-align:top"><strong>${escape(a.label)}</strong></td><td style="padding:8px 0 0 0;font-size:14px;color:#111">${escape(a.value).replace(/\n/g, '<br>')}</td></tr>`,
+            )
+            .join('')
+        : '';
+
+      const html = `<!DOCTYPE html>
+<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f7f7f7;margin:0;padding:24px">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #eaeaea;border-radius:12px;padding:24px">
+    <h2 style="margin:0 0 16px 0;font-size:18px;color:#111">${icon} ${escape(label)}</h2>
+    <table style="width:100%;border-collapse:collapse">
+      <tr><td style="padding:0 12px 0 0;color:#666;font-size:13px;width:30%"><strong>Cliente</strong></td><td style="font-size:14px;color:#111">${escape(name)}</td></tr>
+      <tr><td style="padding:8px 12px 0 0;color:#666;font-size:13px"><strong>Email</strong></td><td style="padding:8px 0 0 0;font-size:14px"><a href="mailto:${escape(email)}" style="color:#0a1929;text-decoration:none">${escape(email)}</a></td></tr>
+      <tr><td style="padding:8px 12px 0 0;color:#666;font-size:13px"><strong>Evento</strong></td><td style="padding:8px 0 0 0;font-size:14px;color:#111">${escape(eventTitle)}</td></tr>
+      <tr><td style="padding:8px 12px 0 0;color:#666;font-size:13px"><strong>Cuándo</strong></td><td style="padding:8px 0 0 0;font-size:14px;color:#111">${escape(dateFormatted)}</td></tr>
+      ${customRowsHtml}
+    </table>
+    <p style="margin:20px 0 0 0;color:#999;font-size:12px;border-top:1px solid #eaeaea;padding-top:12px">
+      Notificación automática del sistema de reservas. Respondé este mail para contactar al cliente directamente.
+    </p>
+  </div>
+</body></html>`;
+
+      const textLines = [
+        `${icon} ${label}`,
+        ``,
+        `Cliente: ${name}`,
+        `Email: ${email}`,
+        ``,
+        `Evento: ${eventTitle}`,
+        `Cuándo: ${dateFormatted}`,
+      ];
+      if (customAnswers.length > 0) {
+        textLines.push('');
+        for (const a of customAnswers) {
+          textLines.push(`${a.label}: ${a.value}`);
+        }
+      }
+
+      const replyTo = email && email !== 'sin-email' ? email : 'estudio@marcorossi.com.ar';
+      const { data, error } = await resend.emails.send({
+        from: 'Reservas Estudio Marco Rossi <estudio@marcorossi.com.ar>',
+        to: OWNER_NOTIFICATION_EMAILS,
+        replyTo,
+        subject,
+        html,
+        text: textLines.join('\n'),
+      });
+
+      if (error) {
+        console.error('[cal-webhook] owner-notification send failed:', error);
+      } else {
+        ownerEmailSent = true;
+        console.log(`[cal-webhook] owner-notification sent to ${OWNER_NOTIFICATION_EMAILS.length} recipients (id: ${data?.id})`);
+      }
+    } catch (e: any) {
+      console.error('[cal-webhook] owner-notification exception:', e?.message || e);
+    }
+  } else if (!resendKeyForOwner) {
+    console.warn('[cal-webhook] RESEND_API_KEY not set — skipping owner notification');
+  }
+
   // 9) Lead nurture sequence — solo si tenemos Resend + email del attendee.
   //    BOOKING_CREATED:   welcome (now) + reminder24h + reminder1h + follow-up (scheduled)
   //    BOOKING_CANCELLED: cancellation email (now), avisando del posible mail "fantasma"
@@ -313,6 +403,7 @@ export default async function handler(req: any, res: any) {
   return res.status(200).json({
     ok: true,
     telegram: telegramOk,
+    ownerNotification: ownerEmailSent,
     ...nurtureResults,
   });
 }
