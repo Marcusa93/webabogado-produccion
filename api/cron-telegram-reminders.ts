@@ -98,7 +98,9 @@ async function handleInternal(req: any, res: any) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' });
   }
 
-  // PROBE: ?probe=1 cortocircuita y verifica deploy + env vars sin pegarle a Cal.com.
+  // PROBE modes:
+  //   ?probe=1     → verifica deploy + env vars sin pegarle a Cal.com
+  //   ?probe=fetch → testea el fetch a Cal.com con timeout corto
   if (req.query?.probe === '1') {
     return res.status(200).json({
       ok: true,
@@ -107,6 +109,43 @@ async function handleInternal(req: any, res: any) {
       eventTypeId: process.env.CALCOM_EVENT_TYPE_ID?.trim() || null,
       hasTelegram: Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.TELEGRAM_CHAT_ID?.trim()),
     });
+  }
+  if (req.query?.probe === 'fetch') {
+    const apiKey = process.env.CALCOM_API_KEY?.trim() || '';
+    const evtId = process.env.CALCOM_EVENT_TYPE_ID?.trim() || '';
+    const u = new URL(CALCOM_API);
+    u.searchParams.set('eventTypeId', evtId);
+    u.searchParams.set('afterStart', new Date().toISOString());
+    u.searchParams.set('beforeEnd', new Date(Date.now() + 86400000).toISOString());
+    u.searchParams.set('status', 'accepted');
+    const t0 = Date.now();
+    try {
+      const r = await fetch(u.toString(), {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'cal-api-version': CALCOM_API_VERSION,
+        },
+      });
+      const body = await r.text();
+      return res.status(200).json({
+        ok: true,
+        probe: 'fetch',
+        url: u.toString(),
+        status: r.status,
+        elapsedMs: Date.now() - t0,
+        bodyHead: body.slice(0, 600),
+      });
+    } catch (e: any) {
+      return res.status(200).json({
+        ok: false,
+        probe: 'fetch',
+        url: u.toString(),
+        elapsedMs: Date.now() - t0,
+        errorName: e?.name || null,
+        errorMessage: e?.message || String(e),
+        errorCause: e?.cause?.message || e?.cause || null,
+      });
+    }
   }
 
   const apiKey = process.env.CALCOM_API_KEY?.trim();
