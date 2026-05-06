@@ -167,7 +167,8 @@ async function handleInternal(req: any, res: any) {
   url.searchParams.set('eventTypeId', String(eventTypeId));
   url.searchParams.set('afterStart', afterStart);
   url.searchParams.set('beforeEnd', beforeEnd);
-  url.searchParams.set('status', 'accepted');
+  // /v2/bookings solo acepta: upcoming, recurring, past, cancelled, unconfirmed.
+  url.searchParams.set('status', 'upcoming');
 
   // Timeout corto: Vercel Hobby mata funciones a los 10s, así que cortamos
   // a 6s para que nos quede margen para responder con error claro.
