@@ -98,15 +98,11 @@ async function handleInternal(req: any, res: any) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' });
   }
 
-  // PROBE: si pasamos ?probe=1, retornamos al toque para verificar que el deploy
-  // del último commit está vivo. Si responde JSON con commit:"a6bcf19" o más nuevo,
-  // sabemos que Vercel deploya y el bug está en el resto del código. Si sigue 502,
-  // los nuevos commits no se están deployando.
-  const url = new URL(req.url || '/', 'https://x');
-  if (url.searchParams.get('probe') === '1') {
+  // PROBE: ?probe=1 cortocircuita y verifica deploy + env vars sin pegarle a Cal.com.
+  if (req.query?.probe === '1') {
     return res.status(200).json({
       ok: true,
-      probe: 'a6bcf19+probe',
+      probe: 'alive',
       hasCalcomKey: Boolean(process.env.CALCOM_API_KEY?.trim()),
       eventTypeId: process.env.CALCOM_EVENT_TYPE_ID?.trim() || null,
       hasTelegram: Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.TELEGRAM_CHAT_ID?.trim()),
