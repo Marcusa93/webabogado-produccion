@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MouseGlow from "./components/MouseGlow";
 import ScrollProgress from "./components/ScrollProgress";
 import Analytics from "./components/Analytics";
+import CookieBanner from "./components/CookieBanner";
 
 // Index queda eager: es la página de entrada más común y los visitantes
 // llegan ahí en la mayoría de los casos. Lazy-loadearla solo agregaría
@@ -61,6 +62,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

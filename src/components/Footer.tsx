@@ -4,6 +4,7 @@ import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
 import { whatsappUrl } from '@/lib/whatsapp';
 import { areas, areaPath } from '@/data/areas';
+import { openConsentPreferences } from '@/lib/consent';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
@@ -101,6 +102,13 @@ export default function Footer() {
             >
               Política de privacidad
             </Link>
+            <button
+              type="button"
+              onClick={openConsentPreferences}
+              className="text-white/40 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors underline-offset-4 hover:underline"
+            >
+              Preferencias de cookies
+            </button>
           </div>
           <button
             onClick={scrollToTop}

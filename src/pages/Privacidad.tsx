@@ -5,10 +5,11 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import StaggeredTitle from '@/components/StaggeredTitle';
 import { pagesMeta } from '@/data/seo';
+import { openConsentPreferences } from '@/lib/consent';
 
 const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.privacidad;
 
-const LAST_UPDATED = '2 de mayo de 2026';
+const LAST_UPDATED = '27 de octubre de 2026';
 
 export default function Privacidad() {
   useEffect(() => {
@@ -115,9 +116,11 @@ export default function Privacidad() {
                   compartir voluntariamente.
                 </li>
                 <li>
-                  <strong>Datos de navegación</strong>: información técnica anónima recolectada
-                  por Google Analytics (páginas visitadas, tiempo en el sitio, dispositivo,
-                  país aproximado). No se usa para identificarte.
+                  <strong>Datos de navegación</strong>, solo si aceptás las cookies de
+                  analítica: páginas visitadas, tiempo en el sitio, dispositivo y país
+                  aproximado (Google Analytics), y mapas de calor y grabaciones de cómo se
+                  navega el Sitio, como clics y desplazamientos (Microsoft Clarity). No se usan
+                  para identificarte.
                 </li>
                 <li>
                   <strong>Dirección IP</strong>: utilizada exclusivamente, en forma transitoria
@@ -142,7 +145,8 @@ export default function Privacidad() {
                   contratás como representación legal.
                 </li>
                 <li>
-                  Mejorar el Sitio en base a estadísticas anónimas de uso (Google Analytics).
+                  Mejorar el Sitio en base a estadísticas de uso (Google Analytics y Microsoft
+                  Clarity), solo si aceptaste las cookies de analítica.
                 </li>
                 <li>Prevenir abusos del formulario (rate limiting).</li>
               </ul>
@@ -163,24 +167,36 @@ export default function Privacidad() {
                   <strong>Vercel</strong> (Estados Unidos) — hosting del Sitio.
                 </li>
                 <li>
-                  <strong>Resend</strong> (Estados Unidos) — entrega de emails (formulario y
-                  notificaciones).
+                  <strong>Resend</strong> (Estados Unidos) — entrega de emails: respuestas al
+                  formulario de contacto, confirmaciones y recordatorios de turnos.
                 </li>
                 <li>
                   <strong>Cal.com</strong> (Estados Unidos) — gestión de turnos y calendario.
+                  Recibe tu nombre, tu email y las respuestas que completes al reservar.
                 </li>
                 <li>
                   <strong>Google Workspace</strong> (Estados Unidos) — recepción de emails y
                   calendario del Estudio.
                 </li>
                 <li>
-                  <strong>Google Analytics</strong> (Estados Unidos) — estadísticas anónimas
-                  de uso.
+                  <strong>Google Tag Manager</strong> (Estados Unidos) — carga las herramientas
+                  de analítica. Solo se activa si aceptás las cookies de analítica.
+                </li>
+                <li>
+                  <strong>Google Analytics</strong> (Estados Unidos) — estadísticas de uso.
+                  Solo se activa si aceptás las cookies de analítica.
+                </li>
+                <li>
+                  <strong>Microsoft Clarity</strong> (Estados Unidos) — mapas de calor y
+                  grabaciones de navegación para mejorar el Sitio. Enmascara el texto que
+                  escribís en los formularios. Solo se activa si aceptás las cookies de
+                  analítica.
                 </li>
                 <li>
                   <strong>Telegram</strong> (Reino Unido / Emiratos Árabes Unidos) —
-                  notificaciones internas privadas para el Estudio (no recibe datos del
-                  visitante salvo nombre, email y mensaje, y solo el Estudio accede al chat).
+                  notificaciones internas privadas para el Estudio sobre nuevas consultas y
+                  turnos (nombre, email, datos del turno y respuestas de la reserva). Solo el
+                  Estudio accede al chat.
                 </li>
               </ul>
               <p>
@@ -204,6 +220,10 @@ export default function Privacidad() {
                 <li>
                   <strong>Datos de Google Analytics</strong>: 26 meses (configuración por
                   defecto).
+                </li>
+                <li>
+                  <strong>Datos de Microsoft Clarity</strong>: según la política de retención
+                  de Microsoft Clarity.
                 </li>
                 <li>
                   <strong>Dirección IP</strong>: solo en memoria volátil del servidor, durante
@@ -249,26 +269,32 @@ export default function Privacidad() {
             </Section>
 
             <Section title="8. Cookies" number="08">
-              <p>El Sitio utiliza dos tipos de cookies:</p>
+              <p>El Sitio utiliza dos tipos de cookies o almacenamiento local:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <strong>Cookies técnicas</strong> necesarias para el funcionamiento (tema
-                  claro/oscuro, sesión). No requieren consentimiento previo.
+                  <strong>Técnicas</strong>, necesarias para el funcionamiento: el tema
+                  claro/oscuro y tu elección sobre cookies. Al abrir el calendario de turnos,
+                  Cal.com puede usar las suyas para funcionar. No requieren consentimiento
+                  previo.
                 </li>
                 <li>
-                  <strong>Cookies de Google Analytics</strong> para estadísticas anónimas de
-                  uso. Podés desactivarlas instalando el{' '}
-                  <a
-                    href="https://tools.google.com/dlpage/gaoptout"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent font-bold hover:underline"
-                  >
-                    add-on oficial de Google
-                  </a>{' '}
-                  o usando el modo incógnito de tu navegador.
+                  <strong>De analítica</strong>: las de Google Analytics (<code>_ga</code>,{' '}
+                  <code>_ga_*</code>) y Microsoft Clarity (<code>_clck</code>,{' '}
+                  <code>_clsk</code>). <strong>Solo se activan si las aceptás</strong> en el
+                  aviso que aparece al entrar al Sitio.
                 </li>
               </ul>
+              <p>
+                Podés cambiar tu elección en cualquier momento. Si retirás tu consentimiento,
+                borramos esas cookies y dejamos de cargar las herramientas de analítica.
+              </p>
+              <button
+                type="button"
+                onClick={openConsentPreferences}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-foreground/15 text-sm font-bold text-foreground hover:bg-foreground/5 transition-colors"
+              >
+                Cambiar preferencias de cookies
+              </button>
             </Section>
 
             <Section title="9. Menores de edad" number="09">
