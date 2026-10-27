@@ -6,18 +6,18 @@
 #   1) Settings → Secrets and variables → Actions → New repository secret
 #      Name:  CRON_SECRET
 #      Value: el mismo valor que cargaste en Vercel (env var CRON_SECRET)
-#   2) Después del primer push, este workflow corre solo cada hora en :00.
+#   2) Después del primer push, este workflow corre solo cada hora.
 #
-# Nota: GH Actions cron puede demorarse hasta 15 min (best-effort, no garantizado),
-# así que las ventanas en api/cron-telegram-reminders.ts son de 1h — suficiente
-# margen para cubrir el delay sin perder ni duplicar pings.
+# Nota: el cron de GH Actions es best-effort y se demora (más a la hora en punto,
+# que es cuando más carga tiene). El endpoint alinea sus ventanas a la hora en
+# punto, así que cualquier demora dentro de la misma hora no pierde ni duplica pings.
 
 name: telegram-reminders-cron
 
 on:
   schedule:
-    # Cada hora en minuto 0 (UTC).
-    - cron: '0 * * * *'
+    # Minuto 7 de cada hora (UTC): GitHub recomienda evitar el minuto 0.
+    - cron: '7 * * * *'
   # Permite disparar manualmente desde Actions tab para testing.
   workflow_dispatch: {}
 
@@ -33,7 +33,8 @@ jobs:
             echo "::error::CRON_SECRET secret not set in repo settings"
             exit 1
           fi
-          response=$(curl -sS -w "\nHTTP_%{http_code}" \
+          # Reintenta errores transitorios (502 = Cal.com falló antes de mandar pings).
+          response=$(curl -sS --retry 2 --retry-delay 20 -w "\nHTTP_%{http_code}" \
             -H "Authorization: Bearer $CRON_SECRET" \
             "https://www.marcorossi.com.ar/api/cron-telegram-reminders")
           echo "$response"

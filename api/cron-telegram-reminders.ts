@@ -1,16 +1,13 @@
 // =====================================================
-// Vercel Cron: /api/cron-telegram-reminders
-// Corre cada hora (en minuto 00) y manda pings a Telegram
-// para reservas próximas — uno ~24h antes, otro ~1h antes.
+// /api/cron-telegram-reminders
+// Lo llama cada hora .github/workflows/telegram-reminders.yml y manda
+// pings a Telegram para reservas próximas: uno 24-25h antes y otro 1-2h antes.
 //
-// Sin estado, sin dedup: usamos ventanas de 1h alineadas
-// al cron schedule, así cada reserva matchea exactamente UN
-// run por tipo de ping. Trade-off conocido: si Vercel atrasa
-// un cron run >30min, podría perderse o duplicarse un ping
-// (raro). Aceptado como simplicidad vs robustez.
-//
-// Cron schedule en vercel.json:
-//   { "path": "/api/cron-telegram-reminders", "schedule": "0 * * * *" }
+// Sin estado: las ventanas se calculan desde la hora en punto en la que
+// corre (ver reminderWindows), no desde el minuto exacto. Así cada reserva
+// cae en un único run por tipo de ping aunque GitHub Actions arranque con
+// demora dentro de la hora. Solo se pierde o duplica un ping si un run se
+// saltea entero o se corre a la hora siguiente.
 //
 // ENV vars:
 //   CALCOM_API_KEY           — server-only
@@ -27,6 +24,16 @@ import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
 const CALCOM_API = 'https://api.cal.com/v2/bookings';
 const CALCOM_API_VERSION = '2026-02-25';
 const TIMEZONE = 'America/Argentina/Buenos_Aires';
+
+const HOUR_MS = 60 * 60 * 1000;
+
+export function reminderWindows(now: Date) {
+  const base = Math.floor(now.getTime() / HOUR_MS) * HOUR_MS;
+  return {
+    w1: { start: base + HOUR_MS, end: base + 2 * HOUR_MS },
+    w24: { start: base + 24 * HOUR_MS, end: base + 25 * HOUR_MS },
+  };
+}
 
 function formatDateAR(iso?: string): string {
   if (!iso) return 'Sin fecha';
@@ -100,12 +107,10 @@ async function handleInternal(req: any, res: any) {
     return res.status(500).json({ ok: false, error: 'Cal.com no configurado' });
   }
 
-  const now = new Date();
-  // Pedimos a Cal.com sólo lo que cabe en las dos ventanas (1h y 24h ahead).
-  // Cubrir [now+1h, now+25h) es suficiente, le agregamos 1h de margen abajo
-  // por si la API es laxa con el filtro.
-  const afterStart = new Date(now.getTime() + 30 * 60 * 1000).toISOString();
-  const beforeEnd = new Date(now.getTime() + 26 * 60 * 60 * 1000).toISOString();
+  const { w1, w24 } = reminderWindows(new Date());
+  // beforeEnd filtra por fin del turno: 1h de margen para que entren los que empiezan al final de w24.
+  const afterStart = new Date(w1.start).toISOString();
+  const beforeEnd = new Date(w24.end + HOUR_MS).toISOString();
 
   const url = new URL(CALCOM_API);
   url.searchParams.set('eventTypeId', String(eventTypeId));
@@ -141,15 +146,6 @@ async function handleInternal(req: any, res: any) {
   } finally {
     clearTimeout(timer);
   }
-
-  // Ventanas de matching (relativas a "now"). Cron corre cada hora en :00,
-  // así cada booking cae en exactamente un run por tipo de ping.
-  // 1h ping  arriba a 1-2h antes del evento.
-  // 24h ping arriba a 24-25h antes del evento.
-  const ms = (h: number) => h * 60 * 60 * 1000;
-  const t = now.getTime();
-  const w24 = { start: t + ms(24), end: t + ms(25) };
-  const w1 = { start: t + ms(1), end: t + ms(2) };
 
   const summary = { fetched: bookings.length, ping24h: 0, ping1h: 0, skipped: 0, errors: 0 };
 
