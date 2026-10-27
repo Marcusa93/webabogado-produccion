@@ -1,13 +1,13 @@
 // =====================================================
 // /api/cron-telegram-reminders
-// Lo llama cada hora .github/workflows/telegram-reminders.yml y manda
-// pings a Telegram para reservas próximas: uno 24-25h antes y otro 1-2h antes.
+// Lo llama cron-job.org una vez por hora (minuto 5) y manda pings a Telegram
+// para reservas próximas: uno 24-25h antes y otro 1-2h antes. El workflow
+// .github/workflows/telegram-reminders.yml queda solo para disparo manual.
 //
 // Sin estado: las ventanas se calculan desde la hora en punto en la que
-// corre (ver reminderWindows), no desde el minuto exacto. Así cada reserva
-// cae en un único run por tipo de ping aunque GitHub Actions arranque con
-// demora dentro de la hora. Solo se pierde o duplica un ping si un run se
-// saltea entero o se corre a la hora siguiente.
+// corre (ver reminderWindows), no desde el minuto exacto. Cada reserva cae
+// en un único run por tipo de ping siempre que haya exactamente un disparo
+// por hora: un disparo extra en la misma hora duplica los pings de esa hora.
 //
 // ENV vars:
 //   CALCOM_API_KEY           — server-only

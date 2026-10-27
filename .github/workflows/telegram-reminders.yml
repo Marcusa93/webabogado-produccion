@@ -1,24 +1,19 @@
-# Cron de GitHub Actions que cada hora pega a /api/cron-telegram-reminders.
-# Usamos GH Actions porque el plan Hobby de Vercel solo permite cron diario,
-# y necesitamos hourly para los pings de 1h-antes y 24h-antes a Telegram.
+# Disparo MANUAL de /api/cron-telegram-reminders (Actions → telegram-reminders-cron → Run workflow).
+#
+# El disparo horario lo hace cron-job.org (minuto 5 de cada hora, header
+# "Authorization: Bearer <CRON_SECRET>"). Se dejó de usar el schedule de GitHub
+# porque en repos públicos se desactiva tras 60 días sin commits y además saltea
+# corridas. No vuelvas a agregar un schedule acá: dos disparos en la misma hora
+# duplican los avisos de Telegram.
 #
 # Setup:
-#   1) Settings → Secrets and variables → Actions → New repository secret
-#      Name:  CRON_SECRET
-#      Value: el mismo valor que cargaste en Vercel (env var CRON_SECRET)
-#   2) Después del primer push, este workflow corre solo cada hora.
-#
-# Nota: el cron de GH Actions es best-effort y se demora (más a la hora en punto,
-# que es cuando más carga tiene). El endpoint alinea sus ventanas a la hora en
-# punto, así que cualquier demora dentro de la misma hora no pierde ni duplica pings.
+#   Settings → Secrets and variables → Actions → New repository secret
+#   Name:  CRON_SECRET
+#   Value: el mismo valor que está en Vercel (env var CRON_SECRET)
 
 name: telegram-reminders-cron
 
 on:
-  schedule:
-    # Minuto 7 de cada hora (UTC): GitHub recomienda evitar el minuto 0.
-    - cron: '7 * * * *'
-  # Permite disparar manualmente desde Actions tab para testing.
   workflow_dispatch: {}
 
 jobs:
@@ -38,5 +33,4 @@ jobs:
             -H "Authorization: Bearer $CRON_SECRET" \
             "https://www.marcorossi.com.ar/api/cron-telegram-reminders")
           echo "$response"
-          # Falla el job si no fue 200 — dispara una notif de GH Actions a Marco.
           echo "$response" | grep -q "HTTP_200" || exit 1
