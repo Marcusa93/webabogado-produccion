@@ -4,8 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { ProtectedRoute } from "@/components/ProtectedRoute";
 import MouseGlow from "./components/MouseGlow";
 import ScrollProgress from "./components/ScrollProgress";
 import Analytics from "./components/Analytics";
@@ -17,14 +15,11 @@ import Index from "./pages/Index";
 
 // Resto de las pages: se descargan en chunks separados solo cuando el
 // router las pide. Vite genera un .js por cada lazy import, así el bundle
-// del home no carga el código de /sobre-mi, /herramientas, COTIO, etc.
+// del home no carga el código de /sobre-mi, /herramientas, etc.
 const Agendar = lazy(() => import("./pages/Agendar"));
 const Herramientas = lazy(() => import("./pages/Herramientas"));
 const SobreMi = lazy(() => import("./pages/SobreMi"));
 const Privacidad = lazy(() => import("./pages/Privacidad"));
-const Cotio = lazy(() => import("./pages/Cotio"));
-const AdminUsers = lazy(() => import("./pages/AdminUsers"));
-const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -53,36 +48,17 @@ const App = () => {
         <ScrollProgress />
         <Analytics />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <AuthProvider>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/agendar" element={<Agendar />} />
-                <Route path="/herramientas" element={<Herramientas />} />
-                <Route path="/sobre-mi" element={<SobreMi />} />
-                <Route path="/privacidad" element={<Privacidad />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
-                <Route
-                  path="/herramientas/cotio"
-                  element={
-                    <ProtectedRoute>
-                      <Cotio />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/usuarios"
-                  element={
-                    <ProtectedRoute>
-                      <AdminUsers />
-                    </ProtectedRoute>
-                  }
-                />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </AuthProvider>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/agendar" element={<Agendar />} />
+              <Route path="/herramientas" element={<Herramientas />} />
+              <Route path="/sobre-mi" element={<SobreMi />} />
+              <Route path="/privacidad" element={<Privacidad />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

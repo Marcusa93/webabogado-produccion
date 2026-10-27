@@ -1,9 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, X, Hash, Sparkles } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { ShieldAlert, Fingerprint, Search, CheckCircle2, AlertTriangle, ArrowRight, Hash } from 'lucide-react';
 import StaggeredTitle from './StaggeredTitle';
 import Hasher from './Hasher';
-import Magnetic from './Magnetic';
 import {
     Dialog,
     DialogContent,
@@ -56,14 +54,6 @@ const tools = [
         subtitle: "Integridad de Datos",
         color: "from-emerald-500 to-teal-600",
         isHasher: true
-    },
-    {
-        id: 'cotio',
-        icon: Sparkles,
-        title: "Optimizador COTIO",
-        subtitle: "Justicia Algorítmica",
-        color: "from-indigo-500 to-purple-600",
-        isCotioTool: true
     }
 ];
 
@@ -107,7 +97,7 @@ const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => {
                 <p className="text-foreground/40 dark:text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest mb-6 md:mb-8">{tool.subtitle}</p>
 
                 <div className="flex items-center gap-2 text-accent font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
-                    {tool.isHasher || tool.isCotioTool ? 'Abrir Herramienta' : 'Ver Instrucciones'} <ArrowRight size={14} />
+                    {tool.isHasher ? 'Abrir Herramienta' : 'Ver Instrucciones'} <ArrowRight size={14} />
                 </div>
             </div>
         </button>
@@ -116,7 +106,6 @@ const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => {
 
 export default function Toolkit() {
     const [activeToolId, setActiveToolId] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const activeTool = tools.find(t => t.id === activeToolId);
 
@@ -176,35 +165,6 @@ export default function Toolkit() {
                                             </DialogHeader>
                                         </div>
                                         <Hasher />
-                                    </div>
-                                ) : activeTool?.isCotioTool ? (
-                                    <div className="flex flex-col md:flex-row items-center gap-12 py-8">
-                                        <div className="flex-1 space-y-8 text-left">
-                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20`}>
-                                                <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Optimización Justicia Algorítmica</span>
-                                            </div>
-                                            <DialogHeader className="text-left space-y-2">
-                                                <DialogTitle className="text-3xl md:text-5xl font-black text-foreground font-montserrat leading-tight">
-                                                    Optimizador <span className="text-foreground/30 italic">COTIO</span>
-                                                </DialogTitle>
-                                            </DialogHeader>
-                                            <p className="text-lg text-foreground/60 font-medium leading-relaxed max-w-xl">
-                                                Nuestra herramienta exclusiva para abogados. Convertí borradores en prompts profesionales usando la metodología COTIO. Procesado de forma segura en nuestro laboratorio digital.
-                                            </p>
-                                            <Magnetic>
-                                                <button
-                                                    onClick={() => navigate('/herramientas/cotio')}
-                                                    className="px-10 py-5 bg-foreground text-background font-black rounded-2xl text-sm uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-glow flex items-center gap-3"
-                                                >
-                                                    Acceder a la herramienta
-                                                    <ArrowRight size={18} />
-                                                </button>
-                                            </Magnetic>
-                                        </div>
-                                        <div className="w-full md:w-1/3 aspect-square rounded-[3rem] bg-gradient-to-br from-indigo-500/20 to-purple-600/20 border border-white/10 flex items-center justify-center p-12 relative overflow-hidden group">
-                                            <div className="absolute inset-0 bg-indigo-500/10 blur-3xl group-hover:scale-125 transition-transform duration-1000" />
-                                            <Sparkles size={80} className="text-indigo-400 relative z-10 animate-pulse" />
-                                        </div>
                                     </div>
                                 ) : (
                                     <div className="flex flex-col md:flex-row gap-8 md:gap-12 text-left">

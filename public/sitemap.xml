@@ -26,7 +26,7 @@
   <!-- Herramientas — hub de utilidades para clientes -->
   <url>
     <loc>https://www.marcorossi.com.ar/herramientas</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -37,14 +37,6 @@
     <lastmod>2026-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-
-  <!-- COTIO — Herramienta de prompts jurídicos -->
-  <url>
-    <loc>https://www.marcorossi.com.ar/herramientas/cotio</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
 
   <!-- Política de privacidad -->

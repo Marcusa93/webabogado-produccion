@@ -154,7 +154,7 @@ function buildAutoReplyHtml(input: { nombre: string; mensaje: string }): string 
         <tr>
           <td style="background:#f6f6f6;border-radius:10px;padding:14px 16px;">
             <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#0a1929;font-weight:800;margin-bottom:4px;">Opción 1 · Agenda directa</div>
-            <div style="font-size:14px;color:#374151;margin-bottom:8px;">Reservá un turno de consulta inicial sin cargo (30 min, por videollamada).</div>
+            <div style="font-size:14px;color:#374151;margin-bottom:8px;">Reservá un turno de consulta inicial sin cargo (20 min, por videollamada).</div>
             <a href="${BOOKING_URL}" style="display:inline-block;background:#0a1929;color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:9px 16px;border-radius:8px;">Agendar consulta →</a>
           </td>
         </tr>
@@ -185,7 +185,7 @@ function buildAutoReplyText(input: { nombre: string; mensaje: string }): string 
     'Recibí tu mensaje correctamente. Te respondo personalmente en menos de 24 horas hábiles.',
     '',
     'Si tu caso es urgente, tenés dos opciones:',
-    `· Agendar consulta directa (sin cargo, 30 min): ${BOOKING_URL}`,
+    `· Agendar consulta directa (sin cargo, 20 min): ${BOOKING_URL}`,
     `· WhatsApp: ${WHATSAPP_URL}`,
     '',
     'Para tu referencia, recibí este mensaje:',

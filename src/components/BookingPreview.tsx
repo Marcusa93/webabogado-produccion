@@ -97,7 +97,7 @@ export default function BookingPreview() {
           Próximos turnos disponibles
         </p>
         <span className="text-[9px] font-bold tracking-wider text-foreground/40 uppercase">
-          30 min · Sin cargo
+          20 min · Sin cargo
         </span>
       </div>
 

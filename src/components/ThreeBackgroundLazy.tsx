@@ -3,6 +3,9 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 // Lazy load the heavy Three.js component
 const ThreeBackground = lazy(() => import('./ThreeBackground'));
 
+const fallbackClass =
+  'absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent dark:from-navy-deep dark:via-navy-medium dark:to-navy-light dark:opacity-80';
+
 /**
  * Optimized Three.js Background Loader
  *
@@ -39,17 +42,11 @@ export default function ThreeBackgroundLazy() {
 
   if (!shouldLoad) {
     // Fallback gradient background for mobile
-    return (
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-deep via-navy-medium to-navy-light opacity-80" />
-    );
+    return <div className={fallbackClass} />;
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-deep via-navy-medium to-navy-light opacity-80" />
-      }
-    >
+    <Suspense fallback={<div className={fallbackClass} />}>
       <ThreeBackground />
     </Suspense>
   );

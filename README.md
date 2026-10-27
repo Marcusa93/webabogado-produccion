@@ -9,7 +9,7 @@ Sitio web profesional del Dr. Marco Rossi, abogado especialista en derecho digit
 - **Tailwind CSS** para estilos
 - **Framer Motion** para animaciones
 - **Three.js** para efectos 3D
-- **Supabase** para backend y autenticación
+- **Vercel Functions** (`api/`) para formulario de contacto, webhooks de Cal.com y recordatorios
 
 ## 📦 Instalación
 
@@ -32,20 +32,34 @@ npm run build
 ## 📁 Estructura
 
 ```
+api/                 # Vercel Functions (contacto, Cal.com, cron de recordatorios)
 src/
 ├── assets/          # Logos y recursos estáticos
 ├── components/      # Componentes reutilizables
-├── contexts/        # Context providers (Auth, Theme)
-├── lib/             # Utilidades y configuración
-├── pages/           # Páginas de la aplicación
-└── styles/          # Estilos globales
+├── data/            # Contenido estático (multimedia)
+├── hooks/           # Hooks de React
+├── lib/             # Utilidades, emails, analytics
+└── pages/           # Páginas de la aplicación
 ```
 
 ## 🔐 Variables de Entorno
 
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+# Frontend (públicas)
+VITE_CALCOM_USERNAME=
+VITE_CALCOM_INITIAL_EVENT=
+VITE_GA4_MEASUREMENT_ID=
+VITE_CLARITY_PROJECT_ID=
+
+# Servidor (api/)
+RESEND_API_KEY=
+CONTACT_INBOX=
+CAL_WEBHOOK_SECRET=
+CALCOM_API_KEY=
+CALCOM_EVENT_TYPE_ID=
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+CRON_SECRET=
 ```
 
 ## 📄 Licencia

@@ -50,9 +50,8 @@ const cases: MediaCase[] = [
 ];
 
 // Cuántas menciones generales mostramos en home antes del CTA "Ver toda
-// la cobertura →" hacia /sobre-mi. Mostramos 6 con imagen para una grilla
-// limpia de 2 filas en desktop / scroll en mobile.
-const HOME_MENTIONS_LIMIT = 6;
+// la cobertura →" hacia /sobre-mi, que muestra todas.
+const HOME_MENTIONS_LIMIT = 3;
 
 export default function CasosEnMedios() {
     const { ref, isInView } = useInView({ threshold: 0.1 });
@@ -70,7 +69,7 @@ export default function CasosEnMedios() {
         <section
             id="casos-prensa"
             ref={ref}
-            className="relative py-24 md:py-32 bg-background transition-colors duration-500 overflow-hidden"
+            className="relative py-20 md:py-28 bg-background transition-colors duration-500 overflow-hidden"
         >
             {/* Background accents — consistentes con el resto del sitio */}
             <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 pointer-events-none" />
@@ -79,7 +78,7 @@ export default function CasosEnMedios() {
 
             <div className="section-container relative z-10">
                 {/* Header */}
-                <div className="max-w-3xl mb-16 md:mb-20">
+                <div className="max-w-3xl mb-10 md:mb-14">
                     <div
                         className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-foreground/5 border border-foreground/10 mb-6 transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                             }`}
@@ -97,8 +96,7 @@ export default function CasosEnMedios() {
                     />
 
                     <p className="text-base md:text-lg text-foreground/60 font-medium leading-relaxed max-w-2xl">
-                        Casos en los que intervinimos como representación legal con cobertura periodística,
-                        más entrevistas, columnas y participación en debates públicos sobre derecho y tecnología.
+                        Casos que representamos con cobertura en prensa, entrevistas y debates públicos.
                     </p>
                 </div>
 
@@ -201,8 +199,8 @@ export default function CasosEnMedios() {
 
                 {/* ============= Menciones generales en medios ============= */}
                 {featuredMentions.length > 0 && (
-                    <div className="mt-20 md:mt-28 pt-12 md:pt-16 border-t border-foreground/10">
-                        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+                    <div className="mt-12 md:mt-16 pt-10 md:pt-12 border-t border-foreground/10">
+                        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
                             <div>
                                 <p className="text-[10px] font-bold tracking-[0.2em] text-accent uppercase font-montserrat mb-3">
                                     También en los medios
@@ -223,7 +221,7 @@ export default function CasosEnMedios() {
                             </Link>
                         </div>
 
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+                        <div className="grid grid-cols-3 gap-3 md:gap-4 max-w-3xl">
                             {featuredMentions.map((item: MultimediaItem, i) => {
                                 const isVideo =
                                     item.url?.includes('youtu') ||

@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import Magnetic from './Magnetic';
-import UserProfileDropdown from './UserProfileDropdown';
 import BookingButton from './BookingButton';
 import logoWhite from '@/assets/logo-white.svg';
 import logoNavy from '@/assets/logo-navy.svg';
@@ -14,15 +12,13 @@ const isAnchor = (href: string) => href.startsWith('#');
 // El handler en `scrollToSection` discrimina y usa router en lugar de scroll cuando es ruta.
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
-  { href: '#especialidades', label: 'Especialidades' },
-  { href: '#servicios', label: 'Servicios' },
+  { href: '#especialidades', label: 'Áreas' },
   { href: '/herramientas', label: 'Herramientas' },
   { href: '#quienes-somos', label: 'Nuestro Equipo' },
   { href: '#contacto', label: 'Contacto' },
 ];
 
 export default function Navigation() {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -199,12 +195,10 @@ export default function Navigation() {
                 {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
 
-              {user && <UserProfileDropdown />}
-
               <Magnetic strength={0.2}>
                 <BookingButton
                   source="nav"
-                  label="Reservar 30 min gratis"
+                  label="Reservar 20 min gratis"
                   variant={isScrolled ? 'navCompact' : 'navHero'}
                   icon={false}
                 />

@@ -17,11 +17,9 @@
 //   CALCOM_EVENT_TYPE_ID     — id numérico del event type
 //   TELEGRAM_BOT_TOKEN       — bot que manda al chat
 //   TELEGRAM_CHAT_ID         — chat destino
-//   CRON_SECRET              — opcional. Si está, Vercel agrega
-//                              "Authorization: Bearer <SECRET>" al
-//                              request del cron, y rechazamos los
-//                              que no lo traigan (evita disparos
-//                              externos via internet).
+//   CRON_SECRET              — obligatorio. El workflow de GitHub
+//                              Actions lo manda como "Authorization:
+//                              Bearer <SECRET>"; sin él rechazamos todo.
 // =====================================================
 
 import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
@@ -46,11 +44,9 @@ function formatDateAR(iso?: string): string {
   }
 }
 
-// Vercel agrega "Authorization: Bearer <CRON_SECRET>" automáticamente
-// si la env var está seteada. Sin secret, dejamos pasar (NO recomendado prod).
 function isAuthorizedCron(req: any): boolean {
   const secret = process.env.CRON_SECRET?.trim();
-  if (!secret) return true;
+  if (!secret) return false;
   const auth = (req.headers?.authorization || req.headers?.Authorization || '').trim();
   return auth === `Bearer ${secret}`;
 }
@@ -86,66 +82,14 @@ export default async function handler(req: any, res: any) {
   try {
     return await handleInternal(req, res);
   } catch (e: any) {
-    // Last-resort catch — exponer el error en lugar de tirar 502 opaco de Vercel.
-    const msg = e?.stack || e?.message || String(e);
-    console.error('[cron-tg-reminders] Uncaught:', msg);
-    return res.status(500).json({ ok: false, error: 'uncaught', detail: msg.slice(0, 1500) });
+    console.error('[cron-tg-reminders] Uncaught:', e?.stack || e?.message || e);
+    return res.status(500).json({ ok: false, error: 'uncaught' });
   }
 }
 
 async function handleInternal(req: any, res: any) {
   if (!isAuthorizedCron(req)) {
     return res.status(401).json({ ok: false, error: 'Unauthorized' });
-  }
-
-  // PROBE modes:
-  //   ?probe=1     → verifica deploy + env vars sin pegarle a Cal.com
-  //   ?probe=fetch → testea el fetch a Cal.com con timeout corto
-  if (req.query?.probe === '1') {
-    return res.status(200).json({
-      ok: true,
-      probe: 'alive',
-      hasCalcomKey: Boolean(process.env.CALCOM_API_KEY?.trim()),
-      eventTypeId: process.env.CALCOM_EVENT_TYPE_ID?.trim() || null,
-      hasTelegram: Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.TELEGRAM_CHAT_ID?.trim()),
-    });
-  }
-  if (req.query?.probe === 'fetch') {
-    const apiKey = process.env.CALCOM_API_KEY?.trim() || '';
-    const evtId = process.env.CALCOM_EVENT_TYPE_ID?.trim() || '';
-    const u = new URL(CALCOM_API);
-    u.searchParams.set('eventTypeId', evtId);
-    u.searchParams.set('afterStart', new Date().toISOString());
-    u.searchParams.set('beforeEnd', new Date(Date.now() + 86400000).toISOString());
-    u.searchParams.set('status', 'accepted');
-    const t0 = Date.now();
-    try {
-      const r = await fetch(u.toString(), {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'cal-api-version': CALCOM_API_VERSION,
-        },
-      });
-      const body = await r.text();
-      return res.status(200).json({
-        ok: true,
-        probe: 'fetch',
-        url: u.toString(),
-        status: r.status,
-        elapsedMs: Date.now() - t0,
-        bodyHead: body.slice(0, 600),
-      });
-    } catch (e: any) {
-      return res.status(200).json({
-        ok: false,
-        probe: 'fetch',
-        url: u.toString(),
-        elapsedMs: Date.now() - t0,
-        errorName: e?.name || null,
-        errorMessage: e?.message || String(e),
-        errorCause: e?.cause?.message || e?.cause || null,
-      });
-    }
   }
 
   const apiKey = process.env.CALCOM_API_KEY?.trim();
@@ -186,24 +130,14 @@ async function handleInternal(req: any, res: any) {
     if (!resp.ok) {
       const errBody = await resp.text();
       console.error(`[cron-tg-reminders] Cal.com ${resp.status}:`, errBody.slice(0, 500));
-      return res.status(502).json({
-        ok: false,
-        error: `cal.com ${resp.status}`,
-        detail: errBody.slice(0, 500),
-        url: url.toString(),
-      });
+      return res.status(502).json({ ok: false, error: `cal.com ${resp.status}` });
     }
     const data = await resp.json();
     bookings = Array.isArray(data?.data) ? data.data : [];
   } catch (e: any) {
     const aborted = e?.name === 'AbortError';
     console.error('[cron-tg-reminders] Fetch failed:', e?.message || e, 'aborted:', aborted);
-    return res.status(502).json({
-      ok: false,
-      error: aborted ? 'cal.com timeout' : 'fetch failed',
-      detail: e?.message || String(e),
-      url: url.toString(),
-    });
+    return res.status(502).json({ ok: false, error: aborted ? 'cal.com timeout' : 'fetch failed' });
   } finally {
     clearTimeout(timer);
   }

@@ -117,7 +117,7 @@ export default function Agendar() {
               },
               {
                 icon: MessageCircle,
-                title: '30 minutos',
+                title: '20 minutos',
                 desc: 'Análisis fáctico, técnico y jurídico de tu caso.',
               },
               {

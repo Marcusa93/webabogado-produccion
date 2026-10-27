@@ -7,7 +7,7 @@ import StaggeredTitle from '@/components/StaggeredTitle';
 
 const PAGE_TITLE = 'Herramientas para clientes — Estudio Dr. Marco Rossi';
 const PAGE_DESCRIPTION =
-  'Kit de herramientas tácticas de uso inmediato: preservación de evidencia digital, check de contratos para influencers, detección de phishing, hasher criptográfico y optimizador COTIO de prompts jurídicos.';
+  'Kit de herramientas tácticas de uso inmediato: preservación de evidencia digital, check de contratos para influencers, detección de phishing y hasher criptográfico.';
 
 export default function Herramientas() {
   useEffect(() => {
@@ -57,10 +57,9 @@ export default function Herramientas() {
             />
 
             <p className="text-base md:text-lg text-foreground/70 leading-relaxed font-medium max-w-2xl">
-              Cinco utilidades de uso inmediato que cualquiera puede aplicar antes de
+              Cuatro utilidades de uso inmediato que cualquiera puede aplicar antes de
               llamar al estudio: preservación de evidencia, validación de contratos,
-              detección de phishing, integridad de archivos y optimización de prompts
-              jurídicos.
+              detección de phishing e integridad de archivos.
             </p>
           </div>
         </header>

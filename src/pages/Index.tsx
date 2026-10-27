@@ -2,9 +2,7 @@ import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import TrustStrip from '@/components/TrustStrip';
 import QueHago from '@/components/QueHago';
-import Servicios from '@/components/Servicios';
 import CasosEnMedios from '@/components/CasosEnMedios';
-import ToolkitTeaser from '@/components/ToolkitTeaser';
 import QuienesSomos from '@/components/QuienesSomos';
 import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
@@ -21,10 +19,8 @@ export default function Index() {
         <Hero />
         <TrustStrip />
         <QueHago />
-        <Servicios />
-        <CasosEnMedios />
-        <ToolkitTeaser />
         <QuienesSomos />
+        <CasosEnMedios />
         <Contacto />
       </main>
       <Footer />

@@ -7,6 +7,7 @@ import { useInView } from '@/hooks/useInView';
 import { useToast } from '@/hooks/use-toast';
 import { trackContactFormSubmit, trackWhatsAppClick, trackConsultationRequest } from '@/lib/analytics';
 import { contactSchema, type ContactInput } from '@/lib/contactSchema';
+import { whatsappUrl } from '@/lib/whatsapp';
 import BookingButton from './BookingButton';
 import BookingPreview from './BookingPreview';
 import StaggeredTitle from './StaggeredTitle';
@@ -113,10 +114,7 @@ export default function Contacto() {
   const handleWhatsApp = () => {
     trackWhatsAppClick('contact_section');
     trackConsultationRequest();
-    const message = encodeURIComponent(
-      'Hola Marco, me gustaría agendar una consulta inicial estratégica.'
-    );
-    window.open(`https://wa.me/5493813007791?text=${message}`, '_blank');
+    window.open(whatsappUrl('Hola, me gustaría agendar una consulta inicial.'), '_blank');
   };
 
   const isSubmitting = submitState === 'submitting';

@@ -30,8 +30,7 @@ import {
 // ENV vars:
 //   TELEGRAM_BOT_TOKEN     — del bot de Telegram
 //   TELEGRAM_CHAT_ID       — chat al que llegan las notif
-//   CAL_WEBHOOK_SECRET     — opcional pero recomendado. Si no se setea,
-//                             aceptamos cualquier POST (riesgo de spoofing).
+//   CAL_WEBHOOK_SECRET     — obligatorio. Sin él, el endpoint rechaza todo.
 //
 // Vercel necesita el body crudo para verificar la firma HMAC, así que
 // desactivamos el bodyParser default y leemos los chunks a mano.
@@ -121,19 +120,19 @@ export default async function handler(req: any, res: any) {
     return res.status(400).json({ ok: false, error: 'Invalid body' });
   }
 
-  // 2) Firma (opcional pero recomendada)
+  // 2) Firma obligatoria: sin ella cualquiera podría disparar mails con el dominio del estudio.
   const secret = process.env.CAL_WEBHOOK_SECRET?.trim();
   const signature =
     (req.headers['x-cal-signature-256'] as string | undefined) ||
     (req.headers['X-Cal-Signature-256'] as string | undefined);
 
-  if (secret) {
-    if (!verifySignature(rawBody, signature, secret)) {
-      console.warn('[cal-webhook] Invalid signature');
-      return res.status(401).json({ ok: false, error: 'Invalid signature' });
-    }
-  } else {
-    console.warn('[cal-webhook] CAL_WEBHOOK_SECRET not set — accepting unsigned webhook');
+  if (!secret) {
+    console.error('[cal-webhook] CAL_WEBHOOK_SECRET not set — rejecting request');
+    return res.status(500).json({ ok: false, error: 'Webhook not configured' });
+  }
+  if (!verifySignature(rawBody, signature, secret)) {
+    console.warn('[cal-webhook] Invalid signature');
+    return res.status(401).json({ ok: false, error: 'Invalid signature' });
   }
 
   // 3) Parse JSON

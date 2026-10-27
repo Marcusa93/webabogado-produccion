@@ -1,15 +1,14 @@
-import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Linkedin, Instagram, Mail, MessageCircle, ArrowUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
-import StaggeredTitle from './StaggeredTitle';
-import Magnetic from './Magnetic';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
   { icon: Instagram, href: 'https://www.instagram.com/marquitorossi/', label: 'Instagram' },
   { icon: Mail, href: 'mailto:dr.marcorossi9@gmail.com', label: 'Email' },
-  { icon: MessageCircle, href: 'https://wa.me/5493813007791', label: 'WhatsApp' },
+  { icon: MessageCircle, href: whatsappUrl(), label: 'WhatsApp' },
 ];
 
 export default function Footer() {
@@ -31,46 +30,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-[#020617] text-white overflow-hidden">
-      {/* Pre-Footer Heroic CTA */}
-      <div className="relative py-24 md:py-32 border-b border-white/5 overflow-hidden">
-        <div className="absolute inset-0 bg-accent/5" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="section-container relative z-10 text-center flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8">
-            <ShieldCheck size={14} className="text-accent" />
-            <span className="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">Asesoría de Vanguardia</span>
-          </div>
-
-          <StaggeredTitle
-            text="¿Listo para proteger tus derechos?"
-            highlightWords={['proteger', 'derechos?']}
-            className="text-4xl md:text-6xl lg:text-7xl font-black font-montserrat mb-8 tracking-tight justify-center text-white"
-          />
-
-          <p className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-12 font-medium">
-            No esperes a tener un conflicto. La mejor defensa legal se construye con anticipación y estrategia.
-          </p>
-
-          <Magnetic strength={0.4}>
-            <a
-              href="#contacto"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="group relative flex items-center gap-4 px-10 py-6 bg-accent text-white font-black text-lg rounded-2xl transition-all duration-500 hover:shadow-glow hover:-translate-y-1 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              <span className="relative z-10">Agendar consulta ahora</span>
-              <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </Magnetic>
-        </div>
-      </div>
-
-      <div className="section-container pt-20 pb-10 relative z-10">
+      <div className="section-container pt-16 pb-10 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 mb-20">
           {/* Brand Info */}
           <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
@@ -104,8 +64,7 @@ export default function Footer() {
             <h4 className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-8">Navegación</h4>
             <ul className="flex flex-col items-center md:items-start gap-4 space-y-2">
               {[
-                { label: 'Especialidades', href: '#especialidades' },
-                { label: 'Servicios', href: '#servicios' },
+                { label: 'Áreas de práctica', href: '#especialidades' },
                 { label: 'En los medios', href: '#casos-prensa' },
                 { label: 'Equipo Profesional', href: '#quienes-somos' },
                 { label: 'Contacto', href: '#contacto' }

@@ -18,6 +18,7 @@ import {
   getYouTubeThumbnail,
   type MultimediaItem,
 } from '@/data/multimedia';
+import { credentials } from '@/data/credentials';
 
 const PAGE_TITLE = 'Sobre Marco Rossi — Trayectoria, libros y presencia pública';
 const PAGE_DESCRIPTION =
@@ -92,6 +93,28 @@ export default function SobreMi() {
               entre derecho y tecnología desde hace más de una década.
             </p>
           </header>
+
+          {/* ============= FORMACIÓN Y CARGOS ============= */}
+          <section className="mb-24 md:mb-32">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground font-montserrat mb-8">
+              Formación y cargos
+            </h2>
+            <ul className="grid sm:grid-cols-2 gap-4">
+              {credentials.map((cred) => (
+                <li
+                  key={cred.text}
+                  className="flex items-start gap-4 p-4 bg-card rounded-xl border border-foreground/10 shadow-sm"
+                >
+                  <div className="p-2 bg-accent/10 rounded-lg text-accent shrink-0">
+                    <cred.icon size={18} />
+                  </div>
+                  <span className="text-sm md:text-base font-bold text-foreground/80 pt-1 leading-snug">
+                    {cred.text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           {/* ============= LIBROS ============= */}
           <section className="mb-24 md:mb-32">

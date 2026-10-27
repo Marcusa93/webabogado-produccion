@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { MessageCircle, Scale, Calendar } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import PixelatedScale from './PixelatedScale';
 import DigitalTerminal from './DigitalTerminal';
 import ThreeBackground from './ThreeBackgroundLazy';
 import Magnetic from './Magnetic';
 import BookingButton from './BookingButton';
+import { whatsappUrl } from '@/lib/whatsapp';
+import { trackWhatsAppClick } from '@/lib/analytics';
 
 export default function Hero() {
   const [terminalDone, setTerminalDone] = useState(false);
@@ -18,13 +20,6 @@ export default function Hero() {
     setExplodeParticles(true);
     // Then minimize terminal after short delay
     setTimeout(() => setTerminalDone(true), 800);
-  };
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   useEffect(() => {
@@ -50,21 +45,22 @@ export default function Hero() {
           Desktop: cluster compacto bottom-right con Reservar + WhatsApp.
           La idea: que la acción dominante post-scroll sea reservar, no chatear. */}
       <div
-        className={`fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-[100] flex items-center gap-2 transition-all duration-500 ${
+        className={`fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 z-40 flex items-center gap-2 transition-all duration-500 ${
           showStickyCta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
         }`}
       >
         <BookingButton
           source="sticky"
-          label="Reservar 30 min sin cargo"
+          label="Reservar 20 min sin cargo"
           variant="primary"
           icon={true}
           className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3.5 bg-foreground text-background font-black rounded-2xl text-sm sm:text-base shadow-2xl hover:bg-accent hover:text-white transition-all duration-300 ring-1 ring-black/5 dark:ring-white/10"
         />
         <a
-          href="https://wa.me/5493813007791"
+          href={whatsappUrl()}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackWhatsAppClick('sticky')}
           className="shrink-0 flex items-center justify-center w-[52px] h-[52px] sm:w-[54px] sm:h-[54px] rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105 ring-1 ring-black/5"
           style={{ backgroundColor: 'var(--whatsapp-green)' }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--whatsapp-green-hover)')}
@@ -83,74 +79,63 @@ export default function Hero() {
       <div className="absolute inset-0 tech-grid opacity-5 dark:tech-grid-dark dark:opacity-10 z-[1]" />
 
       {/* Content */}
-      <div className="relative z-10 section-container py-32 md:py-40 lg:py-48">
+      <div className="relative z-10 section-container pt-28 pb-20 md:py-40 lg:py-48">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left: Text Content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start px-4 sm:px-6 lg:px-0">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start sm:px-6 lg:px-0">
             {/* Tagline / Microcopy */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-8 opacity-0 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6 md:mb-8">
               <span className="flex h-2 w-2 rounded-full bg-accent animate-pulse" />
               <span className="text-[11px] md:text-xs font-bold tracking-[0.15em] text-accent uppercase">
-                Derecho · Tecnología · Tribunales
+                Estudio jurídico en Tucumán
               </span>
             </div>
 
-            {/* Main Headline - Cinematic Staggered Reveal */}
-            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-8 md:mb-10 max-w-4xl flex flex-wrap gap-x-3 justify-center lg:justify-start">
-              {"Tu caso involucra tecnología. Nosotros la entendemos — y sabemos cómo defenderla en tribunales.".split(" ").map((word, i) => {
-                const isHighlight = word === "tecnología." || word === "tribunales.";
-                return (
-                  <span
-                    key={i}
-                    className="inline-block opacity-0 animate-fade-in-up"
-                    style={{ animationDelay: `${200 + (i * 50)}ms` }}
-                  >
-                    {isHighlight ? (
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">{word}</span>
-                    ) : (
-                      word
-                    )}
-                  </span>
-                );
-              })}
+            {/* Visible desde el primer frame: es el elemento LCP del home. */}
+            <h1 className="text-[clamp(2.25rem,8vw,4.5rem)] lg:text-7xl font-black text-foreground leading-[1.1] mb-6 md:mb-10 max-w-4xl">
+              Defendemos tu caso con{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">
+                estrategia y prueba sólida.
+              </span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-base md:text-lg lg:text-xl text-foreground/70 max-w-2xl mb-10 md:mb-12 opacity-0 animate-fade-in animation-delay-400 leading-relaxed font-normal">
-              Estudio jurídico especializado en <strong className="text-foreground/90 font-bold">derecho digital, prueba electrónica e inteligencia artificial</strong>. Litigamos todo tipo de casos poniendo el foco en una estrategia blindada en datos y tecnología.
+            <p className="text-base md:text-lg lg:text-xl text-foreground/70 font-semibold max-w-2xl mb-8 md:mb-12 leading-relaxed">
+              Laboral y ART · Civil y daños · Penal · Empresas · Derecho digital
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4 w-full sm:w-auto opacity-0 animate-fade-in animation-delay-500">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto">
               {/* Primary Button — opens Cal.com booking modal */}
               <Magnetic>
                 <BookingButton
                   source="hero"
-                  label="Reservar diagnóstico gratuito · 30 min"
+                  label="Consulta gratis · 20 min"
                   variant="primary"
                 />
               </Magnetic>
 
-              {/* Secondary Button */}
               <Magnetic>
-                <button
-                  onClick={() => scrollToSection('#especialidades')}
-                  className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-foreground font-bold rounded-xl border-2 border-accent hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick('hero')}
+                  className="btn-interactive w-full sm:w-auto min-h-[52px] inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 text-white font-bold rounded-xl shadow-lg transition-all duration-300 text-base bg-[var(--whatsapp-green)] hover:bg-[var(--whatsapp-green-hover)]"
                 >
-                  <Scale size={20} className="group-hover:scale-110 transition-transform" />
-                  Conocé más
-                </button>
+                  <MessageCircle size={20} className="fill-white" />
+                  Escribinos por WhatsApp
+                </a>
               </Magnetic>
             </div>
 
-            {/* Reassurance microcopy — mata las 3 objeciones top antes de que aparezcan */}
-            <p className="mt-5 text-xs md:text-sm text-foreground/50 font-medium leading-relaxed text-center lg:text-left max-w-md mx-auto lg:mx-0 opacity-0 animate-fade-in animation-delay-500">
-              Sin compromiso · Confirmás antes de avanzar · Te llega link de Meet por mail
+            <p className="mt-5 text-xs md:text-sm text-foreground/50 font-medium leading-relaxed text-center lg:text-left max-w-md mx-auto lg:mx-0">
+              Sin compromiso · Por videollamada
             </p>
           </div>
 
-          {/* Right: Hybrid Hero (Terminal + Particles) */}
-          <div className="relative mt-16 lg:mt-0 flex items-center justify-center lg:justify-end perspective-1000 h-[400px] md:h-[500px] lg:h-auto z-0 px-4 sm:px-0">
+          {/* Right: Hybrid Hero (Terminal + Particles) — solo desktop, en mobile empujaba los CTA fuera de pantalla */}
+          <div className="relative hidden lg:flex items-center justify-end perspective-1000 z-0">
             <div className="w-[min(90vw,300px)] h-[400px] md:w-[480px] md:h-[580px] xl:w-[560px] xl:h-[700px] relative flex flex-col items-center justify-center">
 
               {/* Layer 2: Digital Console (Foreground) */}
@@ -178,10 +163,10 @@ export default function Hero() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce hidden md:block">
           <button
             onClick={() => {
-              const nextSection = document.getElementById('que-esperar');
+              const nextSection = document.getElementById('especialidades');
               if (nextSection) {
                 const top = nextSection.getBoundingClientRect().top + window.pageYOffset - 80;
                 window.scrollTo({ top, behavior: 'smooth' });
