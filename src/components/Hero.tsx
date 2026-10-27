@@ -6,6 +6,7 @@ import ThreeBackground from './ThreeBackgroundLazy';
 import Magnetic from './Magnetic';
 import BookingButton from './BookingButton';
 import { whatsappUrl } from '@/lib/whatsapp';
+import { areas } from '@/data/areas';
 import { trackWhatsAppClick } from '@/lib/analytics';
 
 export default function Hero() {
@@ -101,7 +102,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p className="text-base md:text-lg lg:text-xl text-foreground/70 font-semibold max-w-2xl mb-8 md:mb-12 leading-relaxed">
-              Laboral y ART · Civil y daños · Penal · Empresas · Derecho digital
+              {areas.map((area) => area.short).join(' · ')}
             </p>
 
             {/* CTA Buttons */}

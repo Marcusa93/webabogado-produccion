@@ -4,6 +4,7 @@ import { Shield, Clock, MessageCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { trackAgendarPageViewed, trackBookingCompleted } from '@/lib/analytics';
+import { pagesMeta } from '@/data/seo';
 
 const CALCOM_USERNAME = import.meta.env.VITE_CALCOM_USERNAME?.trim() || '';
 const CALCOM_INITIAL_EVENT =
@@ -12,9 +13,7 @@ const CALCOM_INITIAL_EVENT =
 const isConfigured = Boolean(CALCOM_USERNAME);
 const NAMESPACE = 'agendar-page';
 
-const PAGE_TITLE = 'Agendar consulta — Estudio Dr. Marco Rossi';
-const PAGE_DESCRIPTION =
-  'Elegí día y horario para tu consulta inicial. Recibís confirmación por mail con el link de la videollamada.';
+const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.agendar;
 
 export default function Agendar() {
   useEffect(() => {

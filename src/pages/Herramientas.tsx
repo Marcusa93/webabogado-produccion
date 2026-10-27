@@ -4,10 +4,9 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Toolkit from '@/components/Toolkit';
 import StaggeredTitle from '@/components/StaggeredTitle';
+import { pagesMeta } from '@/data/seo';
 
-const PAGE_TITLE = 'Herramientas para clientes — Estudio Dr. Marco Rossi';
-const PAGE_DESCRIPTION =
-  'Kit de herramientas tácticas de uso inmediato: preservación de evidencia digital, check de contratos para influencers, detección de phishing y hasher criptográfico.';
+const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.herramientas;
 
 export default function Herramientas() {
   useEffect(() => {

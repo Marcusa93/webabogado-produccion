@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import logo from '@/assets/logo-white.svg';
 import { trackSocialClick, trackWhatsAppClick, trackEmailClick } from '@/lib/analytics';
 import { whatsappUrl } from '@/lib/whatsapp';
+import { areas, areaPath } from '@/data/areas';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://ar.linkedin.com/in/marcorossi9', label: 'LinkedIn' },
   { icon: Instagram, href: 'https://www.instagram.com/marquitorossi/', label: 'Instagram' },
-  { icon: Mail, href: 'mailto:dr.marcorossi9@gmail.com', label: 'Email' },
+  { icon: Mail, href: 'mailto:estudio@marcorossi.com.ar', label: 'Email' },
   { icon: MessageCircle, href: whatsappUrl(), label: 'WhatsApp' },
 ];
 
@@ -56,34 +57,17 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Spacer */}
-          <div className="hidden lg:block lg:col-span-1" />
-
-          {/* Quick Links - Clean List */}
-          <div className="lg:col-span-3 flex flex-col items-center md:items-start">
-            <h4 className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-8">Navegación</h4>
-            <ul className="flex flex-col items-center md:items-start gap-4 space-y-2">
-              {[
-                { label: 'Áreas de práctica', href: '#especialidades' },
-                { label: 'En los medios', href: '#casos-prensa' },
-                { label: 'Equipo Profesional', href: '#quienes-somos' },
-                { label: 'Contacto', href: '#contacto' }
-              ].map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const element = document.querySelector(link.href);
-                      if (element) {
-                        const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
-                        window.scrollTo({ top, behavior: 'smooth' });
-                      }
-                    }}
+          <div className="lg:col-span-4 flex flex-col items-center md:items-start">
+            <h4 className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-8">Áreas de práctica</h4>
+            <ul className="flex flex-col items-center md:items-start gap-3">
+              {areas.map((area) => (
+                <li key={area.slug}>
+                  <Link
+                    to={areaPath(area.slug)}
                     className="text-white/70 hover:text-white transition-colors text-base font-bold"
                   >
-                    {link.label}
-                  </a>
+                    {area.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -99,8 +83,8 @@ export default function Footer() {
               Atención global remota
             </p>
 
-            <a href="mailto:dr.marcorossi9@gmail.com" className="text-accent hover:text-white transition-colors font-bold text-lg underline decoration-accent/30 hover:decoration-white/50 underline-offset-4">
-              dr.marcorossi9@gmail.com
+            <a href="mailto:estudio@marcorossi.com.ar" className="text-accent hover:text-white transition-colors font-bold text-lg underline decoration-accent/30 hover:decoration-white/50 underline-offset-4">
+              estudio@marcorossi.com.ar
             </a>
           </div>
         </div>

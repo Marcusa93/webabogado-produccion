@@ -19,10 +19,9 @@ import {
   type MultimediaItem,
 } from '@/data/multimedia';
 import { credentials } from '@/data/credentials';
+import { pagesMeta } from '@/data/seo';
 
-const PAGE_TITLE = 'Sobre Marco Rossi — Trayectoria, libros y presencia pública';
-const PAGE_DESCRIPTION =
-  'Doctor Honoris Causa por la Federación Iberoamericana de Abogados. Director de DYNTEC (UNT). Trayectoria, libros publicados, entrevistas, conferencias y presencia en medios.';
+const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.sobreMi;
 
 export default function SobreMi() {
   const [selectedVideo, setSelectedVideo] = useState<MultimediaItem | null>(null);

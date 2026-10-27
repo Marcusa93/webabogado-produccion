@@ -20,6 +20,7 @@ const Agendar = lazy(() => import("./pages/Agendar"));
 const Herramientas = lazy(() => import("./pages/Herramientas"));
 const SobreMi = lazy(() => import("./pages/SobreMi"));
 const Privacidad = lazy(() => import("./pages/Privacidad"));
+const AreaPage = lazy(() => import("./pages/AreaPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="/herramientas" element={<Herramientas />} />
               <Route path="/sobre-mi" element={<SobreMi />} />
               <Route path="/privacidad" element={<Privacidad />} />
+              <Route path="/areas/:slug" element={<AreaPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

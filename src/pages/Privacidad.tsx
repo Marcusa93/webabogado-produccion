@@ -4,10 +4,9 @@ import { Shield, Mail, ArrowLeft } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import StaggeredTitle from '@/components/StaggeredTitle';
+import { pagesMeta } from '@/data/seo';
 
-const PAGE_TITLE = 'Política de Privacidad — Estudio Dr. Marco Rossi';
-const PAGE_DESCRIPTION =
-  'Política de privacidad del Estudio Dr. Marco Rossi conforme a la Ley 25.326 de Protección de Datos Personales de la República Argentina. Cómo recolectamos, usamos y protegemos los datos personales de quienes interactúan con el sitio.';
+const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.privacidad;
 
 const LAST_UPDATED = '2 de mayo de 2026';
 

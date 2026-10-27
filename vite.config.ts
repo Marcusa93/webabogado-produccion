@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import netlify from "@netlify/vite-plugin";
 import path from "path";
+import { seoPrerender } from "./vite-plugins/seoPrerender";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -9,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), netlify()],
+  plugins: [react(), netlify(), seoPrerender()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

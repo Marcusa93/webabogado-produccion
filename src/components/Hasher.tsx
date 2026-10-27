@@ -142,7 +142,7 @@ forense internacional, se recomienda la intervención de un perito o la
 certificación ante escribano público.
 
 --------------------------------------------------------------
-dr.marcorossi9@gmail.com | Tucumán, Argentina
+estudio@marcorossi.com.ar | Tucumán, Argentina
         `.trim();
 
         const blob = new Blob([content], { type: 'text/plain' });

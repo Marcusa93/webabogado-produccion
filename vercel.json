@@ -1,5 +1,10 @@
 {
     "rewrites": [
+        { "source": "/areas/:slug", "destination": "/areas/:slug/index.html" },
+        { "source": "/agendar", "destination": "/agendar/index.html" },
+        { "source": "/herramientas", "destination": "/herramientas/index.html" },
+        { "source": "/sobre-mi", "destination": "/sobre-mi/index.html" },
+        { "source": "/privacidad", "destination": "/privacidad/index.html" },
         { "source": "/((?!api/).*)", "destination": "/index.html" }
     ],
     "headers": [
