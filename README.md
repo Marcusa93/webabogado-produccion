@@ -24,6 +24,8 @@ npm run dev
 npm run build
 ```
 
+Para probar las funciones de `api/` en local hace falta la CLI de Vercel (`vercel link` una vez, después `vercel dev`). `npm run dev` levanta solo el frontend.
+
 ## 🔗 URLs
 
 - **Desarrollo**: http://localhost:8080

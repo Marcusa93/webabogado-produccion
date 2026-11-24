@@ -44,6 +44,3 @@ pnpm-lock.yaml
 *.njsproj
 *.sln
 *.sw?
-
-# Local Netlify folder
-.netlify

@@ -18,6 +18,6 @@ Si se rediseña el favicon, debe seguir tres principios obligatorios:
 2. **Alto contraste** (fondo de marca + monograma claro) para que sea el más notorio posible en la pestaña, incluso a 16×16 px.
 3. **Provenir del manual de marca oficial** (`Manual de marca/SVG/Monograma*` o `Manual de marca/PNG/Monograma solo/`).
 
-### Si Vercel/Netlify sigue mostrando el favicon viejo
+### Si Vercel sigue mostrando el favicon viejo
 
 Es caché del navegador o del CDN. Forzar refresh: hard reload (Cmd+Shift+R) y/o redeploy con purga de caché. **No** volver a poner el favicon de Lovable como "fix temporal".
