@@ -62,6 +62,8 @@ CALCOM_EVENT_TYPE_ID=
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_CHAT_ID=
 CRON_SECRET=
+MR_SYSTEM_INGEST_URL=      # edge function ingesta-web de MR System
+MR_SYSTEM_INGEST_SECRET=   # igual a WEB_INGEST_SECRET en Supabase
 ```
 
 ## 📄 Licencia

@@ -9,7 +9,7 @@ import { openConsentPreferences } from '@/lib/consent';
 
 const { title: PAGE_TITLE, description: PAGE_DESCRIPTION } = pagesMeta.privacidad;
 
-const LAST_UPDATED = '27 de octubre de 2026';
+const LAST_UPDATED = '23 de noviembre de 2026';
 
 export default function Privacidad() {
   useEffect(() => {
@@ -179,6 +179,12 @@ export default function Privacidad() {
                   calendario del Estudio.
                 </li>
                 <li>
+                  <strong>Supabase</strong> (Estados Unidos) — base de datos del sistema de
+                  gestión interno del Estudio, donde se registran las consultas y los turnos
+                  recibidos por el Sitio (nombre, email, teléfono, mensaje, datos del turno y
+                  respuestas de la reserva). Solo accede el equipo del Estudio.
+                </li>
+                <li>
                   <strong>Google Tag Manager</strong> (Estados Unidos) — carga las herramientas
                   de analítica. Solo se activa si aceptás las cookies de analítica.
                 </li>
@@ -216,6 +222,12 @@ export default function Privacidad() {
                 <li>
                   <strong>Reservas de Cal.com</strong>: según la política de retención de
                   Cal.com (consultable en su sitio).
+                </li>
+                <li>
+                  <strong>Consultas registradas en el sistema de gestión del Estudio</strong>:
+                  mientras sean necesarias para atender tu consulta y, si nos contratás, durante
+                  la relación profesional y los plazos legales de conservación aplicables. Podés
+                  pedir su supresión ejerciendo los derechos de la sección 7.
                 </li>
                 <li>
                   <strong>Datos de Google Analytics</strong>: 26 meses (configuración por

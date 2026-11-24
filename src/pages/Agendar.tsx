@@ -151,6 +151,7 @@ export default function Agendar() {
                   config={{
                     layout: 'month_view',
                     theme: 'light',
+                    'metadata[origen]': 'agendar',
                   }}
                 />
               </div>

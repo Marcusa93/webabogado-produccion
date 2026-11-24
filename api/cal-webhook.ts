@@ -12,11 +12,13 @@ import {
   reminder1hScheduledAt,
   followUpScheduledAt,
 } from '../src/lib/bookingEmails.js';
+import { enviarAMrSystem } from '../src/lib/mrSystem.js';
 
 // =====================================================
 // Vercel Function: /api/cal-webhook
-// Recibe webhooks de Cal.com (BOOKING_CREATED / RESCHEDULED / CANCELLED)
-// y los reenvía como push notifications a Telegram.
+// Recibe webhooks de Cal.com (BOOKING_CREATED / RESCHEDULED / CANCELLED),
+// los reenvía como push notifications a Telegram y carga la reserva como
+// consulta en MR System (ver src/lib/mrSystem.ts).
 //
 // Setup en Cal.com:
 //   1) app.cal.com → Settings → Developer → Webhooks → + New
@@ -31,6 +33,8 @@ import {
 //   TELEGRAM_BOT_TOKEN     — del bot de Telegram
 //   TELEGRAM_CHAT_ID       — chat al que llegan las notif
 //   CAL_WEBHOOK_SECRET     — obligatorio. Sin él, el endpoint rechaza todo.
+//   MR_SYSTEM_INGEST_URL / MR_SYSTEM_INGEST_SECRET — opcionales; sin ellos
+//                            no se carga la reserva en MR System.
 //
 // Vercel necesita el body crudo para verificar la firma HMAC, así que
 // desactivamos el bodyParser default y leemos los chunks a mano.
@@ -104,6 +108,33 @@ function extractCustomAnswers(responses: any): { label: string; value: string }[
     }
   }
   return out;
+}
+
+// Triggers de Cal.com → evento de la consulta en MR System.
+// BOOKING_REQUESTED (pendiente de aprobación) ya es un interesado: entra como
+// creada; si después se aprueba, Cal.com manda BOOKING_CREATED con el mismo uid
+// y MR System lo toma como duplicado.
+const EVENTO_MR_SYSTEM: Record<string, 'creada' | 'reprogramada' | 'cancelada'> = {
+  BOOKING_CREATED: 'creada',
+  BOOKING_REQUESTED: 'creada',
+  BOOKING_RESCHEDULED: 'reprogramada',
+  BOOKING_CANCELLED: 'cancelada',
+  BOOKING_REJECTED: 'cancelada',
+};
+
+// Teléfono del cliente: Cal.com lo manda en el attendee o como respuesta
+// (attendeePhoneNumber / phone), según cómo esté armado el evento.
+function extractPhone(attendee: any, responses: any): string | undefined {
+  const candidates = [
+    attendee?.phoneNumber,
+    responses?.attendeePhoneNumber,
+    responses?.phone,
+  ];
+  for (const c of candidates) {
+    const v = typeof c === 'object' && c !== null ? c.value : c;
+    if (typeof v === 'string' && v.trim()) return v.trim();
+  }
+  return undefined;
 }
 
 export default async function handler(req: any, res: any) {
@@ -187,6 +218,33 @@ export default async function handler(req: any, res: any) {
           .map((a) => `<b>${tgEscape(a.label)}:</b>\n${tgEscape(a.value)}`)
           .join('\n\n')
       : '';
+
+  // 6b) Cargar la reserva en MR System como consulta. Best-effort: si falla,
+  //     el resto (Telegram, mails) sigue igual y no se le devuelve error a Cal.com.
+  let mrSystem: string | null = null;
+  const eventoMr = EVENTO_MR_SYSTEM[triggerEvent];
+  if (eventoMr && payload.uid) {
+    const mr = await enviarAMrSystem({
+      tipo: 'reserva',
+      evento: eventoMr,
+      uid: String(payload.uid),
+      uid_anterior: reschedule ? String(reschedule) : payload.fromReschedule || undefined,
+      nombre: name,
+      email: email !== 'sin-email' ? email : undefined,
+      telefono: extractPhone(attendee, payload.responses),
+      inicio: startTime,
+      titulo: eventTitle,
+      respuestas: customAnswers,
+      area: typeof payload.metadata?.area === 'string' ? payload.metadata.area : undefined,
+      origen: typeof payload.metadata?.origen === 'string' ? payload.metadata.origen : undefined,
+      motivo: payload.cancellationReason || payload.rescheduleReason || undefined,
+    });
+    if (mr.ok) {
+      mrSystem = mr.accion ?? 'ok';
+    } else {
+      console.error('[cal-webhook] MR System:', mr.error);
+    }
+  }
 
   // 7) Build text
   const text = [
@@ -402,6 +460,7 @@ export default async function handler(req: any, res: any) {
   return res.status(200).json({
     ok: true,
     telegram: telegramOk,
+    mrSystem,
     ownerNotification: ownerEmailSent,
     ...nurtureResults,
   });

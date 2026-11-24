@@ -3,12 +3,13 @@ import { Resend } from 'resend';
 // (aunque el source sea .ts). Sin esto, ERR_MODULE_NOT_FOUND.
 import { contactSchema } from '../src/lib/contactSchema.js';
 import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
+import { enviarAMrSystem } from '../src/lib/mrSystem.js';
 
 // =====================================================
 // Vercel Function: /api/contact
-// Recibe el form de contacto, valida con Zod y manda
-// mail vía Resend al estudio. Sin DB — los leads viven
-// en el inbox.
+// Recibe el form de contacto, valida con Zod, carga el
+// mensaje como consulta en MR System y manda mail vía
+// Resend al estudio.
 //
 // ENV vars requeridas (cargar en Vercel + .env.local):
 //   RESEND_API_KEY      Key de Resend (re_...)
@@ -16,6 +17,8 @@ import { sendTelegramMessage, tgEscape } from '../src/lib/telegram.js';
 //                       separada por comas. Ej:
 //                         "dr.marcorossi9@gmail.com"
 //                         "dr.marcorossi9@gmail.com, admin@marcorossi.com.ar"
+// Opcionales:
+//   MR_SYSTEM_INGEST_URL / MR_SYSTEM_INGEST_SECRET  (ver src/lib/mrSystem.ts)
 // =====================================================
 
 const ALLOWED_ORIGINS = new Set([
@@ -260,6 +263,17 @@ export default async function handler(req: any, res: any) {
     console.warn('[contact] Honeypot triggered, ignoring submission');
     return res.status(200).json({ ok: true });
   }
+
+  // --- Cargar en MR System como consulta (best-effort) ---
+  // Va antes del mail: si Resend falla, la consulta igual queda en el sistema.
+  const mr = await enviarAMrSystem({
+    tipo: 'contacto',
+    nombre: data.nombre,
+    email: data.email,
+    telefono: data.telefono || undefined,
+    mensaje: data.mensaje,
+  });
+  if (!mr.ok) console.error('[contact] MR System:', mr.error);
 
   const fechaStr = new Date().toLocaleString('es-AR', {
     timeZone: 'America/Argentina/Buenos_Aires',

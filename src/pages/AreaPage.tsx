@@ -57,7 +57,7 @@ export default function AreaPage() {
               </p>
             ))}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 md:mt-8">
-              <BookingButton source={`area-${area.slug}`} label="Consulta gratis · 20 min" variant="primary" />
+              <BookingButton source={`area-${area.slug}`} area={area.slug} label="Consulta gratis · 20 min" variant="primary" />
               <a
                 href={whatsappHref}
                 target="_blank"
@@ -152,6 +152,7 @@ export default function AreaPage() {
             </div>
             <BookingButton
               source={`area-${area.slug}-footer`}
+              area={area.slug}
               label="Reservar consulta"
               className="btn-interactive shrink-0 min-h-[52px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-background text-foreground font-bold rounded-xl hover:bg-accent hover:text-white transition-all duration-300 shadow-lg group text-base"
             />

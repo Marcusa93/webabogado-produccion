@@ -37,6 +37,12 @@ type BookingButtonProps = {
    * de slots con icono + fecha + flecha).
    */
   children?: ReactNode;
+  /**
+   * Slug del área de práctica (src/data/areas.ts) si el botón está en una
+   * página de área. Viaja a Cal.com como metadata y MR System lo usa para
+   * clasificar la consulta.
+   */
+  area?: string;
 };
 
 const variantClasses: Record<Variant, string> = {
@@ -61,6 +67,7 @@ export default function BookingButton({
   icon = true,
   slotIso,
   children,
+  area,
 }: BookingButtonProps) {
   const [open, setOpen] = useState(false);
   const slug = eventSlug || CALCOM_INITIAL_EVENT;
@@ -186,6 +193,9 @@ export default function BookingButton({
               config={{
                 layout: 'month_view',
                 theme: 'light',
+                // Llegan al webhook en payload.metadata (ver api/cal-webhook.ts).
+                'metadata[origen]': source,
+                ...(area ? { 'metadata[area]': area } : {}),
               }}
             />
           </div>
